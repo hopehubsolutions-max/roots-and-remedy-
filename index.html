@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roots & Remedy Agri Guide</title>
+<style>
+:root{
+  --forest:#1d4a2c; --forest2:#2a6a3e; --leaf:#3f9b52; --soil:#6b4a2b; --sun:#e8b33a;
+  --cream:#f7f4ea; --card:#ffffff; --ink:#1b2a20; --muted:#5f6d63; --line:#e3ddc9;
+  --high:#c4412e; --high-bg:#fbe6e2; --watch:#c98a12; --watch-bg:#fdf1d6; --low:#2f8a46; --low-bg:#e3f3e6;
+  --r:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--cream);color:var(--ink);line-height:1.45;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px 40px}
+header{background:var(--forest);color:#fff;padding:14px 16px 16px;position:sticky;top:0;z-index:5;box-shadow:0 2px 12px rgba(0,0,0,.15)}
+.hrow{max-width:560px;margin:0 auto;display:flex;align-items:center;gap:10px}
+.logo{width:38px;height:38px;border-radius:10px;background:var(--leaf);display:grid;place-items:center;flex:none}
+.brand{flex:1;min-width:0}
+.brand b{display:block;font-size:17px;letter-spacing:.2px}
+.brand span{font-size:12px;opacity:.8}
+.lang{display:flex;background:rgba(255,255,255,.14);border-radius:999px;padding:3px}
+.lang button{padding:6px 10px;border-radius:999px;font-size:13px;font-weight:600;color:#fff;opacity:.75}
+.lang button.on{background:#fff;color:var(--forest);opacity:1}
+.chips{max-width:560px;margin:10px auto 0;display:flex;gap:8px;flex-wrap:wrap}
+.chip{background:rgba(255,255,255,.14);color:#fff;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;display:flex;gap:6px;align-items:center}
+.chip small{opacity:.75;font-weight:500}
+h1{font-size:22px;margin:22px 0 4px}
+h2{font-size:18px;margin:22px 0 10px}
+.sub{color:var(--muted);font-size:14px;margin-bottom:14px}
+.step{display:inline-block;background:var(--forest);color:#fff;font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;margin-top:20px}
+/* district map */
+.map{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#e9e2cc;border-radius:var(--r);padding:10px;position:relative}
+.map .d{background:var(--card);border-radius:12px;min-height:78px;padding:10px 8px;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;border:2px solid transparent;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.map .d b{font-size:14px}
+.map .d small{font-size:11px;color:var(--muted)}
+.map .d.hl{background:#eef5ee}
+.map .d.on{border-color:var(--leaf);background:#e3f3e6}
+.map .m{border-radius:12px;background:repeating-linear-gradient(135deg,#ddd3b6 0 6px,#e5dcc2 6px 12px);min-height:78px}
+.compass{font-size:11px;color:var(--muted);text-align:right;margin-top:6px}
+/* crops */
+.crops{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.crop{background:var(--card);border-radius:var(--r);padding:16px 10px;text-align:center;border:2px solid transparent;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.crop .ic{font-size:52px;line-height:1.1}
+.crop b{display:block;font-size:16px;margin-top:6px}
+.crop small{color:var(--muted);font-size:12px}
+.crop.on{border-color:var(--leaf)}
+/* dashboard */
+.wx{background:linear-gradient(135deg,var(--forest2),var(--forest));color:#fff;border-radius:var(--r);padding:16px;margin-top:16px}
+.wx .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.wx h3{font-size:15px;font-weight:600;opacity:.9}
+.wx .big{font-size:30px;font-weight:800;margin-top:2px}
+.wx .row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.wx .pill{background:rgba(255,255,255,.15);border-radius:10px;padding:6px 10px;font-size:13px}
+.wx .src{font-size:11px;opacity:.7;margin-top:10px}
+.months{display:flex;gap:6px;overflow-x:auto;padding:12px 0 4px;scrollbar-width:none}
+.months::-webkit-scrollbar{display:none}
+.months button{flex:none;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:600;color:var(--muted)}
+.months button.on{background:var(--forest);border-color:var(--forest);color:#fff}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);background:#e9e2cc;border-radius:12px;padding:4px;margin-top:14px;gap:4px}
+.tabs button{padding:10px 4px;border-radius:9px;font-size:13px;font-weight:700;color:var(--muted)}
+.tabs button.on{background:var(--card);color:var(--forest);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.legend{display:flex;gap:12px;font-size:12px;color:var(--muted);margin:14px 0 8px;flex-wrap:wrap}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:-1px}
+.pest{background:var(--card);border-radius:var(--r);margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.07);overflow:hidden;border-left:6px solid var(--line)}
+.pest.high{border-left-color:var(--high)} .pest.watch{border-left-color:var(--watch)} .pest.low{border-left-color:var(--low)}
+.pest .hd{display:flex;align-items:center;gap:12px;padding:14px;width:100%;text-align:left}
+.pest .em{font-size:34px;flex:none;width:44px;text-align:center}
+.pest .nm{flex:1;min-width:0}
+.pest .nm b{display:block;font-size:16px}
+.pest .nm small{color:var(--muted);font-size:12px}
+.badge{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:5px 9px;border-radius:999px;flex:none}
+.badge.high{background:var(--high-bg);color:var(--high)} .badge.watch{background:var(--watch-bg);color:var(--watch)} .badge.low{background:var(--low-bg);color:var(--low)}
+.body{padding:0 14px 14px;display:none}
+.pest.open .body{display:block}
+.why{font-size:13px;background:var(--cream);border-radius:10px;padding:8px 10px;color:var(--muted);margin-bottom:10px}
+.ipm{display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.ipm .n{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:15px}
+.ipm .n.s{background:#eef0f7} .ipm .n.p{background:#e3f3e6} .ipm .n.c{background:#fdf1d6} .ipm .n.b{background:#e6f1f7} .ipm .n.x{background:#fbe6e2}
+.ipm b{font-size:14px;display:block}
+.ipm p{font-size:14px;color:#33433a}
+.prod{background:#fff8f0;border:1px solid #f0dcc0;border-radius:12px;padding:10px 12px;margin-top:8px}
+.prod b{font-size:14px}
+.prod small{display:block;color:var(--muted);font-size:12px}
+.prod .pr{float:right;font-weight:800;color:var(--soil);font-size:14px}
+.confirm{display:flex;gap:8px;align-items:flex-start;background:#eef5ee;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:13px;font-weight:600;color:var(--forest)}
+.warn{font-size:12px;color:var(--high);margin-top:6px}
+.stage{display:flex;gap:12px;background:var(--card);border-radius:var(--r);padding:14px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.stage .em{font-size:30px;flex:none;width:40px;text-align:center}
+.stage b{display:block;font-size:15px}
+.stage .when{font-size:12px;font-weight:700;color:var(--leaf);text-transform:uppercase;letter-spacing:.3px}
+.stage p{font-size:14px;color:#33433a;margin-top:2px}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px}
+.day{background:var(--card);border-radius:12px;padding:8px 2px;text-align:center;font-size:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.day .e{font-size:22px;display:block;margin:2px 0}
+.day.good{outline:2px solid var(--low)}
+.tip{background:var(--card);border-radius:var(--r);padding:14px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.07);display:flex;gap:12px}
+.tip .em{font-size:28px;flex:none}
+.tip p{font-size:14px}
+.cta{display:flex;align-items:center;gap:12px;background:var(--soil);color:#fff;border-radius:var(--r);padding:14px 16px;margin-top:18px;text-decoration:none}
+.cta .em{font-size:30px}
+.cta b{display:block;font-size:15px}
+.cta small{opacity:.85;font-size:12px}
+.btn{display:block;width:100%;background:var(--forest);color:#fff;border-radius:14px;padding:14px;font-weight:700;font-size:16px;margin-top:16px;text-align:center}
+.ghost{background:transparent;color:var(--forest);border:2px solid var(--forest)}
+footer{max-width:560px;margin:0 auto;padding:18px 16px 40px;font-size:12px;color:var(--muted);text-align:center}
+footer b{color:var(--forest)}
+</style>
+</head>
+<body>
+<header>
+  <div class="hrow">
+    <div class="logo" aria-hidden="true">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 21V11" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M12 12C12 7 15 4 20 4c0 5-3 8-8 8Z" fill="#fff"/><path d="M12 14C12 10 9.5 8 5 8c0 4 2.5 6 7 6Z" fill="#cfe9d4"/><path d="M8 21h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="brand"><b>Roots & Remedy</b><span id="tagline">Agri Guide · Lesotho</span></div>
+    <div class="lang"><button data-l="en">EN</button><button data-l="st">ST</button></div>
+  </div>
+  <div class="chips" id="chips"></div>
+</header>
+
+<main class="wrap" id="app"></main>
+
+<footer>
+  <p id="foot1"></p>
+  <p style="margin-top:8px"><b>Roots & Remedy</b> · Open source · Made in Lesotho</p>
+</footer>
+
+<script>
+/* ================= STORE ================= */
+const STORE = { name:"Foso Hardware", wa:"26663423355", waShow:"+266 63423355", phone:"+266 57543808" };
+
+/* Foso Hardware products (from fosohardware.netlify.app) — smallest pack price in Maloti */
+const P = {
+  "Mirador 250 SC":            {what:"Azoxystrobin fungicide (strobilurin)", pack:"1L", price:380},
+  "Strobin 250 SC":            {what:"Strobilurin fungicide", pack:"1L", price:360},
+  "Coragen":                   {what:"Chlorantraniliprole — caterpillars", pack:"100ml", price:320},
+  "Belt":                      {what:"Flubendiamide — caterpillars", pack:"100ml", price:180},
+  "Cormoran 180 EC":           {what:"Novaluron + acetamiprid — aphids, whitefly, caterpillars", pack:"1L", price:420},
+  "Kohinor 350 SC":            {what:"Imidacloprid (systemic) — aphids, whitefly", pack:"100ml", price:150, bee:true},
+  "Abamec Plus":               {what:"Abamectin — mites, leaf miner, thrips", pack:"1L", price:260},
+  "Biomectin 18 EC":           {what:"Abamectin 18 g/L — mites, leaf miner, thrips", pack:"1L", price:240},
+  "Ag-Metribuzin 480 SC":      {what:"Metribuzin — pre/post-emergence weeds", pack:"1L", price:290},
+  "Camix Plus":                {what:"Pre-emergence maize herbicide", pack:"1L", price:340},
+  "Guardian":                  {what:"Pre-emergence maize herbicide", pack:"1L", price:310},
+  "Calmabon Liquid (Ca + B)":  {what:"Liquid calcium + boron", pack:"20L", price:780},
+  "Omnical (Calcium Nitrate)": {what:"Calcium nitrate", pack:"25kg", price:680},
+  "Omnia 2:3:4 (30)":          {what:"Balanced NPK + zinc — base dressing", pack:"50kg", price:780},
+  "Omnia MAP (39)":            {what:"High-phosphate starter", pack:"50kg", price:950},
+  "LAN (28%)":                 {what:"Nitrogen top-dressing", pack:"5kg", price:90},
+  "Omnia Omni-K":              {what:"Potassium feed — fruit and tuber fill", pack:"25kg", price:1250},
+  "Kelpak":                    {what:"Seaweed root stimulant", pack:"5L", price:560},
+  "Asco-Gro Foliar Feed":      {what:"Seaweed foliar feed", pack:"1L", price:120},
+  "Compost (Organic)":         {what:"Organic matter for soil", pack:"5kg", price:55},
+  "Hygrotech Seedling Mix":    {what:"Seedling growing medium", pack:"10kg", price:140},
+  "Super-Gro Liquid":          {what:"All-purpose liquid feed", pack:"1L", price:110},
+  "Aquatech 5 (Wetter)":       {what:"Wetter/sticker for sprays", pack:"5L", price:240},
+  "Knapsack Sprayer 16L":      {what:"Backpack sprayer", pack:"16L", price:620}
+};
+
+/* ================= TEXT ================= */
+const T = {
+  en:{tag:"Agri Guide · Lesotho", s1:"Step 1", s2:"Step 2", pickD:"Where is your farm?", pickDs:"Tap your district.", pickC:"What did you plant?", pickCs:"Tap your crop.",
+      north:"North ↑ · Schematic map", low:"Lowlands", foot:"Foothills", high:"Highlands",
+      pests:"Problems", fert:"Fertiliser", spray:"Spray days", month:"Month",
+      weatherT:"Typical weather", weatherL:"Weather now", maxT:"Day", minT:"Night", rain:"Rain", frost:"Frost risk",
+      high_:"High", watch_:"Watch", low_:"Low", legend:"Risk this month",
+      signs:"Signs", prevent:"Prevent", check:"Check", natural:"Natural control", chem:"Chemical — last step",
+      from:"from", confirm:"Confirm at the Foso Hardware front desk before you buy or spray.",
+      label:"Read the label: rate, safety gear and days before harvest.",
+      bee:"Toxic to bees — never spray open flowers.",
+      noChem:"No chemical cure. Remove sick plants and follow the steps above.",
+      askDesk:"Ask at the front desk for a registered product for this problem.",
+      photoB:"Send a photo of your crop", photoS:"WhatsApp Foso Hardware · AI photo check coming soon",
+      change:"Change", seed:"Seed at Foso",
+      foot:"Educational guide only. Always follow the product label. Confirm at the Foso Hardware front desk before buying or spraying.",
+      climNote:"Typical climate for this district (approx.). Live weather works when the guide runs on its own website.",
+      liveNote:"Live forecast · Open-Meteo",
+      sprayH:"Good spray day", sprayTips:"Spray tips",
+      whySeason:"In season this month.", whyWet:"Wet months raise this risk.", whyHot:"Hot, dry weather raises this risk.", whyWarm:"Warm weather speeds it up.", whyOut:"Not usually a problem this month.", whyCold:"Too cold here this month.",
+      months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]},
+  st:{tag:"Tataiso ea Temo · Lesotho", s1:"Mohato 1", s2:"Mohato 2", pickD:"Polasi ea hao e kae?", pickDs:"Tobetsa setereke sa hao.", pickC:"U jetse eng?", pickCs:"Tobetsa sejalo sa hao.",
+      north:"Leboea ↑ · 'Mapa o bonolo", low:"Mabalane", foot:"Lithaba tse tlase", high:"Lithaba",
+      pests:"Mathata", fert:"Manyolo", spray:"Matsatsi a ho fafatsa", month:"Khoeli",
+      weatherT:"Boemo ba leholimo bo tloaelehileng", weatherL:"Boemo ba leholimo hona joale", maxT:"Motšehare", minT:"Bosiu", rain:"Pula", frost:"Kotsi ea serame",
+      high_:"E phahameng", watch_:"Hlokomela", low_:"E tlase", legend:"Kotsi khoeling ena",
+      signs:"Matšoao", prevent:"Thibela", check:"Hlahloba", natural:"Taolo ea tlhaho", chem:"Lik'hemik'hale — mohato oa ho qetela",
+      from:"ho tloha", confirm:"Netefatsa le basebetsi ba Foso Hardware pele u reka kapa u fafatsa.",
+      label:"Bala leibole: tekanyo, liaparo tsa ts'ireletso le matsatsi pele u kotula.",
+      bee:"E kotsi ho linotši — u se ke ua fafatsa lipalesa.",
+      noChem:"Ha ho moriana o phekolang. Tlosa limela tse kulang.",
+      askDesk:"Botsa basebetsi ba Foso Hardware ka moriana o ngolisitsoeng.",
+      photoB:"Romela setšoantšo sa sejalo", photoS:"WhatsApp Foso Hardware · Tlhahlobo ea AI e tla haufinyane",
+      change:"Fetola", seed:"Peo ho Foso",
+      foot:"Tataiso ea thuto feela. Latela leibole kamehla. Netefatsa le Foso Hardware pele u reka kapa u fafatsa.",
+      climNote:"Boemo bo tloaelehileng ba setereke sena (hoo e ka bang).", liveNote:"Boemo ba nako ena · Open-Meteo",
+      sprayH:"Letsatsi le letle la ho fafatsa", sprayTips:"Malebela a ho fafatsa",
+      whySeason:"Ke nako ea eona khoeling ena.", whyWet:"Likhoeli tse metsi li eketsa kotsi.", whyHot:"Mocheso le komello li eketsa kotsi.", whyWarm:"Mocheso o e potlakisa.", whyOut:"Hangata ha se bothata khoeling ena.", whyCold:"Ho bata haholo mona khoeling ena.",
+      months:["Pherekhong","Hlakola","Hlakubele","Mmesa","Motšeanong","Phupjane","Phupu","Phato","Lewedu","Mphalane","Pulungoana","Tšitoe"]}
+};
+
+/* ================= DISTRICTS ================= */
+/* zone: L lowlands, F foothills, H highlands. grid = schematic position (row,col). */
+const D = [
+  {id:"leribe", n:"Leribe", z:"L", lat:-28.87, lon:28.05, g:[1,1], rain:1.0, dt:0},
+  {id:"butha", n:"Butha-Buthe", z:"F", lat:-28.77, lon:28.25, g:[1,2], rain:1.05, dt:-2},
+  {id:"mokhotlong", n:"Mokhotlong", z:"H", lat:-29.29, lon:29.06, g:[1,3], rain:0.8, dt:-6},
+  {id:"berea", n:"Berea", z:"L", lat:-29.15, lon:27.75, g:[2,1], rain:1.0, dt:0},
+  {id:"thaba", n:"Thaba-Tseka", z:"H", lat:-29.52, lon:28.60, g:[2,2], rain:1.05, dt:-6},
+  {id:"maseru", n:"Maseru", z:"L", lat:-29.31, lon:27.48, g:[3,1], rain:1.0, dt:0},
+  {id:"qacha", n:"Qacha's Nek", z:"H", lat:-30.12, lon:28.69, g:[3,3], rain:1.05, dt:-4},
+  {id:"mafeteng", n:"Mafeteng", z:"L", lat:-29.82, lon:27.24, g:[4,1], rain:0.85, dt:0},
+  {id:"mohales", n:"Mohale's Hoek", z:"L", lat:-30.15, lon:27.48, g:[4,2], rain:0.85, dt:0},
+  {id:"quthing", n:"Quthing", z:"F", lat:-30.40, lon:27.70, g:[4,3], rain:0.85, dt:-1}
+];
+/* Lowland base climate (approx., Maseru): max, min °C, rain mm */
+const BASE = {
+  max:[29,28,26,22,19,16,16,19,23,25,27,28],
+  min:[15,15,12,7,3,-1,-1,1,5,9,12,14],
+  rain:[105,95,85,50,25,10,10,15,25,60,75,90]
+};
+function climate(d,m){
+  return {max:BASE.max[m]+d.dt, min:BASE.min[m]+d.dt, rain:Math.round(BASE.rain[m]*d.rain)};
+}
+
+/* ================= CROPS & PROBLEMS ================= */
+/* cond: wet (cool-warm + rainy), warmwet, hotdry, warm. minT = lowest avg temp (°C) it is active. */
+const PEST = {
+  lateblight:{em:"🦠", n:"Late blight", k:"Disease", m:[11,12,1,2,3], cond:"wet", minT:10,
+    signs:"Dark, greasy patches on leaves and stems. White fuzz under leaves after rain. Firm brown patches on fruit or tubers.",
+    prevent:"Space and stake plants for air. Water at the soil in the morning. Rotate: no tomato or potato in the same spot for 3 years. Remove stray potato plants.",
+    check:"Look under the leaves twice a week, especially after rain or mist.",
+    natural:"Pull off and bury or burn sick leaves at once. Never put them in compost.",
+    chem:["Mirador 250 SC","Strobin 250 SC"], chemNote:"Spray before wet spells — it protects, it can't cure badly infected plants. Both are the same chemical group: alternate with a different group from the front desk."},
+  earlyblight:{em:"🍂", n:"Early blight", k:"Disease", m:[12,1,2,3], cond:"warmwet", minT:15,
+    signs:"Brown spots with rings like a target on the older, lower leaves. Leaves turn yellow and drop.",
+    prevent:"Mulch so soil doesn't splash on leaves. Remove the lowest leaves. Feed well — weak plants get it worse. Rotate crops.",
+    check:"Check the bottom leaves weekly.", natural:"Remove spotted leaves early.",
+    chem:["Mirador 250 SC","Strobin 250 SC"], chemNote:"Start at the first spots. Don't use the same group back-to-back."},
+  tuta:{em:"🐛", n:"Tomato leaf miner (Tuta)", k:"Insect", m:[10,11,12,1,2,3,4], cond:"warm", minT:15,
+    signs:"Clear or white blotches (mines) inside leaves. Small holes in fruit near the stem.",
+    prevent:"Plant clean seedlings. Remove and destroy old tomato plants after harvest. Cover seedlings with insect net.",
+    check:"Inspect leaves weekly. Pheromone traps catch the moths early.", natural:"Pick off and destroy mined leaves.",
+    chem:["Coragen","Abamec Plus"], chemNote:"Alternate groups — Tuta becomes resistant fast."},
+  bollworm:{em:"🐛", n:"Bollworm", k:"Insect", m:[12,1,2,3], cond:"warm", minT:17,
+    signs:"Round holes in fruit or cobs. Green, brown or pink caterpillars inside.",
+    prevent:"Remove crop leftovers after harvest. Plough to expose pupae in soil.",
+    check:"Look for eggs and small caterpillars on flowers and young fruit.", natural:"Hand-pick caterpillars and damaged fruit.",
+    chem:["Coragen","Belt"], chemNote:"Spray when caterpillars are small, before they enter the fruit."},
+  whitefly:{em:"🪰", n:"Whitefly & aphids", k:"Insect", m:[10,11,12,1,2,3], cond:"warm", minT:14,
+    signs:"Tiny white flies or green-black lice under leaves. Sticky leaves, curling, black mould.",
+    prevent:"Remove weeds around the field. Avoid too much nitrogen fertiliser.",
+    check:"Turn leaves over weekly. Yellow sticky traps show numbers.", natural:"Spray a strong jet of water. Protect ladybirds — they eat aphids.",
+    chem:["Cormoran 180 EC","Kohinor 350 SC"], chemNote:"Spray under the leaves where they hide."},
+  aphids:{em:"🪲", n:"Aphids", k:"Insect", m:[9,10,11,3,4], cond:"warm", minT:10,
+    signs:"Clusters of small green, grey or black lice on young leaves. Leaves curl and get sticky.",
+    prevent:"Remove weeds. Don't over-feed nitrogen. Plant healthy seedlings.",
+    check:"Check the newest leaves and leaf undersides weekly.", natural:"Water jet, ladybirds, remove badly infested leaves.",
+    chem:["Cormoran 180 EC","Kohinor 350 SC"], chemNote:"Act early — aphids also spread viruses."},
+  mite:{em:"🕷️", n:"Red spider mite", k:"Mite", m:[10,11,12,1,2,3], cond:"hotdry", minT:16,
+    signs:"Fine pale speckles on leaves, turning yellow-bronze. Fine webbing in bad cases.",
+    prevent:"Water regularly — stressed plants get mites. Control weeds.",
+    check:"Shake a leaf over white paper and look for moving dots.", natural:"Spray water under the leaves. Remove worst leaves.",
+    chem:["Abamec Plus","Biomectin 18 EC"], chemNote:"Repeat after 7–10 days if the label allows. Hit leaf undersides."},
+  thrips:{em:"🦟", n:"Thrips", k:"Insect", m:[10,11,12,1,2,3], cond:"hotdry", minT:15,
+    signs:"Silvery streaks on leaves. Young leaves curl and twist. Scarred fruit.",
+    prevent:"Control weeds. Avoid planting next to onions or old infested crops.",
+    check:"Tap flowers over white paper. Blue sticky traps catch them.", natural:"Remove weeds and badly hit plants.",
+    chem:["Abamec Plus","Biomectin 18 EC"], chemNote:"Spray early morning or late afternoon."},
+  powdery:{em:"🦠", n:"Powdery mildew", k:"Disease", m:[2,3,4], cond:"warm", minT:13,
+    signs:"White powder under leaves, yellow patches on top. Leaves drop.",
+    prevent:"Give space for air. Avoid shade and crowding.", check:"Check older leaves weekly in late summer.",
+    natural:"Remove infected leaves.", chem:["Mirador 250 SC","Strobin 250 SC"], chemNote:"Start at the first white spots."},
+  ber:{em:"💧", n:"Blossom-end rot", k:"Nutrient", m:[12,1,2], cond:"warm", minT:16,
+    signs:"Black, sunken, leathery patch at the bottom of the fruit.",
+    prevent:"Water evenly — not too much, not too little. Mulch to keep soil moist. Don't overdo nitrogen.",
+    check:"Check first fruits as they form.", natural:"Remove damaged fruit so the plant feeds healthy ones.",
+    chem:["Calmabon Liquid (Ca + B)","Omnical (Calcium Nitrate)"], chemNote:"This is a calcium problem, not a pest. Feed calcium and fix watering.", nutrient:true},
+  dbm:{em:"🐛", n:"Diamondback moth", k:"Insect", m:[9,10,11,12,1,2,3,4], cond:"hotdry", minT:12,
+    signs:"Small green caterpillars that wriggle and drop on a silk thread. Window-like holes in leaves.",
+    prevent:"Destroy old cabbage plants after harvest. Cover seedbeds with net. Don't plant cabbage all year in the same place.",
+    check:"Check 10 plants every week, under leaves and in the heart.", natural:"Hand-pick. Ask the desk about Bt (biological) sprays.",
+    chem:["Coragen","Belt"], chemNote:"Never use the same product more than 2 times in a row — this moth beats chemicals fast."},
+  cutworm:{em:"🐛", n:"Cutworm", k:"Insect", m:[9,10,11,12], cond:"warm", minT:10,
+    signs:"Young plants cut off at the soil overnight. Grey C-shaped grubs in the soil nearby.",
+    prevent:"Clear weeds 2–3 weeks before planting. Put a paper or tin collar around each stem.",
+    check:"In the morning, dig around cut plants to find the grub.", natural:"Hand-pick at night with a torch.",
+    chem:[], chemNote:null},
+  blackrot:{em:"🦠", n:"Black rot", k:"Disease (bacteria)", m:[12,1,2,3], cond:"warmwet", minT:15,
+    signs:"Yellow V-shaped patches from the leaf edge. Veins turn black.",
+    prevent:"Use good hybrid seed. Rotate for 3 years. Don't work in the field when leaves are wet.",
+    check:"Check leaf edges after warm rain.", natural:"Remove and destroy sick plants.", chem:[], chemNote:"noChem"},
+  tipburn:{em:"🥬", n:"Tip-burn", k:"Nutrient", m:[12,1,2], cond:"warm", minT:16,
+    signs:"Brown, dry edges on the inner leaves of the head.",
+    prevent:"Water evenly. Don't overdo nitrogen.", check:"Check heads as they form.", natural:"—",
+    chem:["Calmabon Liquid (Ca + B)"], chemNote:"Calcium problem — feed calcium early in heading.", nutrient:true},
+  faw:{em:"🐛", n:"Fall armyworm", k:"Insect", m:[11,12,1,2,3], cond:"warm", minT:17,
+    signs:"Ragged holes in leaves, sawdust-like droppings in the funnel. Caterpillar has a Y on its head and 4 dots near the tail.",
+    prevent:"Plant early and all at once with neighbours. Intercrop with beans. Remove weeds.",
+    check:"Walk a W across the field and check 20 plants weekly. Act if 1 in 5 young plants are hit.", natural:"Put a pinch of dry soil or sand into the funnel. Hand-pick.",
+    chem:["Coragen","Belt"], chemNote:"Spray into the funnel, early morning or evening, while caterpillars are small."},
+  borer:{em:"🐛", n:"Stalk borer", k:"Insect", m:[11,12,1,2], cond:"warm", minT:17,
+    signs:"Rows of small holes in leaves. Centre leaf dies (dead heart). Tunnels in the stem.",
+    prevent:"Destroy or plough in old stalks after harvest.", check:"Check the funnel of young plants weekly.",
+    natural:"Remove and destroy infested plants early.", chem:[], chemNote:null},
+  weedsmaize:{em:"🌿", n:"Weeds (first 6 weeks)", k:"Weeds", m:[10,11,12], cond:"warm", minT:10,
+    signs:"Weeds growing with young maize steal water and fertiliser.",
+    prevent:"Start with a clean seedbed. Hoe early and often.", check:"Walk the field every week after planting.",
+    natural:"Hoe or hand-weed before weeds are 10 cm tall.", chem:["Camix Plus","Guardian"], chemNote:"Pre-emergence: spray right after planting on moist soil, before weeds come up."},
+  leafspot:{em:"🍂", n:"Leaf diseases (grey leaf spot, rust)", k:"Disease", m:[1,2,3], cond:"warmwet", minT:15,
+    signs:"Long grey-brown spots between the veins, or orange-brown powder pustules on leaves.",
+    prevent:"Rotate with beans. Plough in old stalks. Choose tolerant seed.", check:"Check leaves around the cob after rainy weeks.",
+    natural:"—", chem:["Mirador 250 SC"], chemNote:"Check the label lists maize before using."},
+  nhunger:{em:"🟡", n:"Nitrogen hunger", k:"Nutrient", m:[12,1], cond:"warm", minT:12,
+    signs:"Yellow V-shape running down the middle of the older, lower leaves.",
+    prevent:"Top-dress on time at knee height.", check:"Look at lower leaves at 4–6 weeks.", natural:"Compost or manure in the next season.",
+    chem:["LAN (28%)"], chemNote:"Place beside the row, not on leaves, then water in or apply before rain.", nutrient:true},
+  ptm:{em:"🐛", n:"Potato tuber moth", k:"Insect", m:[1,2,3,4], cond:"hotdry", minT:15,
+    signs:"Mines in leaves. Tunnels in tubers with dirt at the eyes.",
+    prevent:"Hill up well so no tubers show. Irrigate so soil doesn't crack. Harvest on time.",
+    check:"Check leaves and any exposed tubers weekly.", natural:"Don't leave dug potatoes in the field overnight. Store covered.", chem:[], chemNote:null},
+  weedspot:{em:"🌿", n:"Weeds", k:"Weeds", m:[9,10,11,12], cond:"warm", minT:10,
+    signs:"Weeds compete before the crop closes its rows.",
+    prevent:"Clean seedbed. Hill up on time — it also buries weeds.", check:"Weekly walk after planting.",
+    natural:"Hoe early.", chem:["Ag-Metribuzin 480 SC"], chemNote:"Use as the label says — timing after planting matters."}
+};
+
+const CROPS = [
+  {id:"tomato", em:"🍅", en:"Tomato", st:"Tamati", pests:["lateblight","earlyblight","tuta","bollworm","whitefly","mite","ber"],
+   seed:"Tomato Seeds (Hybrid) — M95 / 100g, or Money Maker — M45 / 100g",
+   fert:[
+    {em:"🌱",w:"Seedlings",t:"Raise strong seedlings",p:"Hygrotech Seedling Mix in trays. Feed with Super-Gro Liquid once leaves open.",prods:["Hygrotech Seedling Mix","Super-Gro Liquid"]},
+    {em:"🟫",w:"Before planting",t:"Feed the soil",p:"Dig compost into the beds 2–4 weeks before transplanting.",prods:["Compost (Organic)"]},
+    {em:"🪴",w:"At transplanting",t:"Base dressing",p:"Mix Omnia 2:3:4 (30) into the planting row. Drench roots with Kelpak to settle transplants.",prods:["Omnia 2:3:4 (30)","Kelpak"]},
+    {em:"📈",w:"3–4 weeks after",t:"Nitrogen boost",p:"Side-dress LAN beside the row and water in. Small amounts, not on leaves.",prods:["LAN (28%)"]},
+    {em:"🌼",w:"Flowering & fruit",t:"Calcium + potassium",p:"Calcium every 1–2 weeks against blossom-end rot. Potassium for fruit fill and taste.",prods:["Calmabon Liquid (Ca + B)","Omnia Omni-K"]}
+   ]},
+  {id:"pepper", em:"🫑", en:"Green pepper", st:"Pepere e tala", pests:["aphids","thrips","bollworm","mite","powdery","ber"],
+   seed:"Pepper Seeds (Hybrid) — M95 / 100g, or California Wonder — M45 / 100g",
+   fert:[
+    {em:"🌱",w:"Seedlings",t:"Raise strong seedlings",p:"Hygrotech Seedling Mix in trays. Light feeds of Super-Gro.",prods:["Hygrotech Seedling Mix","Super-Gro Liquid"]},
+    {em:"🟫",w:"Before planting",t:"Feed the soil",p:"Dig compost into the beds 2–4 weeks before.",prods:["Compost (Organic)"]},
+    {em:"🪴",w:"At transplanting",t:"Base dressing",p:"Omnia 2:3:4 (30) in the row. Kelpak root drench.",prods:["Omnia 2:3:4 (30)","Kelpak"]},
+    {em:"📈",w:"4 weeks after",t:"Nitrogen boost",p:"Small LAN side-dressing, watered in.",prods:["LAN (28%)"]},
+    {em:"🌼",w:"Flowering & fruit",t:"Calcium + potassium",p:"Calcium against blossom-end rot. Potassium for fruit size.",prods:["Calmabon Liquid (Ca + B)","Omnia Omni-K"]}
+   ]},
+  {id:"cabbage", em:"🥬", en:"Cabbage", st:"K'habeche", pests:["dbm","aphids","cutworm","blackrot","tipburn"],
+   seed:"Cabbage Seeds (Hybrid) — M95 / 100g (better disease tolerance), or Drumhead — M45 / 100g",
+   fert:[
+    {em:"🌱",w:"Seedlings",t:"Raise strong seedlings",p:"Hygrotech Seedling Mix. Cover seedbed with net against moths.",prods:["Hygrotech Seedling Mix"]},
+    {em:"🪴",w:"At transplanting",t:"Base dressing",p:"Compost plus Omnia 2:3:4 (30) in the row.",prods:["Compost (Organic)","Omnia 2:3:4 (30)"]},
+    {em:"📈",w:"3 and 6 weeks after",t:"Two nitrogen top-dressings",p:"LAN beside the plants, watered in. Cabbage is a hungry leaf crop.",prods:["LAN (28%)"]},
+    {em:"🥬",w:"Heading",t:"Calcium",p:"Calcium spray when heads start forming, against tip-burn.",prods:["Calmabon Liquid (Ca + B)"]}
+   ]},
+  {id:"maize", em:"🌽", en:"Maize", st:"Poone", pests:["faw","borer","weedsmaize","leafspot","nhunger"],
+   seed:"Maize Seeds (open-pollinated white) — from M45",
+   fert:[
+    {em:"🌱",w:"At planting",t:"Starter in the row",p:"Omnia MAP or 2:3:4 (30) in the furrow, covered with soil before the seed — seed must not touch fertiliser.",prods:["Omnia MAP (39)","Omnia 2:3:4 (30)"]},
+    {em:"🧪",w:"Right after planting",t:"Stop early weeds",p:"Pre-emergence herbicide on moist soil.",prods:["Camix Plus","Guardian"]},
+    {em:"📈",w:"Knee high (4–6 weeks)",t:"Nitrogen top-dressing",p:"LAN beside the row, then cover lightly or apply before rain. This is the most important feed for yield.",prods:["LAN (28%)"]}
+   ]},
+  {id:"potato", em:"🥔", en:"Potatoes", st:"Litapole", pests:["lateblight","earlyblight","aphids","ptm","weedspot"],
+   seed:"Use certified seed potatoes — ask the front desk",
+   fert:[
+    {em:"🌱",w:"At planting",t:"Base dressing in the furrow",p:"Omnia 2:3:4 (30) in the furrow, covered with a little soil before placing seed tubers.",prods:["Omnia 2:3:4 (30)"]},
+    {em:"⛰️",w:"Hilling (4–5 weeks)",t:"Nitrogen + hill up",p:"LAN beside the row, then hill soil over it.",prods:["LAN (28%)"]},
+    {em:"🥔",w:"Tuber bulking",t:"Potassium",p:"Potassium for bigger, better-keeping tubers.",prods:["Omnia Omni-K"]}
+   ]}
+];
+
+/* ================= STATE ================= */
+let S = {lang:"en", d:null, c:null, tab:"pests", m:new Date().getMonth(), open:null, wx:null};
+try{ const s=JSON.parse(localStorage.getItem("rr_state")||"{}"); Object.assign(S, {lang:s.lang||"en", d:s.d||null, c:s.c||null}); }catch(e){}
+function save(){ try{ localStorage.setItem("rr_state", JSON.stringify({lang:S.lang,d:S.d,c:S.c})); }catch(e){} }
+const t = k => (T[S.lang][k] ?? T.en[k]);
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const dist = () => D.find(x=>x.id===S.d);
+const crop = () => CROPS.find(x=>x.id===S.c);
+const cropName = c => S.lang==="st" ? c.st : c.en;
+
+/* ================= RISK ================= */
+function risk(p, d, m, w){
+  const c = w || climate(d, m);
+  const mean = (c.max + c.min) / 2;
+  const inSeason = p.m.includes(m+1);
+  if(!inSeason) return {lvl:"low", why:t("whyOut")};
+  if(mean < p.minT) return {lvl:"low", why:t("whyCold")};
+  let boost = false, why = t("whySeason");
+  if(p.cond==="wet" && c.rain>=70 && mean<=25){boost=true; why=t("whyWet");}
+  if(p.cond==="warmwet" && c.rain>=60 && mean>=17){boost=true; why=t("whyWet");}
+  if(p.cond==="hotdry" && c.max>=26 && c.rain<70){boost=true; why=t("whyHot");}
+  if(p.cond==="warm" && mean>=21){boost=true; why=t("whyWarm");}
+  return {lvl: boost ? "high" : "watch", why};
+}
+
+/* ================= LIVE WEATHER (works when hosted on its own site) ================= */
+async function loadWx(){
+  const d = dist(); if(!d) return;
+  S.wx = null;
+  try{
+    const u = `https://api.open-meteo.com/v1/forecast?latitude=${d.lat}&longitude=${d.lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max,weather_code&forecast_days=7&timezone=Africa%2FJohannesburg`;
+    const ctl = new AbortController(); setTimeout(()=>ctl.abort(), 6000);
+    const r = await fetch(u, {signal:ctl.signal}); if(!r.ok) throw 0;
+    const j = await r.json(); const dd = j.daily;
+    S.wx = {id:d.id, days: dd.time.map((x,i)=>({date:x, max:Math.round(dd.temperature_2m_max[i]), min:Math.round(dd.temperature_2m_min[i]), rain:dd.precipitation_sum[i], wind:dd.wind_speed_10m_max[i], code:dd.weather_code[i]}))};
+    render();
+  }catch(e){ S.wx = {id:d.id, failed:true}; }
+}
+function wxNow(){
+  const d = dist();
+  if(S.wx && S.wx.id===d.id && S.wx.days && S.m===new Date().getMonth()){
+    const ds = S.wx.days, n = ds.length;
+    return {live:true, max:Math.round(ds.reduce((a,x)=>a+x.max,0)/n), min:Math.round(ds.reduce((a,x)=>a+x.min,0)/n),
+            rain:Math.round(ds.reduce((a,x)=>a+x.rain,0)*4.3)}; /* weekly rain scaled to a month for risk rules */
+  }
+  return null;
+}
+
+/* ================= RENDER ================= */
+function chips(){
+  const d = dist(), c = crop(), el = $("#chips");
+  let h = "";
+  if(d) h += `<button class="chip" data-go="d">📍 ${esc(d.n)} <small>${t("change")}</small></button>`;
+  if(c) h += `<button class="chip" data-go="c">${c.em} ${esc(cropName(c))} <small>${t("change")}</small></button>`;
+  el.innerHTML = h; el.style.display = h ? "flex" : "none";
+}
+function viewDistrict(){
+  let cells = "";
+  for(let r=1;r<=4;r++) for(let col=1;col<=3;col++){
+    const d = D.find(x=>x.g[0]===r && x.g[1]===col);
+    if(d) cells += `<button class="d ${d.z==='H'?'':'hl'} ${S.d===d.id?'on':''}" data-d="${d.id}"><b>${esc(d.n)}</b><small>${t(d.z==='L'?'low':d.z==='F'?'foot':'high')}</small></button>`;
+    else cells += `<div class="m" aria-hidden="true"></div>`;
+  }
+  return `<span class="step">${t("s1")}</span><h1>${t("pickD")}</h1><p class="sub">${t("pickDs")}</p>
+    <div class="map">${cells}</div><div class="compass">${t("north")}</div>`;
+}
+function viewCrop(){
+  return `<span class="step">${t("s2")}</span><h1>${t("pickC")}</h1><p class="sub">${t("pickCs")}</p>
+    <div class="crops">${CROPS.map(c=>`<button class="crop ${S.c===c.id?'on':''}" data-c="${c.id}"><div class="ic">${c.em}</div><b>${esc(cropName(c))}</b><small>${S.lang==='st'?esc(c.en):esc(c.st)}</small></button>`).join("")}</div>`;
+}
+function prodCard(name){
+  const p = P[name]; if(!p) return "";
+  return `<div class="prod"><span class="pr">${t("from")} M${p.price}</span><b>${esc(name)}</b><small>${esc(p.what)} · ${esc(p.pack)}</small>${p.bee?`<div class="warn">🐝 ${t("bee")}</div>`:""}</div>`;
+}
+function weatherCard(){
+  const d = dist(), live = wxNow(), c = live || climate(d, S.m);
+  const frost = c.min <= 2;
+  return `<div class="wx"><div class="top"><div><h3>${live?t("weatherL"):t("weatherT")} · ${esc(d.n)}</h3>
+      <div class="big">${c.max}° <span style="font-size:18px;opacity:.75">/ ${c.min}°</span></div></div>
+      <div style="font-size:40px">${frost?"❄️":c.rain>=70?"🌧️":c.max>=27?"☀️":"⛅"}</div></div>
+    <div class="row"><span class="pill">☀️ ${t("maxT")} ${c.max}°C</span><span class="pill">🌙 ${t("minT")} ${c.min}°C</span><span class="pill">🌧️ ${t("rain")} ~${c.rain} mm</span>${frost?`<span class="pill">❄️ ${t("frost")}</span>`:""}</div>
+    <div class="src">${live?t("liveNote"):t("climNote")}</div></div>`;
+}
+function viewPests(){
+  const d = dist(), c = crop(), live = wxNow();
+  const order = {high:0, watch:1, low:2};
+  const list = c.pests.map(id=>({id, p:PEST[id], r:risk(PEST[id], d, S.m, live)})).sort((a,b)=>order[a.r.lvl]-order[b.r.lvl]);
+  return `<div class="legend"><b style="color:var(--ink)">${t("legend")}:</b><span><i class="dot" style="background:var(--high)"></i>${t("high_")}</span><span><i class="dot" style="background:var(--watch)"></i>${t("watch_")}</span><span><i class="dot" style="background:var(--low)"></i>${t("low_")}</span></div>` +
+  list.map(({id,p,r})=>{
+    const chem = p.chem.length
+      ? p.chem.map(prodCard).join("") + (p.chemNote?`<p style="font-size:13px;color:var(--muted);margin-top:8px">${esc(p.chemNote)}</p>`:"") + (p.nutrient?"":`<p style="font-size:12px;color:var(--muted);margin-top:4px">📄 ${t("label")}</p>`)
+      : `<p>${p.chemNote==="noChem"?t("noChem"):t("askDesk")}</p>`;
+    return `<div class="pest ${r.lvl} ${S.open===id?'open':''}">
+      <button class="hd" data-p="${id}"><span class="em">${p.em}</span><span class="nm"><b>${esc(p.n)}</b><small>${esc(p.k)}</small></span><span class="badge ${r.lvl}">${t(r.lvl+"_")}</span></button>
+      <div class="body"><div class="why">${esc(r.why)}</div>
+        <div class="ipm"><span class="n s">👁️</span><div><b>${t("signs")}</b><p>${esc(p.signs)}</p></div></div>
+        <div class="ipm"><span class="n p">🛡️</span><div><b>1 · ${t("prevent")}</b><p>${esc(p.prevent)}</p></div></div>
+        <div class="ipm"><span class="n c">🔍</span><div><b>2 · ${t("check")}</b><p>${esc(p.check)}</p></div></div>
+        <div class="ipm"><span class="n b">🌿</span><div><b>3 · ${t("natural")}</b><p>${esc(p.natural)}</p></div></div>
+        <div class="ipm"><span class="n x">🧴</span><div style="flex:1"><b>4 · ${p.nutrient?"Foso Hardware":t("chem")}</b>${chem}</div></div>
+        <div class="confirm">✅ <span>${t("confirm")}</span></div>
+      </div></div>`;
+  }).join("");
+}
+function viewFert(){
+  const c = crop();
+  return `<p class="sub" style="margin-top:14px">🌾 ${t("seed")}: <b style="color:var(--ink)">${esc(c.seed)}</b></p>` +
+    c.fert.map(s=>`<div class="stage"><span class="em">${s.em}</span><div style="flex:1"><span class="when">${esc(s.w)}</span><b>${esc(s.t)}</b><p>${esc(s.p)}</p>${s.prods.map(prodCard).join("")}</div></div>`).join("") +
+    `<div class="tip"><span class="em">🧪</span><p>A soil test tells the exact amount your field needs. Rates differ by soil — ask at the front desk for the right amount per row or per hectare.</p></div>
+     <div class="confirm">✅ <span>${t("confirm")}</span></div>`;
+}
+function viewSpray(){
+  const d = dist(); let h = "";
+  if(S.wx && S.wx.id===d.id && S.wx.days){
+    const dn = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+    h += `<h2>${t("sprayH")}</h2><div class="days">` + S.wx.days.map(x=>{
+      const good = x.rain < 2 && x.wind < 15;
+      return `<div class="day ${good?'good':''}"><b>${dn[new Date(x.date).getDay()]}</b><span class="e">${good?"✅":x.rain>=2?"🌧️":"💨"}</span>${x.max}°</div>`;
+    }).join("") + `</div><p class="sub" style="margin-top:8px">✅ = no rain and low wind. ${esc(t("liveNote"))}</p>`;
+  }
+  h += `<h2>${t("sprayTips")}</h2>
+    <div class="tip"><span class="em">🌅</span><p><b>Spray early morning or late afternoon.</b> Midday heat burns leaves and chemicals dry before they work. Bees are also less active.</p></div>
+    <div class="tip"><span class="em">🌧️</span><p><b>No rain for at least 4–6 hours after spraying</b>, or the spray washes off. A wetter like Aquatech helps it stick.</p></div>
+    <div class="tip"><span class="em">💨</span><p><b>Don't spray in wind.</b> Drift wastes money and can harm your family, animals and neighbours' crops.</p></div>
+    <div class="tip"><span class="em">🧤</span><p><b>Wear gloves, mask, long sleeves and boots.</b> Wash hands and clothes after. Keep children and animals away.</p></div>
+    <div class="tip"><span class="em">🔁</span><p><b>Rotate products.</b> Using the same chemical again and again makes pests resistant.</p></div>
+    <div class="tip"><span class="em">📅</span><p><b>Check the days before harvest</b> on the label. Don't harvest too soon after spraying.</p></div>
+    ${prodCard("Aquatech 5 (Wetter)")}${prodCard("Knapsack Sprayer 16L")}
+    <div class="confirm">✅ <span>${t("confirm")}</span></div>`;
+  return h;
+}
+function viewDash(){
+  const c = crop(), d = dist();
+  const months = t("months").map((m,i)=>`<button class="${S.m===i?'on':''}" data-m="${i}">${esc(m)}</button>`).join("");
+  const body = S.tab==="pests" ? viewPests() : S.tab==="fert" ? viewFert() : viewSpray();
+  const msg = encodeURIComponent(`Hello Foso Hardware. Roots & Remedy guide: I have a problem on my ${c.en} in ${d.n}. I am sending a photo.`);
+  return `<h1 style="display:flex;align-items:center;gap:10px"><span style="font-size:36px">${c.em}</span>${esc(cropName(c))} · ${esc(d.n)}</h1>
+    ${weatherCard()}
+    <div class="months" id="months">${months}</div>
+    <div class="tabs"><button class="${S.tab==='pests'?'on':''}" data-t="pests">🐛 ${t("pests")}</button><button class="${S.tab==='fert'?'on':''}" data-t="fert">🌱 ${t("fert")}</button><button class="${S.tab==='spray'?'on':''}" data-t="spray">🧴 ${t("spray")}</button></div>
+    ${body}
+    <a class="cta" href="https://wa.me/${STORE.wa}?text=${msg}" target="_blank" rel="noopener"><span class="em">📷</span><span><b>${t("photoB")}</b><small>${t("photoS")} · ${STORE.waShow}</small></span></a>`;
+}
+function render(){
+  document.documentElement.lang = S.lang==="st" ? "st" : "en";
+  document.querySelectorAll(".lang button").forEach(b=>b.classList.toggle("on", b.dataset.l===S.lang));
+  $("#tagline").textContent = t("tag");
+  $("#foot1").textContent = t("foot");
+  chips();
+  const app = $("#app");
+  if(!S.d) app.innerHTML = viewDistrict();
+  else if(!S.c) app.innerHTML = viewCrop();
+  else app.innerHTML = viewDash();
+  const mo = $("#months"); if(mo){ const on = mo.querySelector(".on"); if(on) mo.scrollLeft = on.offsetLeft - 60; }
+}
+
+/* ================= EVENTS ================= */
+document.addEventListener("click", e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  if(b.dataset.l){ S.lang=b.dataset.l; save(); render(); return; }
+  if(b.dataset.go==="d"){ S.d=null; render(); scrollTo(0,0); return; }
+  if(b.dataset.go==="c"){ S.c=null; render(); scrollTo(0,0); return; }
+  if(b.dataset.d){ S.d=b.dataset.d; save(); S.wx=null; loadWx(); render(); scrollTo(0,0); return; }
+  if(b.dataset.c){ S.c=b.dataset.c; S.open=null; save(); render(); scrollTo(0,0); return; }
+  if(b.dataset.m){ S.m=+b.dataset.m; render(); return; }
+  if(b.dataset.t){ S.tab=b.dataset.t; render(); return; }
+  if(b.dataset.p){ S.open = S.open===b.dataset.p ? null : b.dataset.p; render(); return; }
+});
+if(S.d) loadWx();
+render();
+</script>
+</body>
+</html>
