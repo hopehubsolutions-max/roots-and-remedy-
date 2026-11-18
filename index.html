@@ -88,7 +88,12 @@ img{display:block;max-width:100%}
 .dist .edge{fill:none;stroke:rgba(255,255,255,.85);stroke-width:1.4;stroke-linejoin:round}
 .dist .tint{transition:opacity .3s}
 .dist:hover .tint{opacity:.05!important}
-.lbl{font:800 11.5px var(--body);fill:#fff;text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:rgba(8,26,16,.75);stroke-width:3.4px;transition:transform .7s var(--spring)}
+.lbl.lg{font-size:21px;stroke-width:4.5px}
+.frow{position:relative;animation:rise .6s var(--ease) both}
+.fdel{position:absolute;top:-7px;right:-7px;width:30px;height:30px;border-radius:50%;background:rgba(12,35,22,.85);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:13px;display:grid;place-items:center;z-index:2}
+.toast button{margin-left:10px;color:var(--lime);font-weight:800;text-decoration:underline}
+.rm{display:block;margin:18px auto 0;font-size:13.5px;font-weight:700;color:var(--muted);text-decoration:underline}
+.lbl{font:800 15px var(--body);fill:#fff;text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:rgba(8,26,16,.75);stroke-width:3.4px;transition:transform .7s var(--spring)}
 .liftg{pointer-events:none;transform-box:fill-box;transform-origin:50% 55%;animation:liftup .55s var(--spring) forwards}
 .liftg .side{fill:#0b1f13}
 .liftg .edge{fill:none;stroke:#fff;stroke-width:2.2}
@@ -469,7 +474,7 @@ const T={
   seed:"Seed at Foso",here:"You are here",done:"done",tasksT:"My season",reset:"Reset",
   sun:"Sunny",rainy:"Rain",cloudy:"Cloudy",frost:"Frost risk",typ:"Typical for this month",live:"Live forecast",good:"✓ = good spray day",
   whySeason:"In season now.",whyWet:"Wet weather makes it worse.",whyHot:"Hot, dry weather makes it worse.",whyWarm:"Warm weather speeds it up.",whyOut:"Not usually a problem this month.",whyCold:"Too cold here this month.",
-  saved:"Saved to My Farm",foot:"Educational guide only. Always follow the product label. Confirm at the Foso Hardware front desk before buying or spraying.",
+  saved:"Saved to My Farm",remove:"Remove",removed:"Removed from My Farm",undo:"Undo",removeFarm:"Remove this crop from My Farm",foot:"Educational guide only. Always follow the product label. Confirm at the Foso Hardware front desk before buying or spraying.",
   months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],dn:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]},
  st:{kick:"E entsoe Lesotho · Mahala",h1a:"Lijalo tse phetseng,",h1b:"selemo le selemo.",lead:"Likokonyana, mafu le manyolo — ka litšoantšo, bakeng sa setereke sa hao.",
   q1:"Polasi ea hao e kae?",selreg:"Khetha sebaka sa hao",tapd:"Tobetsa setereke sa hao",tapds:"Tobetsa moo polasi ea hao e leng teng.",myfarm:"Polasi ea ka",
@@ -482,7 +487,7 @@ const T={
   seed:"Peo ho Foso",here:"U mona",done:"tse entsoeng",tasksT:"Selemo sa ka",reset:"Qala bocha",
   sun:"Letsatsi",rainy:"Pula",cloudy:"Maru",frost:"Serame",typ:"Hangata khoeling ena",live:"Boemo ba nako ena",good:"✓ = letsatsi le letle la ho fafatsa",
   whySeason:"Ke nako ea eona joale.",whyWet:"Pula e e mpefatsa.",whyHot:"Mocheso le komello li e mpefatsa.",whyWarm:"Mocheso o e potlakisa.",whyOut:"Hangata ha se bothata khoeling ena.",whyCold:"Ho bata haholo mona.",
-  saved:"E bolokiloe",foot:"Tataiso ea thuto feela. Latela leibole. Netefatsa le Foso Hardware pele u reka kapa u fafatsa.",
+  saved:"E bolokiloe",remove:"Tlosa",removed:"E tlositsoe",undo:"Khutlisa",removeFarm:"Tlosa sejalo sena Polasing ea ka",foot:"Tataiso ea thuto feela. Latela leibole. Netefatsa le Foso Hardware pele u reka kapa u fafatsa.",
   months:["Pherekhong","Hlakola","Hlakubele","Mmesa","Motšeanong","Phupjane","Phupu","Phato","Lewedu","Mphalane","Pulungoana","Tšitoe"],dn:["Son","Mma","Lab","Lar","Lab","Hla","Moq"]}
 };
 const TASKS={tomato:["Raise seedlings in trays","Compost into beds","Base dressing at transplanting","Stake plants","Check under leaves weekly","LAN at 3–4 weeks","Calcium at flowering","Check for blight after rain","Harvest, remove old plants"],
@@ -503,7 +508,7 @@ const cropName=c=>S.lang==="st"?c.st:c.en;
 const tick=()=>{try{navigator.vibrate&&navigator.vibrate(8)}catch(e){}};
 const photo=(c,cls="ph")=>`<img class="${cls}" src="images/${c.id}.webp" alt="${esc(c.en)}" onerror="this.outerHTML='<div class=&quot;${cls} emoji&quot;>${c.em}</div>'">`;
 const pimg=(file,em,alt)=>file?`<img src="images/pests/${file}.webp" alt="${esc(alt)}" loading="lazy" onerror="this.outerHTML='<div class=&quot;emoji&quot;>${em}</div>'">`:`<div class="emoji">${em}</div>`;
-function toast(m){const e=$("#toast");e.textContent=m;e.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(()=>e.classList.remove("show"),1800)}
+function toast(m,undo){const e=$("#toast");e.innerHTML=esc(m)+(undo?`<button data-act="undo">${t("undo")}</button>`:"");e.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(()=>e.classList.remove("show"),undo?5000:1800)}
 
 /* ===== risk ===== */
 function risk(p,d,m,w){const c=w||climate(d,m),mean=(c.max+c.min)/2;
@@ -568,7 +573,7 @@ function mapSVG(opts){ /* opts: {interactive, spread, labels} */
   const tops=ids.map(id=>{const p=MAP.paths[id];return `<g class="dist" ${opts.interactive?`data-d="${id}"`:''} style="transform:translate(${opts.spread?p.sx:0}px,${opts.spread?p.sy:0}px)">
      <g clip-path="url(#cp-${opts.k}-${id})"><rect x="0" y="0" width="${W}" height="${H}" fill="${TINT[D[id].z]}"/><image href="images/terrain.webp" x="-20" y="-20" width="${W+40}" height="${H+40}" preserveAspectRatio="xMidYMid slice"/><path class="tint" d="${p.d}" fill="${TINT[D[id].z]}" opacity=".28"/></g>
      <path class="edge" d="${p.d}"/></g>`}).join("");
-  const labels=opts.labels?ids.map(id=>{const p=MAP.paths[id];return `<text class="lbl" x="${p.cx+(opts.spread?p.sx:0)}" y="${p.cy+4+(opts.spread?p.sy:0)}">${esc(D[id].n)}</text>`}).join(""):"";
+  const labels=opts.labels?ids.map(id=>{const p=MAP.paths[id];return `<text class="lbl ${opts.k==='mini'?'lg':''}" x="${p.cx+(opts.spread?p.sx:0)}" y="${p.cy+4+(opts.spread?p.sy:0)}">${esc(D[id].n)}</text>`}).join(""):"";
   return `<svg viewBox="-30 -30 ${W+60} ${H+70}" role="img" aria-label="Map of Lesotho districts"><defs>${clips}</defs><g>${sides}</g><g id="tops-${opts.k}">${tops}</g><g id="sel-${opts.k}"></g><g id="hov-${opts.k}"></g><g>${labels}</g></svg>`;
 }
 function liftHTML(id,sel){const p=MAP.paths[id],W=MAP.w,H=MAP.h;
@@ -599,12 +604,12 @@ const bar=(dark,back)=>`<div class="bar ${dark?'dark':''}">${back?`<button class
 
 function vHome(){
   const farm=S.farm.map((f,i)=>{const c=crop(f.c),d=D[f.d];if(!c||!d)return"";const tr=topRisk(f.c,f.d);
-    return `<button class="fcard press" data-farm="${i}" style="animation-delay:${.4+i*.08}s">${photo(c)}<span><b>${esc(cropName(c))}</b><small>📍 ${esc(d.n)} · ${esc(tr.p.n)}</small></span><span class="badge ${tr.r.lvl}">${t(tr.r.lvl+"_")}</span></button>`}).join("");
+    return `<div class="frow" style="animation-delay:${.4+i*.08}s"><button class="fcard press" data-farm="${i}">${photo(c)}<span><b>${esc(cropName(c))}</b><small>📍 ${esc(d.n)} · ${esc(tr.p.n)}</small></span><span class="badge ${tr.r.lvl}">${t(tr.r.lvl+"_")}</span></button><button class="fdel press" data-del="${i}" aria-label="${t("remove")}">✕</button></div>`}).join("");
   return `<section class="hero screen"><div class="bg"></div><div class="shade"></div>${bar(true,false)}
    <div class="content"><span class="kicker"><i></i>${t("kick")}</span><h1>${t("h1a")}<br><em>${t("h1b")}</em></h1><p class="lead">${t("lead")}</p>
     ${farm?`<div class="farmh">${t("myfarm")}</div>${farm}`:''}
     <div class="mapcard press" data-act="openmap"><div class="q"><span class="num">1</span><b>${t("q1")}</b></div>
-      <div class="mini">${mapSVG({k:"mini",interactive:false,spread:false,labels:false})}</div>
+      <div class="mini">${mapSVG({k:"mini",interactive:false,spread:false,labels:true})}</div>
       <div class="selbtn pulse">📍 ${t("selreg")}</div></div>
    </div></section>`}
 function vCrop(){const mine=new Set(S.farm.filter(f=>f.d===S.d).map(f=>f.c));
@@ -663,6 +668,7 @@ function vDash(){const c=crop(S.c),d=D[S.d],live=wxNow(),w=live||climate(d,S.m),
    <div class="months" id="months">${t("months").map((m,i)=>`<button class="${S.m===i?'on':''}" data-m="${i}">${esc(m)}</button>`).join("")}</div>
    <div class="seg"><div class="ind" style="transform:translateX(${ti*100}%)"></div>${tabs.map(([k,e])=>`<button class="${S.tab===k?'on':''}" data-t="${k}"><span>${e}</span>${t(k)}</button>`).join("")}</div>
    <div class="pane">${pane}</div>
+   ${S.farm.some(f=>f.d===S.d&&f.c===S.c)?`<button class="rm" data-act="removecur">🗑 ${t("removeFarm")}</button>`:""}
    <a class="wa press" href="https://wa.me/${STORE.wa}?text=${encodeURIComponent(`Hello Foso Hardware 👋 (Roots & Remedy) — I have a problem on my ${c.en} in ${d.n}. I am sending a photo.`)}" target="_blank" rel="noopener"><span class="em">📷</span><span><b>${t("photoB")}</b><small>${t("photoS")}</small></span></a>
    <a class="wa green press" href="https://wa.me/${STORE.wa}?text=${encodeURIComponent(`Hello Foso Hardware 👋 Please add me to Roots & Remedy weekly tips for ${c.en} in ${d.n}.`)}" target="_blank" rel="noopener"><span class="em">🔔</span><span><b>${t("alertB")}</b><small>${t("alertS")}</small></span></a>
   </div></div>`}
@@ -678,11 +684,14 @@ function go(v){hideSheet();closeDet();S.view=v;const run=()=>{render();scrollTo(
 
 document.addEventListener("click",e=>{
   const g=e.target.closest("#tops-big [data-d]");if(g){tick();selectDistrict(g.dataset.d);return}
-  const a=e.target.closest("[data-act],[data-l],[data-farm],[data-c],[data-m],[data-t],[data-p],[data-task],[data-pl]");
+  const a=e.target.closest("[data-act],[data-del],[data-l],[data-farm],[data-c],[data-m],[data-t],[data-p],[data-task],[data-pl]");
   if(!a){if(!e.target.closest("#sheet"))hideSheet();return}
   tick();const ds=a.dataset;
   if(ds.l){S.lang=ds.l;LS.set("rr_lang",S.lang);render(false);return}
   if(ds.act==="openmap"){openMap();return}
+  if(ds.del!=null&&ds.del!==""){const i=+ds.del;S._undo={item:S.farm[i],i};S.farm.splice(i,1);LS.set("rr_farm",S.farm);render(false);toast("🗑 "+t("removed"),true);return}
+  if(ds.act==="removecur"){const i=S.farm.findIndex(f=>f.d===S.d&&f.c===S.c);if(i>=0){S._undo={item:S.farm[i],i};S.farm.splice(i,1);LS.set("rr_farm",S.farm);toast("🗑 "+t("removed"),true);go("home")}return}
+  if(ds.act==="undo"){if(S._undo){S.farm.splice(S._undo.i,0,S._undo.item);LS.set("rr_farm",S.farm);S._undo=null;$("#toast").classList.remove("show");render(false)}return}
   if(ds.act==="closemap"){closeMap();return}
   if(ds.act==="closedet"){closeDet();return}
   if(ds.act==="back"){go(S.view==="dash"?(S.farm.length?"home":"crop"):"home");if(S.view==="home"&&S.c==null){} return}
