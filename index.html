@@ -82,8 +82,8 @@ h1.t{font-family:var(--head);font-weight:800;font-size:34px;line-height:1.05;mar
 .dg{cursor:pointer;transition:transform .45s var(--spring),filter .45s var(--ease);transform-box:fill-box;transform-origin:50% 60%}
 .dg .top{stroke:#fbf7ea;stroke-width:1.6;stroke-linejoin:round;transition:fill .35s var(--ease)}
 .dg .lift{fill:#22412b;opacity:0;transition:opacity .3s}
-.dg.hv,.dg.on{transform:translateY(-12px) scale(1.07);filter:drop-shadow(0 16px 14px rgba(15,42,27,.35))}
-.dg.hv .lift,.dg.on .lift{opacity:1}
+.dg:hover,.dg.hv,.dg.on{transform:translateY(-12px) scale(1.07);filter:drop-shadow(0 16px 14px rgba(15,42,27,.35))}
+.dg:hover .lift,.dg.hv .lift,.dg.on .lift{opacity:1}
 .dg.on .top{fill:url(#gClay)!important}
 .lbl{font:700 11px var(--body);fill:#fff;text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:rgba(15,42,27,.55);stroke-width:3px;transition:opacity .3s}
 .legend2{display:flex;gap:14px;justify-content:center;font-size:12px;color:var(--muted);padding:8px 0 6px}
@@ -412,7 +412,7 @@ const T = {
  en:{kick:"Made in Lesotho · Free", h1a:"Healthy crops,", h1b:"season by season.", lead:"Pick your district and crop. See what pests are coming, how to stop them, and what to feed your plants — with products from Foso Hardware.",
    start:"Start", trust1:"✓ District weather", trust2:"✓ Pest calendar", trust3:"✓ Foso products", myfarm:"My Farm", addcrop:"Add a crop", open:"Open",
    s1:"Step 1 of 2", s2:"Step 2 of 2", pickD:"Where is your farm?", pickDs:"Tap your district on the map.", pickC:"What did you plant?", pickCs:"Tap your crop.",
-   low:"Lowlands", foot:"Foothills", high:"Highlands", choose:"Choose", typical:"Typical now", planted:"When did you plant?", notyet:"Not yet", thism:"This month", m1:"1 month ago", m2:"2 months", m3:"3+ months", save:"Save to My Farm",
+   low:"Lowlands", foothl:"Foothills", high:"Highlands", choose:"Choose", typical:"Typical now", planted:"When did you plant?", notyet:"Not yet", thism:"This month", m1:"1 month ago", m2:"2 months", m3:"3+ months", save:"Save to My Farm",
    pests:"Pests", fert:"Feed", season:"My season", spray:"Spray", legend:"Risk this month", high_:"High", watch_:"Watch", low_:"Low",
    signs:"What you see", prevent:"Prevent", check:"Check", natural:"Natural control", chem:"Chemical — last step", from:"from",
    confirm:"Confirm at the Foso Hardware front desk before you buy or spray.", label:"Read the label: rate, safety gear and days before harvest.", bee:"Toxic to bees — never spray open flowers.",
@@ -426,7 +426,7 @@ const T = {
  st:{kick:"E entsoe Lesotho · Mahala", h1a:"Lijalo tse phetseng,", h1b:"selemo le selemo.", lead:"Khetha setereke le sejalo sa hao. Bona likokonyana tse tlang, mokhoa oa ho li thibela, le manyolo — ka lihlahisoa tsa Foso Hardware.",
    start:"Qala", trust1:"✓ Boemo ba leholimo", trust2:"✓ Khalendara ea likokonyana", trust3:"✓ Lihlahisoa tsa Foso", myfarm:"Polasi ea ka", addcrop:"Eketsa sejalo", open:"Bula",
    s1:"Mohato 1 ho 2", s2:"Mohato 2 ho 2", pickD:"Polasi ea hao e kae?", pickDs:"Tobetsa setereke sa hao 'mapeng.", pickC:"U jetse eng?", pickCs:"Tobetsa sejalo sa hao.",
-   low:"Mabalane", foot:"Maralla", high:"Lithaba", choose:"Khetha", typical:"Hangata joale", planted:"U jetse neng?", notyet:"Ha ke e-so jale", thism:"Khoeling ena", m1:"Khoeli e fetileng", m2:"Likhoeli tse 2", m3:"Likhoeli tse 3+", save:"Boloka ho Polasi ea ka",
+   low:"Mabalane", foothl:"Maralla", high:"Lithaba", choose:"Khetha", typical:"Hangata joale", planted:"U jetse neng?", notyet:"Ha ke e-so jale", thism:"Khoeling ena", m1:"Khoeli e fetileng", m2:"Likhoeli tse 2", m3:"Likhoeli tse 3+", save:"Boloka ho Polasi ea ka",
    pests:"Likokonyana", fert:"Manyolo", season:"Selemo sa ka", spray:"Fafatsa", legend:"Kotsi khoeling ena", high_:"E phahameng", watch_:"Hlokomela", low_:"E tlase",
    signs:"Seo u se bonang", prevent:"Thibela", check:"Hlahloba", natural:"Taolo ea tlhaho", chem:"Lik'hemik'hale — mohato oa ho qetela", from:"ho tloha",
    confirm:"Netefatsa le basebetsi ba Foso Hardware pele u reka kapa u fafatsa.", label:"Bala leibole: tekanyo, liaparo tsa ts'ireletso le matsatsi pele u kotula.", bee:"E kotsi ho linotši — u se ke ua fafatsa lipalesa.",
@@ -517,10 +517,10 @@ function vHome(){
     const tr=topRisk(f.c,f.d);
     return `<button class="fcard press" data-farm="${i}" style="animation-delay:${.5+i*.08}s">${photo(c)}<span><b>${esc(cropName(c))}</b><small>📍 ${esc(d.n)} · ${tr.p.em} ${esc(tr.p.n)}</small></span><span class="rk badge ${tr.r.lvl}">${t(tr.r.lvl+"_")}</span></button>`;
   }).join("");
-  return `<section class="hero screen"><div class="bg"></div>${RIDGE}
+  return `<section class="hero screen"><div class="bg"></div>
     <div style="position:relative;z-index:3">${bar(true,false)}</div>
     <div class="content">
-      <span class="kicker">🇱🇸 ${t("kick")}</span>
+      <span class="kicker">● ${t("kick")}</span>
       <h1>${t("h1a")}<br><em>${t("h1b")}</em></h1>
       <p class="lead">${t("lead")}</p>
       ${farm?`<h3 style="font-family:var(--head);font-size:20px;margin-top:24px">${t("myfarm")}</h3><div class="farm">${farm}</div>`:''}
@@ -534,7 +534,8 @@ function vMap(){
   const ids = Object.keys(MAP.paths);
   const sides = ids.map(id=>`<path class="side" d="${MAP.paths[id].d}" transform="translate(0,9)"/>`).join("");
   const tops = ids.map(id=>{const p=MAP.paths[id];
-    return `<g class="dg ${S.d===id?'on':''}" data-d="${id}"><path class="lift" d="${p.d}" transform="translate(0,9)"/><path class="top" d="${p.d}" fill="${ZONEFILL[D[id].z]}"/><text class="lbl" x="${p.cx}" y="${p.cy+4}">${esc(D[id].n)}</text></g>`;}).join("");
+    return `<g class="dg ${S.d===id?'on':''}" data-d="${id}"><path class="lift" d="${p.d}" transform="translate(0,9)"/><path class="top" d="${p.d}" fill="${ZONEFILL[D[id].z]}"/></g>`;}).join("");
+  const labels = ids.map(id=>{const p=MAP.paths[id]; return `<text class="lbl" data-l2="${id}" x="${p.cx}" y="${p.cy+4}">${esc(D[id].n)}</text>`;}).join("");
   return `<div class="screen">${bar(false,true)}<div class="wrap">
     <span class="step">● ${t("s1")}</span><h1 class="t">${t("pickD")}</h1><p class="sub">${t("pickDs")}</p>
     <div class="mapbox"><svg viewBox="-10 -20 ${MAP.w+20} ${MAP.h+40}" role="img" aria-label="Map of Lesotho districts">
@@ -546,15 +547,15 @@ function vMap(){
         <filter id="soft" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="14" stdDeviation="12" flood-color="#143522" flood-opacity=".25"/></filter>
       </defs>
       <g filter="url(#soft)">${sides}</g>
-      <g id="tops">${tops}</g>
+      <g id="tops">${tops}</g><g id="labels">${labels}</g>
     </svg>
-    <div class="legend2"><span><i style="background:#86b86a"></i>${t("low")}</span><span><i style="background:#66a05a"></i>${t("foot")}</span><span><i style="background:#3f7a4a"></i>${t("high")}</span></div>
+    <div class="legend2"><span><i style="background:#86b86a"></i>${t("low")}</span><span><i style="background:#66a05a"></i>${t("foothl")}</span><span><i style="background:#3f7a4a"></i>${t("high")}</span></div>
     <div class="credit">Boundaries: geoBoundaries (CC BY 4.0)</div></div>
   </div></div>`;
 }
 function sheetDistrict(id){
   const d=D[id], c=climate(d,new Date().getMonth());
-  $("#sheetIn").innerHTML = `<div class="grab"></div><span class="step" style="margin:0">📍 ${t(d.z==='L'?'low':d.z==='F'?'foot':'high')}</span><h3>${esc(d.n)}</h3>
+  $("#sheetIn").innerHTML = `<div class="grab"></div><span class="step" style="margin:0">📍 ${t(d.z==='L'?'low':d.z==='F'?'foothl':'high')}</span><h3>${esc(d.n)}</h3>
     <div class="meta"><span class="tag">☀️ ${t("typical")}: ${c.max}° / ${c.min}°</span><span class="tag">🌧️ ~${c.rain} mm</span>${c.min<=2?`<span class="tag">❄️ ${t("frost")}</span>`:''}</div>
     <button class="btn press" data-act="pickd" data-id="${id}">${t("choose")} ${esc(d.n)} →</button>`;
   $("#sheet").classList.add("show");
@@ -660,7 +661,7 @@ function render(anim=true){
   document.documentElement.lang = S.lang==="st"?"st":"en";
   const html = S.view==="home"?vHome(): S.view==="map"?vMap(): S.view==="crop"?vCrop(): vDash();
   const apply=()=>{
-    $("#app").innerHTML = html + (S.view!=="home"?`<footer><p>${t("foot")}</p><p style="margin-top:8px"><b>Roots & Remedy</b> · Open source · Made in Lesotho 🇱🇸</p></footer>`:'');
+    $("#app").innerHTML = html + (S.view!=="home"?`<footer><p>${t("foot")}</p><p style="margin-top:8px"><b>Roots & Remedy</b> · Open source · Made in Lesotho</p></footer>`:'');
     if(!anim) $("#app").querySelectorAll(".screen,.pane,.pest,.stage,.crop,.fcard").forEach(e=>e.style.animation="none");
     const mo=$("#months"); if(mo){const on=mo.querySelector(".on"); if(on) mo.scrollLeft=on.offsetLeft-80;}
     bindMap();
