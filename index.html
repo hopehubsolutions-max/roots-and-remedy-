@@ -260,6 +260,25 @@ footer b{color:var(--forest)}
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,40px);opacity:0;background:var(--forest);color:#fff;padding:12px 18px;border-radius:999px;font-weight:800;font-size:14px;z-index:90;transition:all .45s var(--spring)}
 .toast.show{transform:translate(-50%,0);opacity:1}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* life cycle */
+.life{margin:18px -2px 6px}.life .lh{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:0 2px 10px}.life .lh b{font-size:17px}.life .lh small{color:#7a7360;font-size:12px;text-align:right}
+.lstrip{display:flex;align-items:center;gap:6px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 12px;-webkit-overflow-scrolling:touch;scrollbar-width:none}.lstrip::-webkit-scrollbar{display:none}
+.lcard{flex:0 0 min(62vw,230px);scroll-snap-align:start;background:#fff;border:1px solid #eadfc3;border-radius:18px;overflow:hidden;text-align:left;padding:0;display:flex;flex-direction:column;box-shadow:0 6px 18px rgba(60,45,10,.08);animation:lin .6s var(--ease) both}
+.lph{position:relative;display:block;aspect-ratio:4/3;overflow:hidden;background:#e9e1cc}.lph img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}.lcard:hover .lph img{transform:scale(1.06)}
+.ln{position:absolute;left:10px;top:10px;width:30px;height:30px;border-radius:50%;background:rgba(20,30,15,.78);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px;backdrop-filter:blur(4px)}
+.lt{display:block;padding:10px 12px 12px}.lt b{display:block;font-size:15px}.lt small{display:block;color:#5e5847;font-size:13px;line-height:1.45;margin-top:3px}
+.larr{flex:none;font-size:20px;color:#b9a77a;font-weight:800}
+@keyframes lin{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+.lbox{position:fixed;inset:0;z-index:200;background:rgba(10,12,8,.92);display:flex;flex-direction:column;justify-content:center;opacity:0;transition:opacity .3s}.lbox.show{opacity:1}
+.lbimg{overflow:auto;max-height:72vh;display:flex;justify-content:center;align-items:center}.lbimg img{max-width:100%;max-height:72vh;object-fit:contain;transition:transform .35s var(--ease);cursor:zoom-in}
+.lbox.zoom .lbimg img{transform:scale(2);cursor:zoom-out}
+.lbcap{color:#f3eee0;padding:14px 18px 24px;max-width:640px;margin:0 auto}.lbcap b{font-size:18px}.lbcap p{margin:6px 0 10px;line-height:1.5;color:#d9d2bf}.lbcap a{color:#b8f15a;font-size:12.5px;text-decoration:none}
+.lbox .close{position:absolute;top:max(14px,env(safe-area-inset-top));right:14px}
+/* living photos */
+.hero2 img{animation:kb 22s ease-in-out infinite alternate;transform-origin:60% 40%}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.12) translate(-2%,-1%)}}
+@media (prefers-reduced-motion:reduce){.hero2 img,.lcard{animation:none}}
 </style>
 </head>
 <body>
@@ -627,13 +646,23 @@ function paneP(){const d=D[S.d],c=crop(S.c),live=wxNow();
   const list=c.pests.map(id=>({id,p:PEST[id],r:risk(PEST[id],d,S.m,live)})).sort((a,b)=>ORDER[a.r.lvl]-ORDER[b.r.lvl]);
   return `<div class="legend"><b style="color:var(--ink)">${t("legend")}:</b><span><i class="dot" style="background:var(--high)"></i>${t("high_")}</span><span><i class="dot" style="background:var(--watch)"></i>${t("watch_")}</span><span><i class="dot" style="background:var(--low)"></i>${t("low_")}</span></div>
    <div class="pgrid">${list.map(({id,p,r},i)=>`<button class="pcard press ${r.lvl}" data-p="${id}" style="animation-delay:${i*.05}s">${pimg(pestImg(id,S.c),p.em,p.n)}<span class="badge ${r.lvl}">${t(r.lvl+"_")}</span><span class="ov"><b>${esc(p.n)}</b><small>${esc(p.k)}</small></span></button>`).join("")}</div>`}
+const LIFE={"tuta":[["larva","tuta-1","Tiny pale caterpillar. Look for see-through tunnels (mines) in leaves and holes in fruit.","Karim Haddad · CC BY · iNaturalist",249230082],["adult","tuta-2","Small grey moth (7 mm). Flies at dusk. Catch them with a Tuta pheromone trap.","no rights reserved · CC0 · iNaturalist",401000778]],"bollworm":[["larva","bollworm-1","Green-brown striped caterpillar. Bores into fruit: look for a round hole.","Emanuele Santarelli · CC BY-SA · iNaturalist",36914644],["adult","bollworm-2","Brown moth with a dark spot. Lays eggs on flowers and young fruit.","SteveM4560 · CC BY · iNaturalist",178812972]],"whitefly":[["egg","whitefly-1","Tiny yellow eggs, often laid in a circle under the leaf.","Helio Lourencini · CC BY · iNaturalist",69816149],["nymph","whitefly-2","Flat, see-through scales stuck under leaves. They suck sap.","Gilles San Martin · CC BY-SA · iNaturalist",135450403],["adult","whitefly-3","Tiny white flies. Shake the plant: a white cloud flies up.","Mike Bowie · CC BY · iNaturalist",35973145]],"aphids":[["nymph","aphids-1","Babies are born alive, so a colony grows in days.","no rights reserved · CC0 · iNaturalist",260772372],["adult","aphids-2","Soft green lice on young shoots and under leaves.","Dr. Guido Bohne · CC BY-SA · iNaturalist",188995702],["winged","aphids-3","Winged ones fly to new plants and spread virus.","no rights reserved · CC0 · iNaturalist",334054490]],"mite":[["adult","mite-1","Tiny 8-legged mites under the leaf. Use a magnifying glass.","Mike Bowie · CC BY · iNaturalist",92339870],["colony","mite-2","Fine webs and bronze, speckled leaves mean many mites.","Malena Lorente · CC BY · iNaturalist",137856812]],"thrips":[["adult","thrips-1","Tiny (1 mm), thin insects with fringed wings.","no rights reserved · CC0 · iNaturalist",10629194],["flower","thrips-2","They hide in flowers. Tap a flower over white paper to see them.","Carlos Patricio Illescas Riquelme · CC BY-SA · iNaturalist",102731632]],"dbm":[["larva","dbm-1","Small green caterpillar that wriggles fast. Makes window-pane holes.","no rights reserved · CC0 · iNaturalist",70568424],["pupa","dbm-2","Net-like cocoon stuck under the leaf.","Michael Berardozzi · CC BY · iNaturalist",260569631],["adult","dbm-3","Slim grey moth with cream diamonds on its back.","Tony Rebelo · CC BY-SA · iNaturalist",403075294]],"cutworm":[["larva","cutworm-1","Fat grey caterpillar that curls into a C. Hides in soil by day: dig next to cut plants.","Tony Rebelo · CC BY-SA · iNaturalist",157324266],["adult","cutworm-2","Dark brown night moth. Lays eggs on weeds and soil.","SteveM4560 · CC BY · iNaturalist",151516376]],"faw":[["larva","faw-1","Upside-down Y on the head and 4 dots near the tail. Hides deep in the whorl.","Helio Lourencini · CC BY · iNaturalist",77866574],["pupa","faw-2","Brown pupa in the soil under the plant.","Juan Cruzado Cortés · CC BY-SA · iNaturalist",787945],["adult","faw-3","Grey-brown moth with a white wing spot. Flies far at night.","SteveM4560 · CC BY · iNaturalist",260987709]],"ptm":[["larva","ptm-1","Small pink-green caterpillar tunnelling in leaves and tubers.","David Rankin · CC BY · iNaturalist",267459830],["adult","ptm-2","Slim grey moth. Keep tubers covered with soil and in storage.","ingridaltmann · CC BY · iNaturalist",162877249]]};
+const STAGE={en:{egg:"Eggs",larva:"Caterpillar",nymph:"Young",pupa:"Pupa (cocoon)",adult:"Adult",winged:"Winged adult",colony:"Colony",flower:"Hiding place"},
+             st:{egg:"Mahe",larva:"Seboko",nymph:"E nyane",pupa:"Pupa",adult:"E holileng",winged:"E nang le mapheo",colony:"Sehlopha",flower:"Moo e ipatang"}};
+const stageName=k=>(STAGE[S.lang]||STAGE.en)[k]||STAGE.en[k];
+function lifeHTML(id){const L=LIFE[id];if(!L)return"";
+  return `<div class="life"><div class="lh"><b>${S.lang==="st"?"Potoloho ea bophelo":"Life cycle"}</b><small>${S.lang==="st"?"Sheba boemo bohle":"Know every stage, catch it early"} · ${L.length} 📸</small></div>
+   <div class="lstrip">${L.map(([st,f,tip,cr,obs],i)=>`<button class="lcard press" data-life="${id}:${i}" style="animation-delay:${.1+i*.08}s"><span class="lph"><img src="images/life/${f}.webp" alt="${esc(stageName(st))}" loading="lazy"><span class="ln">${i+1}</span></span><span class="lt"><b>${esc(stageName(st))}</b><small>${esc(tip)}</small></span></button>${i<L.length-1?'<span class="larr">→</span>':''}`).join("")}</div></div>`}
+function openLife(id,i){const [st,f,tip,cr,obs]=LIFE[id][i];const lb=document.createElement("div");lb.className="lbox";
+  lb.innerHTML=`<div class="lbimg"><img src="images/life/${f}.webp" alt="${esc(stageName(st))}"></div><div class="lbcap"><b>${i+1} · ${esc(stageName(st))}</b><p>${esc(tip)}</p><a href="https://www.inaturalist.org/observations/${obs}" target="_blank" rel="noopener">📷 ${esc(cr)}</a></div><button class="close" aria-label="Close">✕</button>`;
+  lb.addEventListener("click",e=>{if(e.target.closest(".lbimg img")){lb.classList.toggle("zoom");return} if(!e.target.closest("a"))lb.remove()});document.body.appendChild(lb);requestAnimationFrame(()=>lb.classList.add("show"))}
 function openPest(id){
   const p=PEST[id],c=crop(S.c),r=risk(p,D[S.d],S.m,wxNow());
   const step=(n,img,title,txt)=>`<div class="stepc"><div class="sp"><img src="images/ipm/${img}.webp" alt="" loading="lazy" onerror="this.remove()"><span class="n">${n}</span></div><div class="tx"><b>${title}</b><p>${esc(txt)}</p></div></div>`;
   const chem=p.chem.length?`<div class="prods">${p.chem.map(prodTile).join("")}</div><p class="note">${p.chemNote?esc(p.chemNote)+" ":""}${p.nutrient?"":"📄 "+t("label")}</p>`:`<p class="note">${p.chemNote==="noChem"?t("noChem"):t("askDesk")}</p>`;
   $("#det").innerHTML=`<div class="hero2">${pimg(pestImg(id,S.c),p.em,p.n)}<button class="close" data-act="closedet" aria-label="Close">✕</button>
      <div class="ttl"><span class="badge ${r.lvl}">${t(r.lvl+"_")}</span><h2>${esc(p.n)}</h2><div style="opacity:.85;font-size:13px;margin-top:4px">${c.em} ${esc(cropName(c))} · 📍 ${esc(D[S.d].n)}</div></div></div>
-    <div class="body"><div class="see"><span class="ic">👁️</span><div><b>${t("see")}</b><p>${esc(SHORT[id]||p.signs)}</p></div></div><p class="why">${esc(r.why)} ${esc(p.signs)}</p>
+    <div class="body"><div class="see"><span class="ic">👁️</span><div><b>${t("see")}</b><p>${esc(SHORT[id]||p.signs)}</p></div></div><p class="why">${esc(r.why)} ${esc(p.signs)}</p>${lifeHTML(id)}
      <div class="steps">${step(1,"mulch",t("prevent"),p.prevent)}${step(2,"check",t("check"),p.check)}${p.natural&&p.natural!=="—"?step(3,"trap",t("natural"),p.natural):""}
       <div class="stepc chem"><div class="head"><img src="images/ipm/spray.webp" alt="" onerror="this.remove()"><b style="font-size:16px">${p.nutrient?t("nutr"):"4 · "+t("chem")}</b></div>${chem}</div></div>
      <div class="confirm"><span class="ic">✅</span><span>${t("confirm")}</span></div>
@@ -684,7 +713,7 @@ function go(v){hideSheet();closeDet();S.view=v;const run=()=>{render();scrollTo(
 
 document.addEventListener("click",e=>{
   const g=e.target.closest("#tops-big [data-d]");if(g){tick();selectDistrict(g.dataset.d);return}
-  const a=e.target.closest("[data-act],[data-del],[data-l],[data-farm],[data-c],[data-m],[data-t],[data-p],[data-task],[data-pl]");
+  const a=e.target.closest("[data-act],[data-del],[data-l],[data-farm],[data-c],[data-m],[data-t],[data-p],[data-task],[data-pl],[data-life]");
   if(!a){if(!e.target.closest("#sheet"))hideSheet();return}
   tick();const ds=a.dataset;
   if(ds.l){S.lang=ds.l;LS.set("rr_lang",S.lang);render(false);return}
@@ -694,6 +723,7 @@ document.addEventListener("click",e=>{
   if(ds.act==="undo"){if(S._undo){S.farm.splice(S._undo.i,0,S._undo.item);LS.set("rr_farm",S.farm);S._undo=null;$("#toast").classList.remove("show");render(false)}return}
   if(ds.act==="closemap"){closeMap();return}
   if(ds.act==="closedet"){closeDet();return}
+  if(ds.life){const [pid,ix]=ds.life.split(":");openLife(pid,+ix);return}
   if(ds.act==="back"){go(S.view==="dash"?(S.farm.length?"home":"crop"):"home");if(S.view==="home"&&S.c==null){} return}
   if(ds.act==="pickd"){S.d=ds.id;S.wx=null;loadWx();closeMap();go("crop");return}
   if(ds.farm){const f=S.farm[+ds.farm];S.d=f.d;S.c=f.c;S.tab="pests";S.m=new Date().getMonth();S.wx=null;loadWx();go("dash");return}
