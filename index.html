@@ -3,136 +3,220 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#143522">
+<meta name="description" content="Roots & Remedy Agri Guide — free crop pest, disease and fertiliser guide for farmers in Lesotho.">
 <title>Roots & Remedy Agri Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --forest:#1d4a2c; --forest2:#2a6a3e; --leaf:#3f9b52; --soil:#6b4a2b; --sun:#e8b33a;
-  --cream:#f7f4ea; --card:#ffffff; --ink:#1b2a20; --muted:#5f6d63; --line:#e3ddc9;
-  --high:#c4412e; --high-bg:#fbe6e2; --watch:#c98a12; --watch-bg:#fdf1d6; --low:#2f8a46; --low-bg:#e3f3e6;
-  --r:16px;
+  --night:#0f2a1b; --forest:#143522; --forest2:#1f4d31; --leaf:#4f9a5b; --leaf2:#7fb069; --sand:#efe7d2; --cream:#f8f5ec;
+  --clay:#c4683b; --clay2:#e08a5a; --sun:#e9b949; --ink:#17251c; --muted:#66756b; --line:#e4dcc6; --card:#fff;
+  --high:#c4412e; --high-bg:#fbe5e0; --watch:#b97c0c; --watch-bg:#fbf0d4; --low:#2f8a46; --low-bg:#e2f2e5;
+  --r:22px; --spring:cubic-bezier(.2,.9,.25,1.15); --ease:cubic-bezier(.22,.8,.24,1);
+  --head:"Fraunces",Georgia,serif; --body:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--cream);color:var(--ink);line-height:1.45;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--cream)}
+body{font-family:var(--body);color:var(--ink);line-height:1.45;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
-.wrap{max-width:560px;margin:0 auto;padding:0 16px 40px}
-header{background:var(--forest);color:#fff;padding:14px 16px 16px;position:sticky;top:0;z-index:5;box-shadow:0 2px 12px rgba(0,0,0,.15)}
-.hrow{max-width:560px;margin:0 auto;display:flex;align-items:center;gap:10px}
-.logo{width:38px;height:38px;border-radius:10px;background:var(--leaf);display:grid;place-items:center;flex:none}
-.brand{flex:1;min-width:0}
-.brand b{display:block;font-size:17px;letter-spacing:.2px}
-.brand span{font-size:12px;opacity:.8}
-.lang{display:flex;background:rgba(255,255,255,.14);border-radius:999px;padding:3px}
-.lang button{padding:6px 10px;border-radius:999px;font-size:13px;font-weight:600;color:#fff;opacity:.75}
-.lang button.on{background:#fff;color:var(--forest);opacity:1}
-.chips{max-width:560px;margin:10px auto 0;display:flex;gap:8px;flex-wrap:wrap}
-.chip{background:rgba(255,255,255,.14);color:#fff;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;display:flex;gap:6px;align-items:center}
-.chip small{opacity:.75;font-weight:500}
-h1{font-size:22px;margin:22px 0 4px}
-h2{font-size:18px;margin:22px 0 10px}
-.sub{color:var(--muted);font-size:14px;margin-bottom:14px}
-.step{display:inline-block;background:var(--forest);color:#fff;font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;margin-top:20px}
-/* district map */
-.map{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#e9e2cc;border-radius:var(--r);padding:10px;position:relative}
-.map .d{background:var(--card);border-radius:12px;min-height:78px;padding:10px 8px;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;border:2px solid transparent;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.map .d b{font-size:14px}
-.map .d small{font-size:11px;color:var(--muted)}
-.map .d.hl{background:#eef5ee}
-.map .d.on{border-color:var(--leaf);background:#e3f3e6}
-.map .m{border-radius:12px;background:repeating-linear-gradient(135deg,#ddd3b6 0 6px,#e5dcc2 6px 12px);min-height:78px}
-.compass{font-size:11px;color:var(--muted);text-align:right;margin-top:6px}
+img{display:block;max-width:100%}
+.screen{min-height:100vh;animation:enter .55s var(--ease) both}
+@keyframes enter{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.42s;animation-timing-function:var(--ease)}
+.wrap{max-width:620px;margin:0 auto;padding:0 18px 48px}
+.press{transition:transform .25s var(--spring),box-shadow .25s var(--ease)}
+.press:active{transform:scale(.965)}
+
+/* top bar */
+.bar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:12px 18px;background:rgba(248,245,236,.82);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid rgba(0,0,0,.05)}
+.bar.dark{background:rgba(15,42,27,.55);border-color:rgba(255,255,255,.08);color:#fff}
+.back{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(0,0,0,.06)}
+.bar.dark .back{background:rgba(255,255,255,.14)}
+.brand{flex:1;display:flex;align-items:center;gap:9px;font-family:var(--head);font-weight:800;font-size:18px;letter-spacing:.2px}
+.lang{display:flex;background:rgba(0,0,0,.07);border-radius:999px;padding:3px;position:relative}
+.bar.dark .lang{background:rgba(255,255,255,.14)}
+.lang button{position:relative;z-index:1;padding:6px 11px;border-radius:999px;font-size:12.5px;font-weight:700;opacity:.7;transition:opacity .2s,color .2s}
+.lang button.on{opacity:1;background:#fff;color:var(--forest);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+
+/* hero */
+.hero{position:relative;min-height:100vh;color:#fff;display:flex;flex-direction:column;overflow:hidden;background:var(--night)}
+.hero .bg{position:absolute;inset:0;background:
+   linear-gradient(180deg,rgba(10,30,19,.25) 0%,rgba(10,30,19,.15) 35%,rgba(10,30,19,.85) 78%,var(--night) 100%),
+   url(images/landscape.webp) center/cover no-repeat,
+   radial-gradient(120% 70% at 70% 10%,#e9b949 0%,#c4683b 22%,#3d5f3a 55%,#143522 100%);
+   transform:scale(1.06);animation:slowzoom 18s ease-out both}
+@keyframes slowzoom{from{transform:scale(1.14)}to{transform:scale(1.04)}}
+.hero .ridge{position:absolute;left:0;right:0;bottom:0;height:46%;pointer-events:none;opacity:.9}
+.hero .content{position:relative;z-index:2;margin-top:auto;padding:0 22px 40px;max-width:620px;width:100%;align-self:center}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);padding:7px 12px;border-radius:999px;animation:rise .7s .1s var(--ease) both}
+.hero h1{font-family:var(--head);font-weight:800;font-size:clamp(40px,11vw,64px);line-height:.98;margin:16px 0 12px;letter-spacing:-.5px;animation:rise .8s .2s var(--ease) both}
+.hero h1 em{font-style:normal;color:var(--sun)}
+.hero p.lead{font-size:17px;opacity:.88;max-width:440px;animation:rise .8s .3s var(--ease) both}
+.cta{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:#fff;color:var(--forest);font-weight:800;font-size:17px;padding:17px 22px;border-radius:18px;margin-top:26px;box-shadow:0 14px 34px rgba(0,0,0,.28);animation:rise .8s .42s var(--ease) both}
+.cta.clay{background:var(--clay);color:#fff}
+.trust{display:flex;gap:16px;margin-top:18px;font-size:12.5px;opacity:.8;flex-wrap:wrap;animation:rise .8s .5s var(--ease) both}
+
+/* my farm */
+.farm{margin-top:18px;display:grid;gap:12px}
+.fcard{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:12px 14px;text-align:left;width:100%;animation:rise .7s var(--ease) both}
+.fcard .ph{width:56px;height:56px;flex:none;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35))}
+.fcard b{display:block;font-size:16px}
+.fcard small{opacity:.8;font-size:12.5px}
+.fcard .rk{margin-left:auto;font-size:11px;font-weight:800;text-transform:uppercase;padding:5px 9px;border-radius:999px}
+
+/* headings */
+.step{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--clay);margin-top:24px}
+h1.t{font-family:var(--head);font-weight:800;font-size:34px;line-height:1.05;margin:8px 0 6px;letter-spacing:-.3px}
+.sub{color:var(--muted);font-size:15px}
+
+/* map */
+.mapbox{position:relative;margin-top:14px;border-radius:28px;padding:10px 6px 4px;background:
+  radial-gradient(90% 70% at 50% 35%,#fffdf6 0%,#efe7d2 70%,#e5dbc0 100%);box-shadow:inset 0 1px 0 #fff,0 18px 40px rgba(20,53,34,.12);overflow:hidden}
+.mapbox svg{width:100%;height:auto;display:block;overflow:visible}
+.side{fill:#2b4d33}
+.dg{cursor:pointer;transition:transform .45s var(--spring),filter .45s var(--ease);transform-box:fill-box;transform-origin:50% 60%}
+.dg .top{stroke:#fbf7ea;stroke-width:1.6;stroke-linejoin:round;transition:fill .35s var(--ease)}
+.dg .lift{fill:#22412b;opacity:0;transition:opacity .3s}
+.dg.hv,.dg.on{transform:translateY(-12px) scale(1.07);filter:drop-shadow(0 16px 14px rgba(15,42,27,.35))}
+.dg.hv .lift,.dg.on .lift{opacity:1}
+.dg.on .top{fill:url(#gClay)!important}
+.lbl{font:700 11px var(--body);fill:#fff;text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:rgba(15,42,27,.55);stroke-width:3px;transition:opacity .3s}
+.legend2{display:flex;gap:14px;justify-content:center;font-size:12px;color:var(--muted);padding:8px 0 6px}
+.legend2 i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.credit{font-size:10.5px;color:var(--muted);text-align:right;padding:0 10px 6px}
+
+/* bottom sheet */
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:40;transform:translateY(110%);transition:transform .5s var(--spring)}
+.sheet.show{transform:none}
+.sheet .in{max-width:620px;margin:0 auto;background:#fff;border-radius:28px 28px 0 0;padding:10px 20px 26px;box-shadow:0 -20px 50px rgba(15,42,27,.25)}
+.grab{width:42px;height:5px;border-radius:9px;background:#ddd;margin:0 auto 14px}
+.sheet h3{font-family:var(--head);font-size:28px;font-weight:800}
+.sheet .meta{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 4px}
+.tag{font-size:12.5px;font-weight:600;background:var(--sand);border-radius:999px;padding:6px 11px}
+.sheet .ph{width:64px;height:64px;flex:none;filter:drop-shadow(0 8px 10px rgba(0,0,0,.2))}
+.sheet .ph.emoji{font-size:48px}
+.fcard .ph.emoji{font-size:40px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--forest);color:#fff;border-radius:16px;padding:16px;font-weight:800;font-size:16px;margin-top:16px}
+
 /* crops */
-.crops{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.crop{background:var(--card);border-radius:var(--r);padding:16px 10px;text-align:center;border:2px solid transparent;box-shadow:0 1px 4px rgba(0,0,0,.07)}
-.crop .ic{font-size:52px;line-height:1.1}
-.crop b{display:block;font-size:16px;margin-top:6px}
-.crop small{color:var(--muted);font-size:12px}
-.crop.on{border-color:var(--leaf)}
+.crops{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:18px}
+.crop{position:relative;background:linear-gradient(180deg,#fff 0%,#f6f1e4 100%);border-radius:var(--r);padding:16px 12px 14px;text-align:center;box-shadow:0 2px 0 rgba(0,0,0,.02),0 10px 24px rgba(20,53,34,.08);border:2px solid transparent;animation:rise .6s var(--ease) both}
+.crop .ph{width:110px;height:110px;margin:0 auto;filter:drop-shadow(0 12px 12px rgba(20,53,34,.22));transition:transform .45s var(--spring)}
+.crop:hover .ph{transform:translateY(-6px) rotate(-3deg) scale(1.05)}
+.crop b{display:block;font-family:var(--head);font-size:19px;margin-top:8px}
+.crop small{color:var(--muted);font-size:12.5px}
+.crop .mine{position:absolute;top:10px;right:10px;background:var(--leaf);color:#fff;font-size:10.5px;font-weight:800;padding:4px 8px;border-radius:999px}
+.ph.emoji{display:grid;place-items:center;font-size:72px}
+
+/* planted chips */
+.chips2{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.chips2 button{background:var(--sand);border-radius:999px;padding:10px 14px;font-weight:700;font-size:14px;transition:background .25s,color .25s,transform .25s var(--spring)}
+.chips2 button.on{background:var(--forest);color:#fff}
+
 /* dashboard */
-.wx{background:linear-gradient(135deg,var(--forest2),var(--forest));color:#fff;border-radius:var(--r);padding:16px;margin-top:16px}
-.wx .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-.wx h3{font-size:15px;font-weight:600;opacity:.9}
-.wx .big{font-size:30px;font-weight:800;margin-top:2px}
-.wx .row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
-.wx .pill{background:rgba(255,255,255,.15);border-radius:10px;padding:6px 10px;font-size:13px}
-.wx .src{font-size:11px;opacity:.7;margin-top:10px}
-.months{display:flex;gap:6px;overflow-x:auto;padding:12px 0 4px;scrollbar-width:none}
+.dhero{position:relative;margin-top:14px;border-radius:28px;padding:20px;color:#fff;overflow:hidden;background:linear-gradient(135deg,#1f4d31 0%,#143522 60%,#0f2a1b 100%);box-shadow:0 18px 40px rgba(20,53,34,.25)}
+.dhero .ph{position:absolute;right:-14px;bottom:-14px;width:150px;height:150px;filter:drop-shadow(0 14px 18px rgba(0,0,0,.45));animation:float 6s ease-in-out infinite}
+.dhero .ph.emoji{font-size:110px}
+.dhero h2{font-family:var(--head);font-weight:800;font-size:30px;line-height:1.05;max-width:60%}
+.dhero .loc{font-size:13px;opacity:.8;margin-top:4px}
+.wx{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;max-width:70%}
+.wx span{background:rgba(255,255,255,.14);border-radius:12px;padding:7px 10px;font-size:13px;font-weight:600}
+.src{font-size:11px;opacity:.65;margin-top:10px;max-width:62%}
+.months{display:flex;gap:7px;overflow-x:auto;padding:16px 2px 4px;scrollbar-width:none;scroll-behavior:smooth}
 .months::-webkit-scrollbar{display:none}
-.months button{flex:none;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:600;color:var(--muted)}
-.months button.on{background:var(--forest);border-color:var(--forest);color:#fff}
-.tabs{display:grid;grid-template-columns:repeat(3,1fr);background:#e9e2cc;border-radius:12px;padding:4px;margin-top:14px;gap:4px}
-.tabs button{padding:10px 4px;border-radius:9px;font-size:13px;font-weight:700;color:var(--muted)}
-.tabs button.on{background:var(--card);color:var(--forest);box-shadow:0 1px 3px rgba(0,0,0,.08)}
-.legend{display:flex;gap:12px;font-size:12px;color:var(--muted);margin:14px 0 8px;flex-wrap:wrap}
-.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:-1px}
-.pest{background:var(--card);border-radius:var(--r);margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.07);overflow:hidden;border-left:6px solid var(--line)}
-.pest.high{border-left-color:var(--high)} .pest.watch{border-left-color:var(--watch)} .pest.low{border-left-color:var(--low)}
-.pest .hd{display:flex;align-items:center;gap:12px;padding:14px;width:100%;text-align:left}
-.pest .em{font-size:34px;flex:none;width:44px;text-align:center}
+.months button{flex:none;background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 13px;font-size:13px;font-weight:700;color:var(--muted);transition:all .3s var(--ease)}
+.months button.on{background:var(--forest);border-color:var(--forest);color:#fff;transform:scale(1.04)}
+.seg{position:relative;display:grid;grid-template-columns:repeat(4,1fr);background:#e9e1c9;border-radius:16px;padding:4px;margin-top:14px}
+.seg .ind{position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/4);background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:transform .45s var(--spring)}
+.seg button{position:relative;z-index:1;padding:11px 2px;font-size:12.5px;font-weight:800;color:var(--muted);transition:color .3s}
+.seg button.on{color:var(--forest)}
+.seg button span{display:block;font-size:18px;margin-bottom:1px}
+.pane{animation:rise .45s var(--ease) both}
+.legend{display:flex;gap:12px;font-size:12px;color:var(--muted);margin:16px 2px 10px;flex-wrap:wrap}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+.pest{background:#fff;border-radius:20px;margin-bottom:12px;box-shadow:0 8px 22px rgba(20,53,34,.07);overflow:hidden;position:relative;animation:rise .5s var(--ease) both}
+.pest::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--line)}
+.pest.high::before{background:var(--high)}.pest.watch::before{background:var(--watch)}.pest.low::before{background:var(--low)}
+.pest .hd{display:flex;align-items:center;gap:12px;padding:15px 14px 15px 18px;width:100%;text-align:left}
+.pest .em{width:46px;height:46px;border-radius:14px;background:var(--cream);display:grid;place-items:center;font-size:26px;flex:none}
 .pest .nm{flex:1;min-width:0}
 .pest .nm b{display:block;font-size:16px}
-.pest .nm small{color:var(--muted);font-size:12px}
-.badge{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:5px 9px;border-radius:999px;flex:none}
-.badge.high{background:var(--high-bg);color:var(--high)} .badge.watch{background:var(--watch-bg);color:var(--watch)} .badge.low{background:var(--low-bg);color:var(--low)}
-.body{padding:0 14px 14px;display:none}
-.pest.open .body{display:block}
-.why{font-size:13px;background:var(--cream);border-radius:10px;padding:8px 10px;color:var(--muted);margin-bottom:10px}
-.ipm{display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
-.ipm .n{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:15px}
-.ipm .n.s{background:#eef0f7} .ipm .n.p{background:#e3f3e6} .ipm .n.c{background:#fdf1d6} .ipm .n.b{background:#e6f1f7} .ipm .n.x{background:#fbe6e2}
-.ipm b{font-size:14px;display:block}
-.ipm p{font-size:14px;color:#33433a}
-.prod{background:#fff8f0;border:1px solid #f0dcc0;border-radius:12px;padding:10px 12px;margin-top:8px}
-.prod b{font-size:14px}
-.prod small{display:block;color:var(--muted);font-size:12px}
-.prod .pr{float:right;font-weight:800;color:var(--soil);font-size:14px}
-.confirm{display:flex;gap:8px;align-items:flex-start;background:#eef5ee;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:13px;font-weight:600;color:var(--forest)}
-.warn{font-size:12px;color:var(--high);margin-top:6px}
-.stage{display:flex;gap:12px;background:var(--card);border-radius:var(--r);padding:14px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
-.stage .em{font-size:30px;flex:none;width:40px;text-align:center}
-.stage b{display:block;font-size:15px}
-.stage .when{font-size:12px;font-weight:700;color:var(--leaf);text-transform:uppercase;letter-spacing:.3px}
-.stage p{font-size:14px;color:#33433a;margin-top:2px}
+.pest .nm small{color:var(--muted);font-size:12.5px}
+.chev{transition:transform .4s var(--spring);opacity:.5}
+.pest.open .chev{transform:rotate(180deg)}
+.badge{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:5px 9px;border-radius:999px;flex:none}
+.badge.high{background:var(--high-bg);color:var(--high)}.badge.watch{background:var(--watch-bg);color:var(--watch)}.badge.low{background:var(--low-bg);color:var(--low)}
+.body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--ease)}
+.pest.open .body{grid-template-rows:1fr}
+.body>div{overflow:hidden}
+.body .pad{padding:0 16px 16px 18px}
+.why{font-size:13px;background:var(--cream);border-radius:12px;padding:9px 11px;color:var(--muted);margin-bottom:6px}
+.ipm{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.ipm .n{flex:none;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-size:16px}
+.n.s{background:#eef0f7}.n.p{background:#e2f2e5}.n.c{background:#fbf0d4}.n.b{background:#e3eff7}.n.x{background:#fbe5e0}
+.ipm b{font-size:14px;display:block;margin-bottom:2px}
+.ipm p{font-size:14.5px;color:#33433a}
+.prod{display:flex;align-items:center;gap:10px;background:#fff8ef;border:1px solid #f1dcc0;border-radius:14px;padding:10px 12px;margin-top:8px}
+.prod .pi{width:34px;height:34px;border-radius:10px;background:#fff;display:grid;place-items:center;font-size:18px;flex:none;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.prod b{font-size:14px;display:block}
+.prod small{color:var(--muted);font-size:12px}
+.prod .pr{margin-left:auto;font-weight:800;color:var(--clay);font-size:14px;white-space:nowrap}
+.confirm{display:flex;gap:8px;align-items:flex-start;background:#e2f2e5;border-radius:14px;padding:11px 12px;margin-top:12px;font-size:13px;font-weight:700;color:var(--forest2)}
+.warn{font-size:12px;color:var(--high);margin-top:4px}
+.note{font-size:13px;color:var(--muted);margin-top:8px}
+.stage{position:relative;display:flex;gap:14px;padding:0 0 18px 0;animation:rise .5s var(--ease) both}
+.stage .rail{flex:none;width:44px;display:flex;flex-direction:column;align-items:center}
+.stage .dotc{width:44px;height:44px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:22px;box-shadow:0 6px 16px rgba(20,53,34,.12);z-index:1}
+.stage .line{flex:1;width:3px;background:var(--line);margin-top:4px;border-radius:3px}
+.stage:last-child .line{display:none}
+.stage .card{flex:1;background:#fff;border-radius:20px;padding:14px;box-shadow:0 8px 22px rgba(20,53,34,.07)}
+.stage.now .dotc{background:var(--clay);box-shadow:0 0 0 6px rgba(196,104,59,.18)}
+.stage.now .card{outline:2px solid var(--clay)}
+.when{font-size:11.5px;font-weight:800;color:var(--leaf);text-transform:uppercase;letter-spacing:.5px}
+.stage.now .when{color:var(--clay)}
+.stage b.tt{display:block;font-size:16px;margin:2px 0}
+.stage p{font-size:14.5px;color:#33433a}
+.here{display:inline-block;background:var(--clay);color:#fff;font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:999px;margin-left:6px;vertical-align:2px}
+.ring{display:flex;align-items:center;gap:16px;background:#fff;border-radius:22px;padding:16px;box-shadow:0 8px 22px rgba(20,53,34,.07);margin-top:16px}
+.ring svg{flex:none}
+.ring b{font-family:var(--head);font-size:22px;display:block}
+.task{display:flex;align-items:center;gap:12px;background:#fff;border-radius:16px;padding:13px 14px;margin-top:10px;box-shadow:0 4px 14px rgba(20,53,34,.05);width:100%;text-align:left;transition:opacity .3s,transform .3s var(--spring)}
+.task .ck{width:26px;height:26px;border-radius:8px;border:2px solid var(--line);flex:none;display:grid;place-items:center;transition:all .3s var(--spring)}
+.task.done .ck{background:var(--leaf);border-color:var(--leaf);color:#fff;transform:scale(1.08)}
+.task.done span.tx{text-decoration:line-through;opacity:.55}
+.task span.tx{font-size:14.5px;font-weight:600}
 .days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px}
-.day{background:var(--card);border-radius:12px;padding:8px 2px;text-align:center;font-size:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.day .e{font-size:22px;display:block;margin:2px 0}
+.day{background:#fff;border-radius:14px;padding:9px 2px;text-align:center;font-size:12px;box-shadow:0 4px 12px rgba(20,53,34,.06)}
+.day .e{font-size:22px;display:block;margin:3px 0}
 .day.good{outline:2px solid var(--low)}
-.tip{background:var(--card);border-radius:var(--r);padding:14px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.07);display:flex;gap:12px}
-.tip .em{font-size:28px;flex:none}
-.tip p{font-size:14px}
-.cta{display:flex;align-items:center;gap:12px;background:var(--soil);color:#fff;border-radius:var(--r);padding:14px 16px;margin-top:18px;text-decoration:none}
-.cta .em{font-size:30px}
-.cta b{display:block;font-size:15px}
-.cta small{opacity:.85;font-size:12px}
-.btn{display:block;width:100%;background:var(--forest);color:#fff;border-radius:14px;padding:14px;font-weight:700;font-size:16px;margin-top:16px;text-align:center}
-.ghost{background:transparent;color:var(--forest);border:2px solid var(--forest)}
-footer{max-width:560px;margin:0 auto;padding:18px 16px 40px;font-size:12px;color:var(--muted);text-align:center}
+.tip{display:flex;gap:12px;background:#fff;border-radius:18px;padding:14px;margin-top:10px;box-shadow:0 4px 14px rgba(20,53,34,.05)}
+.tip .em{font-size:26px;flex:none}
+.tip p{font-size:14.5px}
+h3.h{font-family:var(--head);font-size:21px;margin:22px 0 4px}
+.wa{display:flex;align-items:center;gap:14px;border-radius:22px;padding:16px;margin-top:18px;text-decoration:none;color:#fff;background:linear-gradient(135deg,var(--clay) 0%,#a9532c 100%);box-shadow:0 14px 30px rgba(196,104,59,.3)}
+.wa.green{background:linear-gradient(135deg,#25a35a 0%,#1a7d43 100%);box-shadow:0 14px 30px rgba(37,163,90,.25)}
+.wa .em{font-size:30px}
+.wa b{display:block;font-size:15.5px}
+.wa small{opacity:.88;font-size:12.5px}
+footer{max-width:620px;margin:0 auto;padding:10px 18px 40px;font-size:12px;color:var(--muted);text-align:center}
 footer b{color:var(--forest)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,40px);opacity:0;background:var(--forest);color:#fff;padding:12px 18px;border-radius:999px;font-weight:700;font-size:14px;z-index:60;transition:all .45s var(--spring);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.toast.show{transform:translate(-50%,0);opacity:1}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<header>
-  <div class="hrow">
-    <div class="logo" aria-hidden="true">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 21V11" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M12 12C12 7 15 4 20 4c0 5-3 8-8 8Z" fill="#fff"/><path d="M12 14C12 10 9.5 8 5 8c0 4 2.5 6 7 6Z" fill="#cfe9d4"/><path d="M8 21h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-    </div>
-    <div class="brand"><b>Roots & Remedy</b><span id="tagline">Agri Guide · Lesotho</span></div>
-    <div class="lang"><button data-l="en">EN</button><button data-l="st">ST</button></div>
-  </div>
-  <div class="chips" id="chips"></div>
-</header>
-
-<main class="wrap" id="app"></main>
-
-<footer>
-  <p id="foot1"></p>
-  <p style="margin-top:8px"><b>Roots & Remedy</b> · Open source · Made in Lesotho</p>
-</footer>
-
+<div id="app"></div>
+<div class="sheet" id="sheet"><div class="in" id="sheetIn"></div></div>
+<div class="toast" id="toast"></div>
 <script>
 /* ================= STORE ================= */
 const STORE = { name:"Foso Hardware", wa:"26663423355", waShow:"+266 63423355", phone:"+266 57543808" };
-
-/* Foso Hardware products (from fosohardware.netlify.app) — smallest pack price in Maloti */
 const P = {
   "Mirador 250 SC":            {what:"Azoxystrobin fungicide (strobilurin)", pack:"1L", price:380},
   "Strobin 250 SC":            {what:"Strobilurin fungicide", pack:"1L", price:360},
@@ -160,73 +244,7 @@ const P = {
   "Knapsack Sprayer 16L":      {what:"Backpack sprayer", pack:"16L", price:620}
 };
 
-/* ================= TEXT ================= */
-const T = {
-  en:{tag:"Agri Guide · Lesotho", s1:"Step 1", s2:"Step 2", pickD:"Where is your farm?", pickDs:"Tap your district.", pickC:"What did you plant?", pickCs:"Tap your crop.",
-      north:"North ↑ · Schematic map", low:"Lowlands", foot:"Foothills", high:"Highlands",
-      pests:"Problems", fert:"Fertiliser", spray:"Spray days", month:"Month",
-      weatherT:"Typical weather", weatherL:"Weather now", maxT:"Day", minT:"Night", rain:"Rain", frost:"Frost risk",
-      high_:"High", watch_:"Watch", low_:"Low", legend:"Risk this month",
-      signs:"Signs", prevent:"Prevent", check:"Check", natural:"Natural control", chem:"Chemical — last step",
-      from:"from", confirm:"Confirm at the Foso Hardware front desk before you buy or spray.",
-      label:"Read the label: rate, safety gear and days before harvest.",
-      bee:"Toxic to bees — never spray open flowers.",
-      noChem:"No chemical cure. Remove sick plants and follow the steps above.",
-      askDesk:"Ask at the front desk for a registered product for this problem.",
-      photoB:"Send a photo of your crop", photoS:"WhatsApp Foso Hardware · AI photo check coming soon",
-      change:"Change", seed:"Seed at Foso",
-      foot:"Educational guide only. Always follow the product label. Confirm at the Foso Hardware front desk before buying or spraying.",
-      climNote:"Typical climate for this district (approx.). Live weather works when the guide runs on its own website.",
-      liveNote:"Live forecast · Open-Meteo",
-      sprayH:"Good spray day", sprayTips:"Spray tips",
-      whySeason:"In season this month.", whyWet:"Wet months raise this risk.", whyHot:"Hot, dry weather raises this risk.", whyWarm:"Warm weather speeds it up.", whyOut:"Not usually a problem this month.", whyCold:"Too cold here this month.",
-      months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]},
-  st:{tag:"Tataiso ea Temo · Lesotho", s1:"Mohato 1", s2:"Mohato 2", pickD:"Polasi ea hao e kae?", pickDs:"Tobetsa setereke sa hao.", pickC:"U jetse eng?", pickCs:"Tobetsa sejalo sa hao.",
-      north:"Leboea ↑ · 'Mapa o bonolo", low:"Mabalane", foot:"Lithaba tse tlase", high:"Lithaba",
-      pests:"Mathata", fert:"Manyolo", spray:"Matsatsi a ho fafatsa", month:"Khoeli",
-      weatherT:"Boemo ba leholimo bo tloaelehileng", weatherL:"Boemo ba leholimo hona joale", maxT:"Motšehare", minT:"Bosiu", rain:"Pula", frost:"Kotsi ea serame",
-      high_:"E phahameng", watch_:"Hlokomela", low_:"E tlase", legend:"Kotsi khoeling ena",
-      signs:"Matšoao", prevent:"Thibela", check:"Hlahloba", natural:"Taolo ea tlhaho", chem:"Lik'hemik'hale — mohato oa ho qetela",
-      from:"ho tloha", confirm:"Netefatsa le basebetsi ba Foso Hardware pele u reka kapa u fafatsa.",
-      label:"Bala leibole: tekanyo, liaparo tsa ts'ireletso le matsatsi pele u kotula.",
-      bee:"E kotsi ho linotši — u se ke ua fafatsa lipalesa.",
-      noChem:"Ha ho moriana o phekolang. Tlosa limela tse kulang.",
-      askDesk:"Botsa basebetsi ba Foso Hardware ka moriana o ngolisitsoeng.",
-      photoB:"Romela setšoantšo sa sejalo", photoS:"WhatsApp Foso Hardware · Tlhahlobo ea AI e tla haufinyane",
-      change:"Fetola", seed:"Peo ho Foso",
-      foot:"Tataiso ea thuto feela. Latela leibole kamehla. Netefatsa le Foso Hardware pele u reka kapa u fafatsa.",
-      climNote:"Boemo bo tloaelehileng ba setereke sena (hoo e ka bang).", liveNote:"Boemo ba nako ena · Open-Meteo",
-      sprayH:"Letsatsi le letle la ho fafatsa", sprayTips:"Malebela a ho fafatsa",
-      whySeason:"Ke nako ea eona khoeling ena.", whyWet:"Likhoeli tse metsi li eketsa kotsi.", whyHot:"Mocheso le komello li eketsa kotsi.", whyWarm:"Mocheso o e potlakisa.", whyOut:"Hangata ha se bothata khoeling ena.", whyCold:"Ho bata haholo mona khoeling ena.",
-      months:["Pherekhong","Hlakola","Hlakubele","Mmesa","Motšeanong","Phupjane","Phupu","Phato","Lewedu","Mphalane","Pulungoana","Tšitoe"]}
-};
 
-/* ================= DISTRICTS ================= */
-/* zone: L lowlands, F foothills, H highlands. grid = schematic position (row,col). */
-const D = [
-  {id:"leribe", n:"Leribe", z:"L", lat:-28.87, lon:28.05, g:[1,1], rain:1.0, dt:0},
-  {id:"butha", n:"Butha-Buthe", z:"F", lat:-28.77, lon:28.25, g:[1,2], rain:1.05, dt:-2},
-  {id:"mokhotlong", n:"Mokhotlong", z:"H", lat:-29.29, lon:29.06, g:[1,3], rain:0.8, dt:-6},
-  {id:"berea", n:"Berea", z:"L", lat:-29.15, lon:27.75, g:[2,1], rain:1.0, dt:0},
-  {id:"thaba", n:"Thaba-Tseka", z:"H", lat:-29.52, lon:28.60, g:[2,2], rain:1.05, dt:-6},
-  {id:"maseru", n:"Maseru", z:"L", lat:-29.31, lon:27.48, g:[3,1], rain:1.0, dt:0},
-  {id:"qacha", n:"Qacha's Nek", z:"H", lat:-30.12, lon:28.69, g:[3,3], rain:1.05, dt:-4},
-  {id:"mafeteng", n:"Mafeteng", z:"L", lat:-29.82, lon:27.24, g:[4,1], rain:0.85, dt:0},
-  {id:"mohales", n:"Mohale's Hoek", z:"L", lat:-30.15, lon:27.48, g:[4,2], rain:0.85, dt:0},
-  {id:"quthing", n:"Quthing", z:"F", lat:-30.40, lon:27.70, g:[4,3], rain:0.85, dt:-1}
-];
-/* Lowland base climate (approx., Maseru): max, min °C, rain mm */
-const BASE = {
-  max:[29,28,26,22,19,16,16,19,23,25,27,28],
-  min:[15,15,12,7,3,-1,-1,1,5,9,12,14],
-  rain:[105,95,85,50,25,10,10,15,25,60,75,90]
-};
-function climate(d,m){
-  return {max:BASE.max[m]+d.dt, min:BASE.min[m]+d.dt, rain:Math.round(BASE.rain[m]*d.rain)};
-}
-
-/* ================= CROPS & PROBLEMS ================= */
-/* cond: wet (cool-warm + rainy), warmwet, hotdry, warm. minT = lowest avg temp (°C) it is active. */
 const PEST = {
   lateblight:{em:"🦠", n:"Late blight", k:"Disease", m:[11,12,1,2,3], cond:"wet", minT:10,
     signs:"Dark, greasy patches on leaves and stems. White fuzz under leaves after rain. Firm brown patches on fruit or tubers.",
@@ -370,176 +388,333 @@ const CROPS = [
    ]}
 ];
 
+
+const MAP = {"w": 560, "h": 555, "paths": {"mokhotlong": {"d": "M398.9,102.4L395.2,106.9L391.7,107.9L390.9,111.1L390.6,117.9L391.7,119.2L391.8,123.7L392.6,124.6L391.2,125.2L391.4,126.9L392.7,127.1L392.6,128.9L391.7,129.3L392.7,129.8L393.1,132.1L391.9,133.1L392.6,134.4L391.6,134.9L393.7,139.0L391.8,141.3L391.4,139.9L388.9,141.1L389.6,141.9L388.4,141.9L388.7,143.7L386.8,145.2L386.2,148.5L385.3,148.8L386.1,149.4L384.7,149.8L385.4,151.2L383.7,152.3L384.3,153.4L382.4,153.8L382.6,152.7L381.3,154.1L380.5,153.7L380.3,154.7L379.1,153.8L377.8,155.1L377.9,156.4L377.2,156.1L377.8,158.1L376.4,158.3L375.8,159.7L374.7,159.0L375.8,160.8L373.7,159.8L374.1,161.7L369.3,162.7L368.5,164.9L367.2,164.9L367.1,167.3L365.4,167.3L365.8,169.3L361.7,168.9L360.8,171.3L360.6,169.2L359.2,168.7L357.4,169.9L357.5,170.9L355.9,170.9L356.1,173.1L353.9,173.0L353.3,176.1L354.8,175.6L355.0,176.3L352.5,176.4L352.6,178.6L349.8,179.6L350.7,181.2L348.8,181.5L350.0,182.3L350.5,184.1L348.6,184.5L349.6,185.7L348.9,188.0L350.2,190.1L348.7,191.4L357.1,195.0L362.1,194.6L368.8,189.7L372.7,188.6L374.5,191.4L370.4,205.7L387.1,213.9L402.0,216.4L397.1,241.8L409.7,242.0L421.1,250.6L449.9,247.2L470.0,256.0L486.6,253.1L492.8,257.2L509.2,261.4L508.1,260.6L509.6,258.7L509.6,256.4L505.4,251.6L508.0,251.7L508.3,250.0L505.5,245.0L508.4,243.3L510.3,244.6L511.9,244.3L511.1,242.1L512.8,240.3L515.3,240.7L516.6,239.0L520.3,240.2L522.4,238.5L523.3,236.4L525.5,236.6L525.7,235.7L528.2,234.5L528.9,233.9L528.1,231.8L529.6,228.1L533.0,226.5L532.3,222.2L536.1,221.6L535.9,219.6L538.4,216.0L537.6,214.4L537.0,209.8L540.0,208.6L540.0,207.4L539.1,203.7L536.3,200.8L537.3,198.2L535.6,193.6L536.6,193.6L536.7,191.1L535.5,189.5L532.1,188.3L532.1,186.8L533.7,186.2L532.8,183.4L529.6,181.1L530.0,179.4L531.0,179.2L529.9,177.1L524.1,174.4L520.2,175.3L516.4,171.0L517.2,164.9L516.2,162.7L518.2,161.2L517.8,159.9L519.0,158.2L517.4,154.2L514.9,151.2L512.4,149.9L508.5,143.9L502.4,143.6L498.6,147.0L497.1,146.9L496.8,145.2L491.5,140.5L491.0,137.2L488.1,136.4L488.0,134.2L489.3,132.7L488.8,131.5L486.0,128.9L482.5,128.3L481.0,125.9L476.9,125.8L474.8,122.6L475.3,122.1L473.0,120.6L471.5,121.4L469.5,120.3L469.3,117.9L470.8,117.5L470.0,116.3L466.1,112.7L464.6,112.4L462.9,109.6L458.8,109.8L459.5,107.6L458.4,106.2L459.6,105.0L451.8,104.3L451.1,102.0L449.2,100.2L449.2,97.7L447.1,96.2L445.2,97.2L445.6,100.0L441.8,101.9L441.1,104.1L438.8,104.2L437.2,102.3L437.6,98.5L435.4,97.4L435.4,96.2L433.9,94.9L435.0,93.0L432.1,93.0L430.2,91.4L431.0,89.6L433.0,89.2L431.3,86.7L432.0,83.1L429.8,81.9L430.2,80.6L428.4,81.1L426.4,79.3L429.2,78.5L429.5,77.3L432.2,77.2L431.9,75.7L428.6,74.2L430.1,72.6L431.4,73.0L431.2,72.1L428.6,70.0L424.9,68.7L424.4,66.5L422.8,66.1L420.4,67.9L419.3,70.0L418.2,70.1L416.1,69.4L415.1,66.5L412.7,65.4L407.0,67.2L404.1,70.2L404.2,72.5L401.8,74.0L400.0,78.6L400.9,82.5L399.9,85.8L402.9,91.6L403.0,96.9L403.9,98.7L401.0,102.3L398.9,102.4Z", "cx": 447.8, "cy": 177.9, "pts": 239}, "maseru": {"d": "M80.2,255.7L84.1,260.2L90.7,256.0L91.3,256.8L92.8,256.1L94.5,258.4L95.8,258.2L95.0,261.7L97.0,264.8L96.2,267.5L98.5,268.7L99.3,267.3L100.8,269.8L99.9,274.6L101.8,274.1L102.5,278.0L103.5,278.6L106.7,277.3L108.2,279.4L110.6,280.0L109.8,282.0L111.7,283.4L108.9,289.9L110.8,293.6L113.4,293.5L115.3,294.5L121.6,289.3L124.2,285.1L131.1,283.6L133.1,284.7L133.8,287.6L133.0,288.4L129.8,287.9L130.2,290.2L132.2,292.8L131.3,295.1L132.8,298.0L135.9,300.7L141.2,301.0L145.8,296.0L150.0,295.3L154.7,296.0L157.6,295.1L159.9,304.1L158.3,310.8L160.6,312.1L164.1,310.1L162.9,316.5L164.6,320.3L169.3,323.2L170.5,326.1L166.2,327.9L162.4,325.3L158.1,323.7L157.3,324.5L157.4,327.2L154.8,327.8L152.8,327.2L154.4,329.7L154.4,331.5L153.3,332.3L150.8,331.0L149.7,335.9L154.6,334.7L157.3,335.5L160.4,334.2L161.6,335.3L166.5,332.3L178.3,328.5L183.4,328.0L193.0,329.6L191.7,326.4L196.2,323.8L199.8,326.9L204.1,326.7L207.4,324.5L210.7,326.5L216.5,326.6L217.8,325.8L220.5,326.5L221.5,329.3L221.0,333.6L223.4,338.8L228.5,342.4L239.3,342.6L242.7,340.8L240.8,339.0L241.4,337.2L242.2,338.7L244.9,340.1L246.5,344.2L245.1,345.4L246.9,346.6L246.8,348.4L248.5,349.1L247.4,351.2L247.9,351.7L253.5,350.2L257.3,347.2L264.2,345.8L265.8,347.6L271.2,346.8L273.9,348.2L276.0,347.1L281.5,350.3L283.3,353.4L285.1,353.6L286.9,357.4L294.5,361.0L292.2,357.4L294.2,357.5L294.5,356.4L296.8,356.2L297.0,353.8L294.7,350.9L293.0,350.5L290.7,342.2L287.2,344.7L287.9,342.2L287.0,341.1L288.7,337.9L282.9,336.2L283.5,334.8L281.5,335.1L280.3,332.1L279.5,333.2L280.1,335.2L278.2,334.7L278.2,332.5L279.9,328.9L279.5,328.1L277.6,328.0L279.0,327.1L278.7,322.8L276.9,319.6L274.7,318.6L276.1,316.2L275.9,313.3L274.0,313.6L273.5,310.9L271.7,309.9L275.0,309.7L279.7,304.7L277.2,301.7L274.8,302.3L275.3,300.1L274.2,298.8L272.2,298.4L270.1,300.9L269.1,299.8L271.0,297.2L268.5,297.4L268.7,295.5L267.5,292.2L270.8,290.1L270.7,289.1L268.6,289.9L264.5,289.2L266.4,288.7L267.7,287.0L269.1,288.9L270.1,287.7L267.1,284.1L264.7,284.9L265.8,282.5L265.4,279.2L267.0,278.0L266.0,277.1L264.0,277.2L263.6,274.1L265.7,272.2L264.1,271.9L262.8,269.4L264.9,270.1L263.7,267.2L265.6,266.2L266.0,265.2L264.1,262.5L261.6,261.2L263.9,257.5L261.1,255.2L260.6,253.5L262.9,251.1L257.4,251.9L259.1,248.4L258.0,246.0L257.0,245.9L257.4,247.2L254.3,247.4L253.8,246.5L254.8,244.8L250.8,243.5L251.1,242.7L255.0,243.2L256.0,241.7L255.0,240.6L251.0,241.2L251.1,239.5L253.3,239.4L254.2,238.0L250.4,236.8L250.9,235.7L250.0,234.3L251.1,231.3L253.2,229.7L253.1,228.4L254.1,227.7L252.9,225.1L254.4,224.9L254.5,223.2L256.0,224.4L258.2,222.9L258.1,224.9L258.8,225.2L261.0,224.5L260.7,222.4L263.9,222.3L263.2,219.8L265.7,220.2L265.2,218.5L267.0,216.0L268.0,216.0L267.8,217.1L269.8,217.3L268.8,214.3L271.5,215.5L271.8,213.6L269.8,213.7L269.3,212.6L270.8,213.3L274.1,210.5L272.9,208.7L274.9,208.5L273.9,208.2L273.3,206.2L270.6,203.1L267.1,200.6L258.0,200.8L252.8,202.3L254.6,203.1L253.7,204.7L255.8,205.2L253.5,206.0L254.8,208.4L248.1,210.9L245.4,215.7L246.0,217.1L243.9,218.7L243.5,221.0L242.3,222.1L241.4,221.6L242.0,220.9L239.7,221.9L239.0,221.0L240.3,219.5L238.8,219.2L237.9,217.6L238.7,214.9L237.8,215.2L237.8,214.2L235.6,213.1L238.0,212.2L235.6,211.3L237.9,209.3L236.9,208.4L237.7,206.9L235.5,207.2L236.7,205.3L235.4,204.4L235.9,202.7L233.4,202.2L234.8,201.7L234.0,200.4L235.0,200.2L235.5,198.4L232.8,198.0L232.5,195.6L230.8,195.8L229.1,197.5L228.8,199.1L227.0,200.4L226.7,202.5L224.6,203.6L223.1,207.1L219.6,207.6L215.3,211.4L210.3,210.6L209.1,212.3L206.2,212.9L203.0,210.7L201.0,206.6L198.1,204.0L193.1,202.9L192.3,201.1L187.0,197.0L174.0,203.9L174.9,205.8L174.6,210.8L171.6,208.7L166.8,212.2L167.6,208.3L166.5,207.4L167.5,205.5L166.4,205.1L161.6,207.1L158.0,205.2L156.3,202.3L156.2,205.1L153.7,206.9L152.9,205.3L152.9,199.8L150.5,197.5L148.4,198.2L147.8,202.3L144.0,209.1L141.0,210.3L136.8,210.0L133.6,206.3L131.9,206.9L135.1,199.9L132.6,197.6L130.4,200.8L126.4,199.7L126.4,194.3L122.7,194.6L121.6,199.0L120.5,198.9L119.6,196.9L114.2,198.0L114.7,199.8L116.1,200.3L118.0,203.5L110.2,207.0L109.8,211.3L110.6,214.2L109.5,216.4L108.2,216.6L104.6,214.2L103.8,214.8L104.4,217.2L107.2,219.9L107.5,224.7L104.1,226.3L101.7,225.7L98.4,233.0L96.3,234.9L93.4,235.9L93.4,239.3L94.8,242.2L94.3,244.0L91.4,244.5L87.6,242.8L82.7,246.7L81.4,250.5L82.7,255.5L80.2,255.7Z", "cx": 192.7, "cy": 267.5, "pts": 356}, "butha": {"d": "M404.1,70.2L402.1,69.0L400.6,62.2L401.2,59.0L403.0,56.7L402.0,56.0L401.8,54.1L400.3,53.5L399.1,51.4L395.8,51.9L390.6,47.7L388.4,48.7L384.8,48.7L384.4,47.2L380.2,44.7L380.6,40.0L378.1,38.0L378.4,36.5L379.4,36.1L378.7,33.6L380.0,31.6L375.4,24.7L368.9,20.0L366.1,21.8L365.8,21.1L364.7,23.0L362.6,22.5L360.6,26.6L359.5,26.1L358.8,27.3L356.6,27.8L355.9,29.2L353.3,28.1L352.8,29.7L352.1,28.9L350.9,29.7L348.5,27.8L347.0,29.5L345.2,27.8L342.9,29.7L341.9,27.4L340.5,27.8L341.2,29.1L338.6,30.1L338.3,31.6L337.0,30.3L337.3,29.1L334.5,28.7L333.7,30.2L330.8,28.5L330.3,29.5L328.0,29.8L328.4,30.5L327.4,30.1L326.9,31.9L325.9,31.2L325.3,31.9L325.0,30.9L324.5,32.1L321.8,32.1L319.5,34.0L318.1,33.8L317.4,32.5L315.8,33.1L316.0,38.1L313.4,38.0L313.0,40.3L309.5,43.3L308.1,43.2L309.7,47.1L306.7,48.9L304.7,52.5L303.2,50.1L299.6,51.7L300.1,53.1L296.4,51.8L295.2,49.8L294.5,53.1L293.5,53.6L293.2,52.4L293.0,53.6L290.3,55.3L287.4,53.1L285.6,53.8L285.1,51.6L282.9,52.4L282.0,52.3L281.6,50.8L280.0,50.4L279.1,51.2L277.8,52.7L278.2,55.8L280.8,57.1L283.0,60.3L283.0,63.6L281.5,68.4L282.4,73.3L285.3,77.5L290.6,80.4L298.1,80.6L306.0,86.9L316.3,89.2L318.3,93.3L322.5,97.3L329.4,95.2L333.0,96.5L336.4,103.9L334.3,109.6L339.1,114.2L337.6,117.3L338.7,119.0L336.3,119.9L334.9,121.9L332.9,136.5L335.0,138.6L335.4,141.5L337.1,144.1L341.0,146.2L340.6,143.8L342.4,142.0L341.1,139.9L343.7,140.3L342.9,137.5L344.2,136.7L344.4,134.3L353.1,135.2L362.8,142.5L367.2,138.8L373.6,136.1L380.2,128.2L378.4,121.7L380.8,119.7L386.6,109.6L388.1,108.9L389.6,103.2L392.3,101.9L400.4,102.6L403.5,99.7L402.9,91.6L399.9,85.8L400.9,82.5L400.0,78.6L401.8,74.0L404.2,72.5L404.1,70.2Z", "cx": 350.3, "cy": 76.8, "pts": 145}, "mohales": {"d": "M242.7,340.8L244.2,342.7L242.1,345.2L243.4,347.8L242.3,349.0L243.0,350.6L242.0,356.1L241.5,354.1L237.6,352.3L230.6,352.6L230.0,350.2L227.3,349.4L225.1,347.4L222.3,350.1L220.2,348.9L212.1,349.7L212.0,348.3L214.2,346.9L212.1,345.6L213.3,344.2L212.8,342.5L210.8,341.7L210.6,343.1L208.7,343.9L206.7,350.7L207.8,354.7L207.0,356.5L205.6,356.5L203.8,352.0L200.5,349.5L201.7,347.3L200.8,346.2L199.1,347.9L197.5,346.1L194.9,345.6L193.9,346.0L196.9,347.7L197.3,350.0L194.9,352.8L197.5,351.9L198.9,352.7L195.8,354.9L195.1,358.1L194.0,359.1L188.5,360.8L184.8,359.0L184.5,357.0L178.3,354.4L174.4,358.5L174.1,361.7L169.1,362.3L168.9,364.4L167.5,364.3L164.7,366.5L163.1,366.1L160.8,362.7L152.4,356.4L151.4,353.4L149.4,351.7L148.1,352.8L148.2,358.8L146.7,359.0L145.4,361.1L144.1,359.2L142.8,358.7L139.5,353.1L138.1,352.0L136.8,353.2L135.3,351.9L132.8,354.2L131.5,353.2L130.3,355.4L128.7,355.6L129.7,361.1L127.8,362.0L128.2,363.9L124.6,366.6L120.9,366.8L120.9,367.6L123.2,368.3L124.6,370.5L124.1,371.6L122.8,370.7L120.7,371.5L120.5,374.4L117.6,375.9L119.2,377.9L116.9,377.7L116.9,378.6L118.1,378.9L116.9,380.3L113.0,380.1L111.6,381.2L111.8,382.6L108.2,384.1L105.7,382.7L104.4,378.6L103.6,378.5L103.8,377.3L100.2,374.0L98.7,370.6L96.6,370.4L96.0,368.6L97.0,367.5L95.6,366.6L95.0,363.2L94.2,362.7L94.8,359.5L93.6,356.9L94.8,354.1L93.9,352.1L95.6,350.1L95.2,346.6L97.7,345.0L98.9,342.0L97.6,339.8L98.5,336.9L98.0,334.1L96.1,334.7L94.6,332.0L93.4,331.9L88.9,337.8L88.8,342.1L81.1,346.6L71.2,348.0L63.4,344.8L55.1,345.8L64.9,369.1L65.2,371.3L64.1,372.3L67.4,371.9L71.5,376.2L74.8,376.2L74.0,378.0L74.6,380.4L79.4,382.2L80.6,383.6L87.0,406.1L100.5,405.0L103.0,403.9L104.2,405.2L103.4,406.5L104.7,407.1L104.5,407.9L101.0,410.7L100.3,413.4L98.5,413.3L99.7,414.6L99.7,417.2L95.8,416.9L97.3,418.4L95.2,423.2L96.2,425.5L95.5,427.9L96.3,430.7L95.3,433.3L96.4,435.3L95.6,436.9L97.0,438.6L98.3,437.0L98.9,439.0L100.3,439.2L99.4,440.7L100.3,441.7L98.3,443.3L99.1,444.3L101.2,444.2L101.6,445.2L99.5,446.0L100.6,448.8L99.8,449.2L99.2,448.2L97.6,449.5L98.9,452.2L101.3,453.0L106.9,449.2L110.6,449.0L113.5,446.8L116.3,446.7L118.7,448.9L118.5,457.0L121.4,458.7L121.6,461.3L124.3,460.9L124.0,462.4L125.3,464.7L128.2,463.7L131.1,463.9L132.1,466.1L135.5,468.4L136.5,471.2L141.3,470.9L144.6,467.9L143.3,466.3L140.8,467.9L139.5,467.7L138.0,462.4L139.8,459.3L145.1,459.2L147.2,457.4L149.0,458.4L150.3,456.5L154.3,454.0L157.1,453.3L160.5,454.7L163.4,457.7L171.1,459.3L171.8,456.9L169.6,454.9L169.4,453.2L172.4,451.9L174.3,452.2L175.3,450.0L173.4,447.7L174.7,442.9L174.3,441.0L171.7,440.7L170.6,439.4L176.0,433.0L178.1,433.8L177.8,438.2L178.6,439.9L182.7,439.8L185.4,438.0L188.3,439.3L190.9,436.4L191.7,433.6L193.0,434.0L195.2,437.2L196.6,437.1L197.0,431.3L201.2,431.5L203.1,429.9L203.9,421.6L205.9,420.9L208.1,423.9L213.8,417.7L212.3,416.6L209.1,417.1L207.5,416.0L206.8,414.4L209.2,412.9L209.8,410.4L205.9,404.3L206.4,402.7L208.8,402.0L209.5,400.3L215.0,398.3L211.6,394.7L211.4,393.1L211.7,390.7L213.8,388.3L218.5,388.2L219.7,391.2L218.5,394.5L222.6,396.7L225.5,393.4L226.2,390.8L224.4,387.5L227.2,385.8L232.6,390.8L233.8,390.3L233.9,388.7L235.5,388.2L239.1,390.6L243.6,391.9L246.8,388.0L254.0,386.3L257.4,387.7L256.8,384.8L257.8,382.4L262.4,379.2L265.1,379.4L267.2,378.0L270.8,381.0L273.9,379.7L275.2,376.9L279.9,376.0L283.1,376.5L284.3,375.5L290.7,376.5L291.6,375.6L289.2,372.3L290.8,368.9L292.3,370.1L295.8,369.7L303.4,371.3L305.1,373.4L304.0,374.5L302.3,373.7L301.7,374.5L303.8,375.2L305.5,377.7L309.8,376.8L312.9,381.6L313.2,385.2L316.5,385.1L318.8,376.9L323.1,374.4L323.7,372.2L325.8,372.0L327.3,369.1L329.0,369.9L331.1,367.3L332.5,367.5L335.8,360.6L338.7,359.9L339.7,358.2L344.6,356.2L346.9,353.8L348.6,355.4L351.6,355.0L354.2,349.2L353.9,345.1L350.6,341.3L350.3,338.1L352.4,336.1L352.3,331.0L354.6,328.0L353.5,325.6L356.2,323.2L352.5,320.1L350.2,319.9L349.4,317.9L345.3,319.4L342.3,318.5L337.5,323.2L331.7,322.5L323.4,327.2L320.3,327.5L318.2,331.2L315.7,331.7L315.5,334.0L309.6,330.9L306.1,330.8L301.9,332.8L303.0,338.5L302.5,340.1L290.7,342.2L293.0,350.5L294.7,350.9L297.0,353.8L296.8,356.2L294.5,356.4L294.2,357.5L292.2,357.4L294.5,361.0L286.9,357.4L285.1,353.6L283.3,353.4L281.5,350.3L276.0,347.1L273.9,348.2L271.2,346.8L265.8,347.6L264.2,345.8L257.3,347.2L253.5,350.2L247.9,351.7L247.4,351.2L248.5,349.1L246.8,348.4L246.9,346.6L245.1,345.4L246.5,344.2L245.4,340.7L242.2,338.7L241.4,337.2L240.8,339.0L242.7,340.8Z", "cx": 187.6, "cy": 387.2, "pts": 370}, "mafeteng": {"d": "M80.2,255.7L76.6,253.9L72.3,255.6L71.9,259.1L69.5,260.8L66.7,260.8L65.8,258.2L64.6,258.4L64.7,259.6L61.5,261.6L61.8,263.6L60.6,264.3L57.8,264.7L56.8,263.6L50.3,262.4L47.5,265.9L45.8,265.4L42.9,266.5L41.9,268.3L39.7,269.6L40.1,272.7L37.7,273.0L35.6,275.6L34.2,274.5L33.8,272.6L31.6,271.2L31.5,276.7L29.7,281.0L26.7,279.1L24.7,275.2L21.2,276.4L23.5,281.5L20.0,283.8L20.4,286.8L26.9,292.4L31.2,297.7L36.2,301.2L35.2,302.1L38.0,303.8L55.1,345.8L63.4,344.8L71.2,348.0L81.1,346.6L88.8,342.1L88.9,337.8L93.4,331.9L94.6,332.0L96.1,334.7L98.0,334.1L98.5,336.9L97.6,339.8L98.9,342.0L97.7,345.0L95.2,346.6L95.6,350.1L93.9,352.1L94.8,354.1L93.6,356.9L94.8,359.5L94.2,362.7L95.0,363.2L95.6,366.6L97.0,367.5L96.0,368.6L96.6,370.4L98.7,370.6L100.2,374.0L103.8,377.3L103.6,378.5L104.4,378.6L105.7,382.7L108.2,384.1L111.8,382.6L111.6,381.2L113.0,380.1L116.9,380.3L118.1,378.9L116.9,378.6L116.9,377.7L119.2,377.9L117.6,375.9L120.5,374.4L120.7,371.5L122.8,370.7L124.1,371.6L124.6,370.5L123.2,368.3L121.7,368.2L120.9,366.8L124.6,366.6L128.2,363.9L127.8,362.0L129.7,361.1L128.7,355.6L130.3,355.4L131.5,353.2L132.4,354.4L135.3,351.9L136.8,353.2L138.1,352.0L145.4,361.1L146.7,359.0L148.2,358.8L148.1,352.8L149.4,351.7L151.4,353.4L152.4,356.4L160.8,362.7L163.1,366.1L164.7,366.5L167.5,364.3L168.9,364.4L169.1,362.3L174.1,361.7L174.4,358.5L178.3,354.4L184.5,357.0L184.8,359.0L188.5,360.8L194.0,359.1L195.1,358.1L195.8,354.9L198.9,352.7L197.5,351.9L195.1,353.0L197.3,350.0L196.9,347.7L194.1,346.3L194.9,345.6L197.5,346.1L199.1,347.9L200.8,346.2L201.7,347.3L200.5,349.5L203.8,352.0L205.6,356.5L207.0,356.5L207.8,354.7L206.7,350.7L208.7,343.9L210.6,343.1L210.8,341.7L211.9,341.7L213.3,344.2L212.1,345.6L214.2,346.9L212.0,348.3L212.1,349.7L220.2,348.9L222.3,350.1L225.1,347.4L227.3,349.4L230.0,350.2L230.6,352.6L237.6,352.3L241.5,354.1L242.0,356.1L243.0,350.6L242.3,349.0L243.4,347.8L242.1,345.2L244.2,342.7L242.5,340.5L241.7,341.6L241.4,341.0L237.3,343.0L228.5,342.4L223.4,338.8L221.0,333.6L221.5,329.3L220.5,326.5L217.8,325.8L216.5,326.6L210.7,326.5L207.4,324.5L204.1,326.7L199.8,326.9L196.2,323.8L191.7,326.4L193.0,329.6L183.4,328.0L178.3,328.5L166.5,332.3L161.6,335.3L160.4,334.2L157.3,335.5L154.6,334.7L149.7,335.9L150.8,331.0L153.3,332.3L154.4,331.5L154.4,329.7L152.8,327.2L154.8,327.8L157.4,327.2L157.3,324.5L158.1,323.7L162.4,325.3L166.2,327.9L170.5,326.1L169.3,323.2L164.6,320.3L162.9,316.5L164.1,310.1L160.6,312.1L158.3,310.8L159.9,304.1L157.6,295.1L154.7,296.0L150.0,295.3L145.8,296.0L141.2,301.0L135.9,300.7L132.8,298.0L131.3,295.1L132.2,292.8L130.2,290.2L129.8,287.9L133.0,288.4L133.8,287.6L133.1,284.7L131.1,283.6L124.2,285.1L121.6,289.3L115.3,294.5L113.4,293.5L110.8,293.6L108.9,289.9L111.7,283.4L109.8,282.0L110.6,280.0L108.2,279.4L106.7,277.3L103.5,278.6L102.5,278.0L101.8,274.1L99.9,274.6L100.8,269.8L99.3,267.3L98.5,268.7L96.2,267.5L97.0,264.8L95.0,261.7L95.8,258.2L94.5,258.4L92.8,256.1L91.3,256.8L90.7,256.0L84.1,260.2L80.2,255.7Z", "cx": 111.6, "cy": 318.6, "pts": 250}, "quthing": {"d": "M136.5,471.2L139.0,474.4L137.6,476.2L138.2,478.8L143.5,480.1L145.9,479.4L144.6,481.8L146.0,482.0L148.3,486.7L148.4,489.4L146.6,490.4L147.2,491.1L149.6,490.8L149.7,493.3L150.9,494.4L154.8,497.1L157.3,497.0L160.5,501.0L162.0,500.7L164.3,502.3L164.6,504.2L165.8,505.3L165.1,506.7L169.6,508.9L175.3,517.7L186.7,521.4L194.1,520.1L204.9,520.1L206.7,518.0L208.6,518.5L209.6,517.5L212.2,517.1L213.7,519.0L213.2,522.1L215.9,523.5L217.5,527.6L225.5,530.2L228.5,529.2L231.1,531.2L248.3,529.9L254.4,535.2L256.6,531.2L255.0,525.2L255.5,522.3L253.8,518.8L254.3,516.7L262.4,512.8L262.9,510.8L264.4,510.0L265.1,506.1L263.7,503.0L266.1,499.1L267.9,498.4L266.9,494.4L268.7,492.6L268.5,490.1L263.2,485.2L263.5,483.8L269.9,476.4L272.3,475.8L274.1,476.9L276.1,475.3L278.8,475.2L281.2,471.0L283.4,472.5L284.9,472.3L284.1,468.9L285.3,468.3L287.9,460.6L287.7,456.4L284.1,453.6L283.8,451.5L284.9,450.6L284.0,450.1L284.8,449.3L279.8,447.0L278.8,445.4L276.1,445.0L274.3,441.0L275.9,440.0L277.7,436.8L280.4,435.0L280.6,433.5L285.5,432.7L286.4,431.6L288.6,432.6L294.8,432.6L296.4,431.2L297.0,428.8L299.5,427.9L300.6,426.1L301.1,427.1L303.8,426.7L303.7,421.9L308.9,408.7L293.6,407.2L289.6,404.9L283.1,405.6L278.5,401.5L279.0,398.0L278.3,395.5L279.6,394.0L279.3,391.0L280.3,389.2L281.8,389.0L282.2,389.9L283.4,388.3L284.7,390.1L285.2,389.0L286.1,389.1L285.9,387.4L289.0,384.4L290.0,384.6L290.5,386.6L291.7,386.1L292.7,387.3L294.6,386.2L296.1,388.3L299.2,388.8L296.7,383.3L296.9,380.5L292.4,378.7L290.0,378.8L289.1,376.5L285.9,375.6L275.2,376.9L273.9,379.7L270.8,381.0L267.2,378.0L265.1,379.4L262.4,379.2L257.8,382.4L256.8,384.8L257.4,387.7L254.0,386.3L246.8,388.0L243.6,391.9L239.1,390.6L235.5,388.2L233.9,388.7L233.8,390.3L232.6,390.8L227.2,385.8L224.4,387.5L226.2,390.8L225.5,393.4L222.6,396.7L218.5,394.5L219.7,391.2L218.5,388.2L213.8,388.3L211.7,390.7L211.4,393.1L211.6,394.7L215.0,398.3L209.5,400.3L208.8,402.0L206.4,402.7L205.9,404.3L209.8,410.4L209.2,412.9L206.8,414.4L207.5,416.0L209.1,417.1L212.3,416.6L213.8,417.7L208.1,423.9L205.9,420.9L203.9,421.6L203.1,429.9L201.2,431.5L197.0,431.3L196.6,437.1L195.2,437.2L193.0,434.0L191.7,433.6L190.9,436.4L188.3,439.3L185.4,438.0L182.7,439.8L178.6,439.9L177.8,438.2L178.1,433.8L176.0,433.0L170.6,439.4L171.7,440.7L174.3,441.0L174.7,442.9L173.4,447.7L175.3,450.0L174.3,452.2L172.4,451.9L169.4,453.2L169.6,454.9L171.8,456.9L171.1,459.3L163.4,457.7L160.5,454.7L157.7,453.3L154.3,454.0L150.3,456.5L149.0,458.4L147.2,457.4L145.1,459.2L139.8,459.3L138.0,462.4L139.5,467.7L140.8,467.9L143.3,466.3L144.6,467.9L141.3,470.9L136.5,471.2Z", "cx": 227.2, "cy": 458.0, "pts": 212}, "berea": {"d": "M273.8,207.8L274.4,205.2L277.3,205.4L276.3,204.4L276.8,203.3L278.6,202.8L278.1,200.3L280.7,200.9L280.1,199.4L281.0,197.4L283.3,198.0L283.8,197.3L283.0,196.8L284.4,196.3L284.4,195.4L287.7,195.0L289.1,193.9L288.5,192.8L289.6,191.7L289.1,191.2L290.9,189.6L292.0,190.7L292.7,189.1L291.3,188.7L292.1,186.9L290.8,186.3L291.6,186.0L290.4,182.1L288.4,181.9L289.3,179.1L287.5,179.1L287.5,177.3L286.3,177.4L286.8,176.4L285.5,176.2L286.6,175.1L285.5,175.5L285.5,174.0L281.9,172.0L279.5,167.0L279.5,165.6L282.3,162.0L286.1,160.4L287.3,158.6L286.2,157.1L282.8,158.5L278.7,157.2L277.1,154.1L271.1,152.9L268.9,149.7L262.2,145.9L260.7,143.4L258.8,142.5L253.3,145.5L250.3,144.0L251.4,140.2L249.4,134.6L247.5,133.3L247.4,128.7L240.6,122.1L238.2,121.6L237.0,116.3L233.0,114.1L231.2,115.4L228.5,114.4L227.1,112.0L224.6,113.3L224.1,116.3L218.7,123.2L217.6,126.4L217.3,131.6L218.1,132.6L214.5,134.9L214.4,136.0L213.2,135.9L212.7,138.0L207.8,145.1L206.6,142.8L205.1,144.6L203.9,142.9L203.6,143.6L202.3,142.8L200.3,143.3L198.9,141.2L196.1,140.0L195.5,138.1L196.2,137.5L194.3,135.7L191.4,136.2L191.0,137.7L190.0,136.4L190.2,138.9L189.1,139.7L188.5,139.1L187.9,141.7L187.5,141.0L186.1,142.2L185.1,140.3L183.6,143.3L183.7,145.4L181.1,142.9L177.6,144.3L176.9,146.6L174.7,146.7L173.3,149.3L172.6,148.9L171.9,152.5L170.8,152.5L170.2,153.8L169.6,153.1L168.5,153.5L167.1,151.4L167.6,149.5L166.4,148.4L166.3,150.7L164.1,149.1L162.5,150.6L162.2,151.8L160.8,148.9L160.0,150.6L158.3,149.1L155.4,148.7L156.3,149.8L154.9,153.9L151.7,153.7L152.8,155.2L152.2,157.2L145.4,158.7L148.7,162.3L148.1,165.2L144.3,167.0L143.1,165.7L141.0,165.7L139.9,170.1L138.0,171.0L137.6,172.2L134.7,173.1L131.3,178.3L129.2,178.2L127.1,179.9L129.1,181.7L128.3,183.9L130.3,183.1L134.1,185.6L132.6,188.6L129.1,190.2L126.4,194.3L126.4,199.7L130.4,200.8L133.0,197.7L135.1,199.9L133.6,204.5L131.5,206.5L133.6,206.3L136.8,210.0L141.0,210.3L144.0,209.1L147.8,202.3L148.4,198.2L150.5,197.5L152.9,199.8L152.9,205.3L153.7,206.9L156.2,205.1L156.3,202.3L158.0,205.2L161.6,207.1L166.4,205.1L167.5,205.5L166.5,207.4L167.6,208.3L166.8,212.2L171.6,208.7L174.6,210.8L174.9,205.8L174.0,203.9L187.0,197.0L192.3,201.1L193.1,202.9L198.1,204.0L201.0,206.6L203.0,210.7L206.2,212.9L209.1,212.3L210.3,210.6L215.3,211.4L219.6,207.6L223.1,207.1L224.6,203.6L226.7,202.5L227.0,200.4L228.8,199.1L229.1,197.5L230.8,195.8L232.5,195.6L232.8,198.0L235.5,198.4L235.0,200.2L234.0,200.4L234.8,201.7L233.4,202.2L235.9,202.7L235.4,204.4L236.7,205.3L235.5,207.2L237.7,206.9L236.9,208.4L237.9,209.3L235.6,211.3L238.0,212.2L235.6,213.1L237.8,214.2L237.8,215.2L238.7,214.9L237.9,217.6L238.8,219.2L240.3,219.5L239.0,221.5L242.0,220.9L241.4,221.6L242.3,222.1L243.5,221.0L243.9,218.7L246.0,217.1L245.4,215.7L248.1,210.9L254.8,208.4L253.5,206.0L255.8,205.2L253.7,204.7L254.6,203.1L252.8,202.3L258.0,200.8L267.1,200.6L270.6,203.1L273.8,207.8Z", "cx": 212.6, "cy": 173.1, "pts": 236}, "thaba": {"d": "M350.0,192.3L351.0,193.0L349.7,194.1L350.0,194.9L351.5,194.3L351.2,196.1L350.1,196.7L350.6,199.5L352.7,197.4L352.7,201.2L355.0,200.6L355.7,203.0L356.7,203.1L354.6,204.2L356.8,204.6L356.8,207.0L358.2,206.1L357.4,208.5L359.9,210.7L361.1,209.0L362.7,208.8L361.1,210.7L360.8,212.9L359.8,212.7L361.0,215.2L358.1,213.0L355.9,213.3L355.7,215.8L352.6,215.8L350.3,214.1L347.5,214.3L344.9,211.6L340.4,210.9L340.8,209.4L338.4,208.3L337.0,205.5L334.7,206.1L332.1,205.2L331.3,206.3L330.1,204.7L327.6,205.3L323.7,203.4L322.1,204.0L321.1,202.6L319.4,203.9L317.9,202.6L314.2,202.1L316.4,199.6L310.8,196.2L311.1,194.7L313.1,193.8L311.7,193.6L312.3,192.2L311.2,192.1L310.0,190.2L310.3,187.6L307.3,186.2L308.6,184.6L307.4,184.7L307.8,183.2L306.2,182.9L307.0,179.9L306.2,178.8L307.3,178.4L305.5,176.5L306.4,176.3L306.6,174.8L305.0,175.1L305.2,173.6L303.6,173.9L304.2,173.1L302.0,170.8L302.8,169.9L301.9,169.2L302.5,168.3L301.0,168.3L301.6,166.9L300.3,166.5L300.7,162.4L302.9,160.1L302.3,158.6L299.0,158.1L297.8,156.2L296.1,156.5L294.5,155.0L289.6,154.3L286.2,157.1L287.3,159.5L282.3,162.0L279.5,165.6L279.5,167.0L281.9,172.0L285.5,174.0L285.5,175.5L286.6,175.1L285.5,176.2L286.8,176.4L286.3,177.4L287.5,177.3L287.5,179.1L289.3,179.1L288.4,181.9L290.4,182.1L291.6,186.0L290.8,186.3L292.1,186.9L291.3,188.7L292.7,189.1L292.0,190.7L290.9,189.6L289.1,191.2L289.6,191.7L288.5,192.8L289.1,193.9L287.7,195.0L284.4,195.4L284.4,196.3L283.0,196.8L283.8,197.3L283.3,198.0L281.0,197.4L280.1,199.4L280.7,200.9L278.1,200.3L278.6,202.8L276.8,203.3L276.3,204.4L277.3,205.4L274.4,205.2L273.8,207.8L274.9,208.5L272.9,208.7L274.1,210.5L270.8,213.3L269.3,212.6L269.8,213.7L271.8,213.6L271.5,215.5L268.8,214.3L269.8,217.3L267.8,217.1L268.0,216.0L267.0,216.0L265.2,218.5L265.7,220.2L263.2,219.8L263.9,222.3L260.7,222.4L261.0,224.5L258.8,225.2L258.1,224.9L258.2,222.9L256.0,224.4L254.5,223.2L254.4,224.9L252.9,225.1L254.1,227.7L253.1,228.4L253.2,229.7L251.1,231.3L250.0,234.3L250.9,235.7L250.4,236.8L254.2,238.0L253.3,239.4L251.1,239.5L251.0,241.2L255.0,240.6L256.0,241.7L255.0,243.2L251.1,242.7L250.8,243.5L251.7,244.4L254.8,244.8L253.8,246.5L254.3,247.4L257.4,247.2L257.0,245.9L258.0,246.0L259.1,248.4L257.4,251.9L262.9,251.1L260.6,253.5L261.1,255.2L263.9,257.5L261.6,261.2L264.1,262.5L266.0,265.2L263.7,267.2L264.9,270.1L262.8,269.4L264.1,271.9L265.7,272.2L263.3,275.1L264.0,277.2L266.0,277.1L267.0,278.0L265.4,279.2L265.8,282.5L264.7,284.9L267.1,284.1L270.1,287.7L269.1,288.9L267.7,287.0L266.4,288.7L264.5,289.2L268.6,289.9L270.7,289.1L270.8,290.1L267.5,292.2L268.7,295.5L268.5,297.4L271.0,297.2L269.1,299.8L270.1,300.9L272.2,298.4L274.2,298.8L275.3,300.1L274.8,302.3L277.2,301.7L279.7,304.7L275.0,309.7L271.7,310.2L273.5,310.9L274.0,313.6L275.9,313.3L276.1,316.2L274.7,318.6L276.9,319.6L278.7,322.8L279.0,327.1L277.6,328.0L279.5,328.1L279.9,328.9L278.2,332.5L278.2,334.7L280.1,335.2L279.5,333.2L280.3,332.1L281.5,335.1L283.5,334.8L282.9,336.2L288.7,337.9L287.0,341.1L287.9,342.2L287.2,344.7L290.7,342.2L302.5,340.1L303.0,338.5L301.9,332.8L306.1,330.8L310.3,331.1L311.0,332.2L315.5,334.0L315.7,331.7L318.2,331.2L320.3,327.5L323.4,327.2L331.7,322.5L337.5,323.2L342.3,318.5L345.3,319.4L348.0,317.8L349.0,318.3L357.2,312.5L364.1,316.4L367.1,317.1L369.7,319.4L372.2,319.6L376.4,322.8L377.5,322.6L380.5,325.6L382.3,329.3L381.4,331.3L382.1,333.1L380.0,337.0L380.6,339.2L381.4,338.1L382.5,338.6L382.7,341.4L388.7,336.0L391.9,335.8L393.5,332.5L401.5,331.9L401.7,330.1L398.5,330.4L396.1,325.5L397.2,322.7L399.7,323.0L399.8,321.0L405.9,323.1L412.4,322.7L423.2,331.7L425.8,332.3L432.4,337.4L436.7,339.2L437.4,337.9L435.0,333.2L436.5,331.3L434.0,329.2L432.8,323.6L435.6,319.5L438.6,317.5L440.1,313.8L439.5,310.5L442.8,307.9L443.6,306.1L445.3,305.5L446.7,300.8L451.8,298.7L463.2,300.7L464.2,302.5L469.1,305.8L474.5,305.2L475.3,304.6L473.9,300.5L475.1,298.5L477.2,298.1L477.6,290.8L480.5,290.9L481.9,288.6L483.7,289.3L485.6,286.6L487.4,286.6L489.4,283.6L491.9,283.3L493.0,281.7L494.2,282.4L499.3,281.5L502.0,282.9L503.1,282.4L504.1,278.7L503.2,277.2L505.3,276.0L505.4,274.1L503.7,268.2L510.3,267.8L512.0,263.9L509.2,261.4L492.8,257.2L486.6,253.1L470.0,256.0L449.9,247.2L421.1,250.6L409.7,242.0L397.1,241.8L402.0,216.4L387.1,213.9L370.4,205.7L374.5,191.4L372.7,188.6L368.8,189.7L362.1,194.6L357.1,195.0L350.0,192.3Z", "cx": 357.7, "cy": 265.8, "pts": 355}, "qacha": {"d": "M289.1,376.5L290.0,378.8L292.4,378.7L296.9,380.5L296.7,383.3L299.2,388.8L296.1,388.3L294.6,386.2L292.7,387.3L291.7,386.1L290.5,386.6L290.0,384.6L289.0,384.4L285.9,387.4L286.1,389.1L285.2,389.0L284.7,390.1L283.4,388.3L282.2,389.9L281.8,389.0L279.8,389.6L279.6,394.0L278.3,395.5L279.0,398.0L278.3,401.1L283.1,405.6L289.6,404.9L293.6,407.2L308.9,408.7L308.4,411.1L309.2,411.4L311.7,411.2L313.3,409.7L315.3,405.0L326.4,408.5L330.8,408.0L332.7,406.3L336.6,406.8L343.3,402.4L344.1,400.6L347.4,399.4L348.1,400.2L351.2,399.9L352.6,401.1L355.8,400.9L361.9,403.0L366.1,402.1L372.0,404.3L377.1,400.2L379.5,400.8L381.1,399.1L385.3,397.5L386.9,397.4L387.6,398.2L389.8,395.9L398.6,396.6L399.4,394.5L406.1,393.3L407.1,393.8L408.8,392.4L412.5,391.8L413.1,391.2L412.7,388.8L415.2,388.9L417.3,387.0L422.4,386.0L426.4,382.9L429.5,381.9L430.5,378.8L434.1,379.4L435.5,378.0L439.9,377.5L443.9,371.1L445.4,371.0L447.3,369.1L449.3,369.3L450.1,366.6L455.2,364.7L458.2,361.4L459.8,361.9L460.9,360.2L461.9,360.2L465.1,361.8L464.8,359.4L466.2,354.4L469.8,352.8L476.1,351.7L479.1,349.3L476.7,346.8L477.6,341.4L474.7,341.5L473.2,339.9L474.0,337.6L472.3,335.6L464.6,332.7L467.2,331.1L468.2,329.1L470.2,328.8L471.0,327.1L471.2,324.5L469.4,322.8L470.9,314.4L469.3,312.9L471.7,312.4L471.5,311.4L472.8,310.9L471.9,306.3L474.1,306.5L474.9,305.5L469.1,305.8L464.2,302.5L463.2,300.7L451.8,298.7L446.7,300.8L445.3,305.5L443.6,306.1L442.8,307.9L439.5,310.5L440.1,313.8L438.6,317.5L435.6,319.5L432.8,323.6L434.0,329.2L436.5,331.3L435.0,333.2L437.4,337.9L436.7,339.2L432.4,337.4L425.8,332.3L423.2,331.7L412.4,322.7L405.9,323.1L399.8,321.0L399.7,323.0L397.2,322.7L396.1,325.5L398.5,330.4L401.7,330.1L401.5,331.9L393.5,332.5L391.9,335.8L388.7,336.0L382.7,341.4L382.5,338.6L381.4,338.1L380.6,339.2L380.0,337.0L382.1,333.1L381.4,331.3L382.3,329.3L380.5,325.6L377.5,322.6L376.4,322.8L372.2,319.6L369.7,319.4L367.1,317.1L364.1,316.4L357.2,312.5L349.0,318.3L350.2,319.9L352.5,320.1L356.2,323.2L353.5,325.6L354.6,328.0L352.3,331.0L352.4,336.1L350.3,338.1L350.6,341.3L353.9,345.1L354.2,349.2L351.6,355.0L348.6,355.4L346.9,353.8L344.6,356.2L339.7,358.2L338.7,359.9L335.8,360.6L332.5,367.5L331.1,367.3L329.0,369.9L327.3,369.1L325.8,372.0L323.7,372.2L323.1,374.4L318.8,376.9L316.5,385.1L313.2,385.2L312.9,381.6L309.8,376.8L305.5,377.7L303.8,375.2L301.7,374.5L302.3,373.7L304.0,374.5L305.1,373.4L303.4,371.3L295.8,369.7L292.3,370.1L290.8,368.9L289.2,372.3L291.6,375.6L289.1,376.5Z", "cx": 387.3, "cy": 361.3, "pts": 202}, "leribe": {"d": "M398.9,102.4L392.3,101.9L389.6,103.2L388.1,108.9L386.6,109.6L380.8,119.7L378.4,121.7L380.2,128.2L373.6,136.1L367.2,138.8L362.8,142.5L353.1,135.2L344.4,134.3L344.2,136.7L342.9,137.5L343.7,140.3L341.1,139.9L342.4,142.0L340.6,143.8L341.5,145.9L338.1,145.1L335.4,141.5L335.0,138.6L332.9,136.5L332.7,135.0L334.9,121.9L336.3,119.9L338.7,119.0L337.6,117.3L339.1,114.2L334.3,109.6L336.4,103.9L333.0,96.5L329.4,95.2L322.5,97.3L318.3,93.3L316.3,89.2L306.0,86.9L298.1,80.6L291.9,80.9L285.3,77.5L282.4,73.3L281.5,68.4L283.0,63.6L283.0,60.3L280.8,57.1L278.2,55.8L277.8,52.7L275.8,52.2L275.1,53.4L272.0,54.4L270.8,53.1L270.8,50.9L269.3,50.1L269.4,53.8L265.8,53.0L265.6,54.8L264.2,55.4L264.8,56.0L263.3,56.3L264.5,57.4L264.0,58.0L263.3,57.4L263.8,59.1L263.2,59.3L262.3,57.2L260.8,58.8L260.6,60.9L259.6,60.1L258.0,61.6L258.0,62.9L255.6,61.7L255.8,65.7L254.4,65.8L251.5,68.5L251.0,71.8L249.2,74.4L248.0,74.3L248.8,76.1L246.7,77.9L246.2,79.8L243.3,79.6L241.1,80.5L241.9,86.3L241.2,87.0L240.5,86.3L239.0,88.5L238.0,88.3L235.3,90.7L235.8,91.3L236.5,90.6L236.3,92.4L237.2,92.6L237.5,94.2L236.3,94.2L236.4,95.4L235.5,94.2L233.0,95.6L231.3,93.6L230.2,95.1L229.2,93.7L228.8,94.8L227.5,95.0L228.4,95.6L228.2,96.4L226.8,95.0L223.8,94.3L222.1,90.7L217.2,88.0L217.2,89.0L215.4,89.0L214.7,90.0L214.8,91.3L213.5,90.6L212.8,91.2L212.3,92.4L213.3,95.1L210.8,96.2L207.5,95.6L206.4,97.7L209.0,99.1L208.2,102.7L206.4,104.8L205.5,104.3L202.4,105.5L198.5,101.3L196.1,104.4L194.1,101.6L194.4,103.7L191.0,105.9L189.4,104.8L187.4,105.2L185.9,104.2L186.3,102.9L178.0,100.0L178.5,103.8L180.6,104.9L178.6,109.0L179.6,109.9L179.1,110.8L176.7,110.8L175.6,109.4L176.2,111.0L174.7,109.9L172.4,113.0L171.3,112.7L171.9,114.4L170.9,114.6L170.7,116.0L171.7,117.0L171.4,118.8L169.9,120.8L167.9,120.7L168.5,122.8L169.9,123.0L169.3,127.6L167.6,127.9L163.2,126.0L162.3,129.0L163.9,130.9L162.5,131.0L162.4,132.1L160.1,131.7L161.2,133.6L160.5,135.9L157.6,137.0L156.0,135.3L153.9,136.3L154.6,138.8L156.3,138.9L156.1,140.1L156.8,140.1L157.8,138.7L159.3,140.6L161.3,141.4L161.4,143.0L160.6,144.5L159.1,144.1L158.1,146.1L155.6,144.2L153.8,144.9L153.6,146.0L155.1,146.1L156.0,147.2L155.4,148.7L158.3,149.1L159.5,150.5L160.8,148.9L162.2,151.8L164.1,149.1L166.3,150.7L166.4,148.4L167.6,149.5L167.1,151.4L168.5,153.5L169.6,153.1L170.2,153.8L170.8,152.5L171.9,152.5L172.6,148.9L173.3,149.3L174.7,146.7L176.9,146.6L177.6,144.3L181.1,142.9L183.7,145.4L183.6,143.3L185.1,140.3L186.1,142.2L187.5,141.0L187.9,141.7L188.5,139.1L189.1,139.7L190.2,138.9L190.0,136.4L191.0,137.7L191.4,136.2L194.3,135.7L196.2,137.5L195.5,138.1L196.1,140.0L198.9,141.2L200.3,143.3L202.3,142.8L203.6,143.6L203.9,142.9L205.1,144.6L206.6,142.8L207.8,145.1L212.7,138.0L213.2,135.9L214.4,136.0L214.5,134.9L218.1,132.6L217.3,131.6L217.6,126.4L218.7,123.2L224.1,116.3L224.6,113.3L227.1,112.0L228.5,114.4L231.2,115.4L233.0,114.1L237.0,116.3L238.2,121.6L240.6,122.1L247.4,128.7L247.5,133.3L249.4,134.6L251.4,140.2L250.2,143.4L251.9,145.1L253.3,145.5L258.8,142.5L260.7,143.4L262.2,145.9L268.9,149.7L271.1,152.9L277.1,154.1L278.7,157.2L282.8,158.5L287.4,156.8L289.6,154.3L294.5,155.0L296.1,156.5L297.8,156.2L299.0,158.1L302.3,158.6L302.9,160.1L300.7,162.4L300.3,166.5L301.6,166.9L301.0,168.3L302.5,168.3L301.9,169.2L302.8,169.9L302.0,170.8L304.2,173.1L303.6,173.9L305.2,173.6L305.0,175.1L306.6,174.8L306.4,176.3L305.5,176.5L307.3,178.4L306.2,178.8L307.0,179.9L306.2,182.9L307.8,183.2L307.4,184.7L308.6,184.6L307.3,186.2L310.3,187.6L310.0,190.2L311.2,192.1L312.3,192.2L311.7,193.6L313.1,193.8L311.1,194.7L310.8,196.2L316.4,199.6L314.2,202.1L317.9,202.6L319.4,203.9L321.1,202.6L322.1,204.0L323.7,203.4L327.6,205.3L330.1,204.7L331.3,206.3L332.1,205.2L334.7,206.1L337.0,205.5L338.4,208.3L340.8,209.4L340.4,210.9L344.9,211.6L347.5,214.3L350.3,214.1L352.6,215.8L355.7,215.8L355.9,213.3L358.1,213.0L361.0,215.2L359.8,212.7L360.8,212.9L361.1,210.7L362.7,208.8L361.1,209.0L359.9,210.7L357.4,208.5L358.2,206.1L356.8,207.0L356.8,204.6L354.6,204.2L356.7,203.1L355.7,203.0L355.3,200.9L352.7,201.2L352.7,197.4L350.6,199.5L350.1,196.7L351.2,196.1L351.5,194.3L350.0,194.9L349.7,194.1L351.0,193.0L348.7,191.4L350.2,190.1L348.9,188.0L349.6,185.7L348.6,184.5L350.5,184.1L350.0,182.3L348.8,181.5L350.7,181.2L349.8,179.6L351.1,178.6L352.6,178.6L352.5,176.4L355.0,176.3L354.8,175.6L353.3,176.1L353.9,173.0L356.1,173.1L355.9,170.9L357.5,170.9L357.4,169.9L359.2,168.7L360.6,169.2L360.8,171.3L361.7,168.9L365.8,169.3L365.4,167.3L367.1,167.3L367.2,164.9L368.5,164.9L369.3,162.7L374.1,161.7L373.7,159.8L375.8,160.8L374.7,159.0L375.8,159.7L376.4,158.3L377.8,158.1L377.2,156.1L377.9,156.4L377.8,155.1L379.1,153.8L380.3,154.7L380.5,153.7L381.3,154.1L382.6,152.7L382.4,153.8L384.3,153.4L383.7,152.3L385.4,151.2L384.7,149.8L386.1,149.4L385.3,148.8L386.2,148.5L386.8,145.2L388.7,143.7L388.4,141.9L389.6,141.9L388.9,141.1L391.4,139.9L391.8,141.3L393.7,139.0L391.6,134.9L392.6,134.4L391.9,133.1L393.1,132.1L392.7,129.8L391.7,129.3L392.6,128.9L392.7,127.1L391.4,126.9L391.2,125.2L392.6,124.6L391.8,123.7L391.7,119.2L390.6,117.9L390.9,111.1L391.7,107.9L395.2,106.9L398.9,102.4Z", "cx": 286.1, "cy": 129.5, "pts": 427}}};
+
+/* ================= DISTRICTS ================= */
+const D = {
+  leribe:{n:"Leribe", z:"L", lat:-28.87, lon:28.05, rain:1.0, dt:0},
+  butha:{n:"Butha-Buthe", z:"F", lat:-28.77, lon:28.25, rain:1.05, dt:-2},
+  mokhotlong:{n:"Mokhotlong", z:"H", lat:-29.29, lon:29.06, rain:0.8, dt:-6},
+  berea:{n:"Berea", z:"L", lat:-29.15, lon:27.75, rain:1.0, dt:0},
+  thaba:{n:"Thaba-Tseka", z:"H", lat:-29.52, lon:28.60, rain:1.05, dt:-6},
+  maseru:{n:"Maseru", z:"L", lat:-29.31, lon:27.48, rain:1.0, dt:0},
+  qacha:{n:"Qacha's Nek", z:"H", lat:-30.12, lon:28.69, rain:1.05, dt:-4},
+  mafeteng:{n:"Mafeteng", z:"L", lat:-29.82, lon:27.24, rain:0.85, dt:0},
+  mohales:{n:"Mohale's Hoek", z:"L", lat:-30.15, lon:27.48, rain:0.85, dt:0},
+  quthing:{n:"Quthing", z:"F", lat:-30.40, lon:27.70, rain:0.85, dt:-1}
+};
+const BASE = { max:[29,28,26,22,19,16,16,19,23,25,27,28], min:[15,15,12,7,3,-1,-1,1,5,9,12,14], rain:[105,95,85,50,25,10,10,15,25,60,75,90] };
+const climate = (d,m) => ({max:BASE.max[m]+d.dt, min:BASE.min[m]+d.dt, rain:Math.round(BASE.rain[m]*d.rain)});
+
+/* ================= TEXT ================= */
+const T = {
+ en:{kick:"Made in Lesotho · Free", h1a:"Healthy crops,", h1b:"season by season.", lead:"Pick your district and crop. See what pests are coming, how to stop them, and what to feed your plants — with products from Foso Hardware.",
+   start:"Start", trust1:"✓ District weather", trust2:"✓ Pest calendar", trust3:"✓ Foso products", myfarm:"My Farm", addcrop:"Add a crop", open:"Open",
+   s1:"Step 1 of 2", s2:"Step 2 of 2", pickD:"Where is your farm?", pickDs:"Tap your district on the map.", pickC:"What did you plant?", pickCs:"Tap your crop.",
+   low:"Lowlands", foot:"Foothills", high:"Highlands", choose:"Choose", typical:"Typical now", planted:"When did you plant?", notyet:"Not yet", thism:"This month", m1:"1 month ago", m2:"2 months", m3:"3+ months", save:"Save to My Farm",
+   pests:"Pests", fert:"Feed", season:"My season", spray:"Spray", legend:"Risk this month", high_:"High", watch_:"Watch", low_:"Low",
+   signs:"What you see", prevent:"Prevent", check:"Check", natural:"Natural control", chem:"Chemical — last step", from:"from",
+   confirm:"Confirm at the Foso Hardware front desk before you buy or spray.", label:"Read the label: rate, safety gear and days before harvest.", bee:"Toxic to bees — never spray open flowers.",
+   noChem:"No chemical cure. Remove sick plants and follow the steps above.", askDesk:"Ask at the front desk for a registered product for this problem.",
+   photoB:"Send a photo of your crop", photoS:"WhatsApp Foso Hardware · AI photo check coming soon", alertB:"Get weekly alerts", alertS:"Free WhatsApp tips for your district and crop",
+   seed:"Seed at Foso", here:"You are here", done:"done", tasksT:"Season checklist", reset:"Reset",
+   climNote:"Typical climate for this district (approx.).", liveNote:"Live forecast · Open-Meteo", sprayH:"Good spray days", sprayTips:"Spray safely",
+   whySeason:"In season this month.", whyWet:"Wet months raise this risk.", whyHot:"Hot, dry weather raises this risk.", whyWarm:"Warm weather speeds it up.", whyOut:"Not usually a problem this month.", whyCold:"Too cold here this month.",
+   saved:"Saved to My Farm", foot:"Educational guide only. Always follow the product label. Confirm at the Foso Hardware front desk before buying or spraying.",
+   day:"Day", night:"Night", rain:"Rain", frost:"Frost risk", months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]},
+ st:{kick:"E entsoe Lesotho · Mahala", h1a:"Lijalo tse phetseng,", h1b:"selemo le selemo.", lead:"Khetha setereke le sejalo sa hao. Bona likokonyana tse tlang, mokhoa oa ho li thibela, le manyolo — ka lihlahisoa tsa Foso Hardware.",
+   start:"Qala", trust1:"✓ Boemo ba leholimo", trust2:"✓ Khalendara ea likokonyana", trust3:"✓ Lihlahisoa tsa Foso", myfarm:"Polasi ea ka", addcrop:"Eketsa sejalo", open:"Bula",
+   s1:"Mohato 1 ho 2", s2:"Mohato 2 ho 2", pickD:"Polasi ea hao e kae?", pickDs:"Tobetsa setereke sa hao 'mapeng.", pickC:"U jetse eng?", pickCs:"Tobetsa sejalo sa hao.",
+   low:"Mabalane", foot:"Maralla", high:"Lithaba", choose:"Khetha", typical:"Hangata joale", planted:"U jetse neng?", notyet:"Ha ke e-so jale", thism:"Khoeling ena", m1:"Khoeli e fetileng", m2:"Likhoeli tse 2", m3:"Likhoeli tse 3+", save:"Boloka ho Polasi ea ka",
+   pests:"Likokonyana", fert:"Manyolo", season:"Selemo sa ka", spray:"Fafatsa", legend:"Kotsi khoeling ena", high_:"E phahameng", watch_:"Hlokomela", low_:"E tlase",
+   signs:"Seo u se bonang", prevent:"Thibela", check:"Hlahloba", natural:"Taolo ea tlhaho", chem:"Lik'hemik'hale — mohato oa ho qetela", from:"ho tloha",
+   confirm:"Netefatsa le basebetsi ba Foso Hardware pele u reka kapa u fafatsa.", label:"Bala leibole: tekanyo, liaparo tsa ts'ireletso le matsatsi pele u kotula.", bee:"E kotsi ho linotši — u se ke ua fafatsa lipalesa.",
+   noChem:"Ha ho moriana o phekolang. Tlosa limela tse kulang.", askDesk:"Botsa basebetsi ba Foso ka moriana o ngolisitsoeng.",
+   photoB:"Romela setšoantšo sa sejalo", photoS:"WhatsApp Foso Hardware · Tlhahlobo ea AI e tla haufinyane", alertB:"Fumana litemoso beke le beke", alertS:"Malebela a mahala ka WhatsApp",
+   seed:"Peo ho Foso", here:"U mona", done:"tse entsoeng", tasksT:"Lethathamo la selemo", reset:"Qala bocha",
+   climNote:"Boemo bo tloaelehileng ba setereke sena.", liveNote:"Boemo ba nako ena · Open-Meteo", sprayH:"Matsatsi a matle a ho fafatsa", sprayTips:"Fafatsa ka polokeho",
+   whySeason:"Ke nako ea eona khoeling ena.", whyWet:"Likhoeli tse metsi li eketsa kotsi.", whyHot:"Mocheso le komello li eketsa kotsi.", whyWarm:"Mocheso o e potlakisa.", whyOut:"Hangata ha se bothata khoeling ena.", whyCold:"Ho bata haholo mona khoeling ena.",
+   saved:"E bolokiloe ho Polasi ea ka", foot:"Tataiso ea thuto feela. Latela leibole kamehla. Netefatsa le Foso Hardware pele u reka kapa u fafatsa.",
+   day:"Motšehare", night:"Bosiu", rain:"Pula", frost:"Serame", months:["Pherekhong","Hlakola","Hlakubele","Mmesa","Motšeanong","Phupjane","Phupu","Phato","Lewedu","Mphalane","Pulungoana","Tšitoe"]}
+};
+
+/* Season checklist per crop (simple, practical) */
+const TASKS = {
+  tomato:["Raise seedlings in trays","Dig compost into beds","Base dressing at transplanting","Stake plants","Check under leaves weekly","Side-dress LAN at 3–4 weeks","Calcium feed at flowering","Check for blight after rain","Harvest and remove old plants"],
+  pepper:["Raise seedlings in trays","Dig compost into beds","Base dressing at transplanting","Check for aphids & thrips weekly","Side-dress LAN at 4 weeks","Calcium feed at flowering","Even watering & mulch","Harvest and clean up"],
+  cabbage:["Raise seedlings under net","Base dressing at transplanting","Collar seedlings against cutworm","Check 10 plants weekly for caterpillars","LAN at 3 weeks","LAN at 6 weeks","Calcium at heading","Harvest and destroy old plants"],
+  maize:["Clean seedbed","Plant with starter fertiliser","Pre-emergence weed spray","Weed before 6 weeks","Scout 20 plants weekly for armyworm","Top-dress LAN at knee height","Plough in stalks after harvest"],
+  potato:["Use certified seed","Base dressing in furrow","Weed control after planting","Hill up at 4–5 weeks + LAN","Check for blight after rain","Potassium at bulking","Harvest on time, store covered"]
+};
+
 /* ================= STATE ================= */
-let S = {lang:"en", d:null, c:null, tab:"pests", m:new Date().getMonth(), open:null, wx:null};
-try{ const s=JSON.parse(localStorage.getItem("rr_state")||"{}"); Object.assign(S, {lang:s.lang||"en", d:s.d||null, c:s.c||null}); }catch(e){}
-function save(){ try{ localStorage.setItem("rr_state", JSON.stringify({lang:S.lang,d:S.d,c:S.c})); }catch(e){} }
+let S = {lang:"en", view:"home", d:null, c:null, tab:"pests", m:new Date().getMonth(), open:null, wx:null, plantedSel:null, farm:[], tasks:{}};
+const LS = {get(k,f){try{const v=localStorage.getItem(k);return v?JSON.parse(v):f}catch(e){return f}}, set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+Object.assign(S, {lang:LS.get("rr_lang","en"), farm:LS.get("rr_farm",[]), tasks:LS.get("rr_tasks",{})});
 const t = k => (T[S.lang][k] ?? T.en[k]);
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const dist = () => D.find(x=>x.id===S.d);
-const crop = () => CROPS.find(x=>x.id===S.c);
+const crop = id => CROPS.find(x=>x.id===id);
 const cropName = c => S.lang==="st" ? c.st : c.en;
+const tick = () => { try{ navigator.vibrate && navigator.vibrate(8); }catch(e){} };
+function photo(c, cls="ph"){ return `<img class="${cls}" src="images/${c.id}.webp" alt="${esc(c.en)}" loading="lazy" onerror="this.outerHTML='<div class=&quot;${cls} emoji&quot;>${c.em}</div>'">`; }
+function toast(msg){ const el=$("#toast"); el.textContent=msg; el.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>el.classList.remove("show"),1800); }
 
 /* ================= RISK ================= */
 function risk(p, d, m, w){
-  const c = w || climate(d, m);
-  const mean = (c.max + c.min) / 2;
-  const inSeason = p.m.includes(m+1);
-  if(!inSeason) return {lvl:"low", why:t("whyOut")};
+  const c = w || climate(d, m), mean = (c.max + c.min)/2;
+  if(!p.m.includes(m+1)) return {lvl:"low", why:t("whyOut")};
   if(mean < p.minT) return {lvl:"low", why:t("whyCold")};
-  let boost = false, why = t("whySeason");
+  let boost=false, why=t("whySeason");
   if(p.cond==="wet" && c.rain>=70 && mean<=25){boost=true; why=t("whyWet");}
   if(p.cond==="warmwet" && c.rain>=60 && mean>=17){boost=true; why=t("whyWet");}
   if(p.cond==="hotdry" && c.max>=26 && c.rain<70){boost=true; why=t("whyHot");}
   if(p.cond==="warm" && mean>=21){boost=true; why=t("whyWarm");}
-  return {lvl: boost ? "high" : "watch", why};
+  return {lvl: boost?"high":"watch", why};
+}
+function topRisk(cid, did){
+  const c=crop(cid), d=D[did], m=new Date().getMonth(), order={high:0,watch:1,low:2};
+  const list=c.pests.map(id=>({p:PEST[id], r:risk(PEST[id], d, m)})).sort((a,b)=>order[a.r.lvl]-order[b.r.lvl]);
+  return list[0];
 }
 
-/* ================= LIVE WEATHER (works when hosted on its own site) ================= */
+/* ================= LIVE WEATHER ================= */
 async function loadWx(){
-  const d = dist(); if(!d) return;
-  S.wx = null;
+  const did=S.d, d=D[did]; if(!d) return;
+  if(S.wx && S.wx.id===did) return;
+  S.wx={id:did, loading:true};
   try{
-    const u = `https://api.open-meteo.com/v1/forecast?latitude=${d.lat}&longitude=${d.lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max,weather_code&forecast_days=7&timezone=Africa%2FJohannesburg`;
-    const ctl = new AbortController(); setTimeout(()=>ctl.abort(), 6000);
-    const r = await fetch(u, {signal:ctl.signal}); if(!r.ok) throw 0;
-    const j = await r.json(); const dd = j.daily;
-    S.wx = {id:d.id, days: dd.time.map((x,i)=>({date:x, max:Math.round(dd.temperature_2m_max[i]), min:Math.round(dd.temperature_2m_min[i]), rain:dd.precipitation_sum[i], wind:dd.wind_speed_10m_max[i], code:dd.weather_code[i]}))};
-    render();
-  }catch(e){ S.wx = {id:d.id, failed:true}; }
+    const u=`https://api.open-meteo.com/v1/forecast?latitude=${d.lat}&longitude=${d.lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max&forecast_days=7&timezone=Africa%2FJohannesburg`;
+    const ctl=new AbortController(); setTimeout(()=>ctl.abort(),6000);
+    const r=await fetch(u,{signal:ctl.signal}); if(!r.ok) throw 0;
+    const j=await r.json(), dd=j.daily;
+    S.wx={id:did, days:dd.time.map((x,i)=>({date:x,max:Math.round(dd.temperature_2m_max[i]),min:Math.round(dd.temperature_2m_min[i]),rain:dd.precipitation_sum[i],wind:dd.wind_speed_10m_max[i]}))};
+    if(S.view==="dash") render(false);
+  }catch(e){ S.wx={id:did, failed:true}; }
 }
 function wxNow(){
-  const d = dist();
-  if(S.wx && S.wx.id===d.id && S.wx.days && S.m===new Date().getMonth()){
-    const ds = S.wx.days, n = ds.length;
-    return {live:true, max:Math.round(ds.reduce((a,x)=>a+x.max,0)/n), min:Math.round(ds.reduce((a,x)=>a+x.min,0)/n),
-            rain:Math.round(ds.reduce((a,x)=>a+x.rain,0)*4.3)}; /* weekly rain scaled to a month for risk rules */
+  if(S.wx && S.wx.id===S.d && S.wx.days && S.m===new Date().getMonth()){
+    const ds=S.wx.days,n=ds.length;
+    return {live:true,max:Math.round(ds.reduce((a,x)=>a+x.max,0)/n),min:Math.round(ds.reduce((a,x)=>a+x.min,0)/n),rain:Math.round(ds.reduce((a,x)=>a+x.rain,0)*4.3)};
   }
   return null;
 }
 
-/* ================= RENDER ================= */
-function chips(){
-  const d = dist(), c = crop(), el = $("#chips");
-  let h = "";
-  if(d) h += `<button class="chip" data-go="d">📍 ${esc(d.n)} <small>${t("change")}</small></button>`;
-  if(c) h += `<button class="chip" data-go="c">${c.em} ${esc(cropName(c))} <small>${t("change")}</small></button>`;
-  el.innerHTML = h; el.style.display = h ? "flex" : "none";
+/* ================= VIEWS ================= */
+function bar(dark, back){
+  return `<div class="bar ${dark?'dark':''}">
+    ${back?`<button class="back press" data-act="back" aria-label="Back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`:''}
+    <div class="brand"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="${dark?'rgba(255,255,255,.16)':'#143522'}"/><path d="M12 19v-7" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><path d="M12 12.5c0-4 2.3-6.5 6-6.5 0 4-2.3 6.5-6 6.5Z" fill="#7fb069"/><path d="M12 14c0-3-1.9-5-5.2-5 0 3 1.9 5 5.2 5Z" fill="#e9b949"/></svg>Roots & Remedy</div>
+    <div class="lang"><button class="${S.lang==='en'?'on':''}" data-l="en">EN</button><button class="${S.lang==='st'?'on':''}" data-l="st">ST</button></div>
+  </div>`;
 }
-function viewDistrict(){
-  let cells = "";
-  for(let r=1;r<=4;r++) for(let col=1;col<=3;col++){
-    const d = D.find(x=>x.g[0]===r && x.g[1]===col);
-    if(d) cells += `<button class="d ${d.z==='H'?'':'hl'} ${S.d===d.id?'on':''}" data-d="${d.id}"><b>${esc(d.n)}</b><small>${t(d.z==='L'?'low':d.z==='F'?'foot':'high')}</small></button>`;
-    else cells += `<div class="m" aria-hidden="true"></div>`;
-  }
-  return `<span class="step">${t("s1")}</span><h1>${t("pickD")}</h1><p class="sub">${t("pickDs")}</p>
-    <div class="map">${cells}</div><div class="compass">${t("north")}</div>`;
+const RIDGE = `<svg class="ridge" viewBox="0 0 400 200" preserveAspectRatio="none"><path d="M0 120 L40 90 L70 105 L110 60 L150 95 L190 70 L230 100 L270 55 L310 90 L350 75 L400 100 V200 H0Z" fill="#1f4d31" opacity=".55"/><path d="M0 150 L50 125 L90 140 L140 110 L190 140 L240 118 L290 145 L340 120 L400 140 V200 H0Z" fill="#143522" opacity=".85"/><path d="M0 175 L60 160 L120 172 L180 155 L240 170 L300 158 L360 170 L400 162 V200 H0Z" fill="#0f2a1b"/></svg>`;
+
+function vHome(){
+  const farm = S.farm.map((f,i)=>{
+    const c=crop(f.c), d=D[f.d]; if(!c||!d) return "";
+    const tr=topRisk(f.c,f.d);
+    return `<button class="fcard press" data-farm="${i}" style="animation-delay:${.5+i*.08}s">${photo(c)}<span><b>${esc(cropName(c))}</b><small>📍 ${esc(d.n)} · ${tr.p.em} ${esc(tr.p.n)}</small></span><span class="rk badge ${tr.r.lvl}">${t(tr.r.lvl+"_")}</span></button>`;
+  }).join("");
+  return `<section class="hero screen"><div class="bg"></div>${RIDGE}
+    <div style="position:relative;z-index:3">${bar(true,false)}</div>
+    <div class="content">
+      <span class="kicker">🇱🇸 ${t("kick")}</span>
+      <h1>${t("h1a")}<br><em>${t("h1b")}</em></h1>
+      <p class="lead">${t("lead")}</p>
+      ${farm?`<h3 style="font-family:var(--head);font-size:20px;margin-top:24px">${t("myfarm")}</h3><div class="farm">${farm}</div>`:''}
+      <button class="cta press ${farm?'':''}" data-act="start">${farm?'＋ '+t("addcrop"):t("start")} <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="trust"><span>${t("trust1")}</span><span>${t("trust2")}</span><span>${t("trust3")}</span></div>
+    </div></section>`;
 }
-function viewCrop(){
-  return `<span class="step">${t("s2")}</span><h1>${t("pickC")}</h1><p class="sub">${t("pickCs")}</p>
-    <div class="crops">${CROPS.map(c=>`<button class="crop ${S.c===c.id?'on':''}" data-c="${c.id}"><div class="ic">${c.em}</div><b>${esc(cropName(c))}</b><small>${S.lang==='st'?esc(c.en):esc(c.st)}</small></button>`).join("")}</div>`;
+
+const ZONEFILL = {L:"url(#gL)", F:"url(#gF)", H:"url(#gH)"};
+function vMap(){
+  const ids = Object.keys(MAP.paths);
+  const sides = ids.map(id=>`<path class="side" d="${MAP.paths[id].d}" transform="translate(0,9)"/>`).join("");
+  const tops = ids.map(id=>{const p=MAP.paths[id];
+    return `<g class="dg ${S.d===id?'on':''}" data-d="${id}"><path class="lift" d="${p.d}" transform="translate(0,9)"/><path class="top" d="${p.d}" fill="${ZONEFILL[D[id].z]}"/><text class="lbl" x="${p.cx}" y="${p.cy+4}">${esc(D[id].n)}</text></g>`;}).join("");
+  return `<div class="screen">${bar(false,true)}<div class="wrap">
+    <span class="step">● ${t("s1")}</span><h1 class="t">${t("pickD")}</h1><p class="sub">${t("pickDs")}</p>
+    <div class="mapbox"><svg viewBox="-10 -20 ${MAP.w+20} ${MAP.h+40}" role="img" aria-label="Map of Lesotho districts">
+      <defs>
+        <linearGradient id="gL" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9cc67a"/><stop offset="1" stop-color="#6fa45a"/></linearGradient>
+        <linearGradient id="gF" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7db26a"/><stop offset="1" stop-color="#4f8a4c"/></linearGradient>
+        <linearGradient id="gH" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5c935a"/><stop offset="1" stop-color="#2f6340"/></linearGradient>
+        <linearGradient id="gClay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eaa06f"/><stop offset="1" stop-color="#c4683b"/></linearGradient>
+        <filter id="soft" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="14" stdDeviation="12" flood-color="#143522" flood-opacity=".25"/></filter>
+      </defs>
+      <g filter="url(#soft)">${sides}</g>
+      <g id="tops">${tops}</g>
+    </svg>
+    <div class="legend2"><span><i style="background:#86b86a"></i>${t("low")}</span><span><i style="background:#66a05a"></i>${t("foot")}</span><span><i style="background:#3f7a4a"></i>${t("high")}</span></div>
+    <div class="credit">Boundaries: geoBoundaries (CC BY 4.0)</div></div>
+  </div></div>`;
+}
+function sheetDistrict(id){
+  const d=D[id], c=climate(d,new Date().getMonth());
+  $("#sheetIn").innerHTML = `<div class="grab"></div><span class="step" style="margin:0">📍 ${t(d.z==='L'?'low':d.z==='F'?'foot':'high')}</span><h3>${esc(d.n)}</h3>
+    <div class="meta"><span class="tag">☀️ ${t("typical")}: ${c.max}° / ${c.min}°</span><span class="tag">🌧️ ~${c.rain} mm</span>${c.min<=2?`<span class="tag">❄️ ${t("frost")}</span>`:''}</div>
+    <button class="btn press" data-act="pickd" data-id="${id}">${t("choose")} ${esc(d.n)} →</button>`;
+  $("#sheet").classList.add("show");
+}
+function hideSheet(){ $("#sheet").classList.remove("show"); }
+
+function vCrop(){
+  const mine = new Set(S.farm.filter(f=>f.d===S.d).map(f=>f.c));
+  return `<div class="screen">${bar(false,true)}<div class="wrap">
+    <span class="step">● ${t("s2")} · 📍 ${esc(D[S.d].n)}</span><h1 class="t">${t("pickC")}</h1><p class="sub">${t("pickCs")}</p>
+    <div class="crops">${CROPS.map((c,i)=>`<button class="crop press" data-c="${c.id}" style="animation-delay:${i*.06}s">${mine.has(c.id)?`<span class="mine">✓</span>`:''}${photo(c)}<b>${esc(cropName(c))}</b><small>${S.lang==='st'?esc(c.en):esc(c.st)}</small></button>`).join("")}</div>
+  </div></div>`;
+}
+function sheetPlanted(cid){
+  const c=crop(cid), opts=[["n","notyet"],["0","thism"],["1","m1"],["2","m2"],["3","m3"]];
+  S.plantedSel = S.plantedSel ?? "0";
+  $("#sheetIn").innerHTML = `<div class="grab"></div><div style="display:flex;align-items:center;gap:14px">${photo(c)}<div><span class="step" style="margin:0">📍 ${esc(D[S.d].n)}</span><h3>${esc(cropName(c))}</h3></div></div>
+    <p class="sub" style="margin-top:12px;font-weight:600;color:var(--ink)">${t("planted")}</p>
+    <div class="chips2">${opts.map(([v,k])=>`<button class="press ${S.plantedSel===v?'on':''}" data-pl="${v}">${t(k)}</button>`).join("")}</div>
+    <button class="btn press" data-act="savecrop" data-id="${cid}">${t("save")} →</button>`;
+  $("#sheet").classList.add("show");
+}
+
+function monthsSincePlanting(){
+  const f=S.farm.find(x=>x.d===S.d&&x.c===S.c); if(!f||f.planted==null) return null;
+  const now=new Date(), p=new Date(f.planted);
+  return (now.getFullYear()-p.getFullYear())*12 + now.getMonth()-p.getMonth();
 }
 function prodCard(name){
-  const p = P[name]; if(!p) return "";
-  return `<div class="prod"><span class="pr">${t("from")} M${p.price}</span><b>${esc(name)}</b><small>${esc(p.what)} · ${esc(p.pack)}</small>${p.bee?`<div class="warn">🐝 ${t("bee")}</div>`:""}</div>`;
+  const p=P[name]; if(!p) return "";
+  const ic = /fung|Mirador|Strobin/i.test(name+p.what)?"🧪":/herb|weed|Camix|Guardian|Metribuzin/i.test(name+p.what)?"🌿":/insect|aphid|caterpillar|mite|thrips|Coragen|Belt|Cormoran|Kohinor|Abamec|Biomectin/i.test(name+p.what)?"🐛":/Sprayer/.test(name)?"🎒":"🌾";
+  return `<div class="prod"><span class="pi">${ic}</span><span><b>${esc(name)}</b><small>${esc(p.what)} · ${esc(p.pack)}</small>${p.bee?`<div class="warn">🐝 ${t("bee")}</div>`:""}</span><span class="pr">${t("from")} M${p.price}</span></div>`;
 }
-function weatherCard(){
-  const d = dist(), live = wxNow(), c = live || climate(d, S.m);
-  const frost = c.min <= 2;
-  return `<div class="wx"><div class="top"><div><h3>${live?t("weatherL"):t("weatherT")} · ${esc(d.n)}</h3>
-      <div class="big">${c.max}° <span style="font-size:18px;opacity:.75">/ ${c.min}°</span></div></div>
-      <div style="font-size:40px">${frost?"❄️":c.rain>=70?"🌧️":c.max>=27?"☀️":"⛅"}</div></div>
-    <div class="row"><span class="pill">☀️ ${t("maxT")} ${c.max}°C</span><span class="pill">🌙 ${t("minT")} ${c.min}°C</span><span class="pill">🌧️ ${t("rain")} ~${c.rain} mm</span>${frost?`<span class="pill">❄️ ${t("frost")}</span>`:""}</div>
-    <div class="src">${live?t("liveNote"):t("climNote")}</div></div>`;
-}
-function viewPests(){
-  const d = dist(), c = crop(), live = wxNow();
-  const order = {high:0, watch:1, low:2};
-  const list = c.pests.map(id=>({id, p:PEST[id], r:risk(PEST[id], d, S.m, live)})).sort((a,b)=>order[a.r.lvl]-order[b.r.lvl]);
-  return `<div class="legend"><b style="color:var(--ink)">${t("legend")}:</b><span><i class="dot" style="background:var(--high)"></i>${t("high_")}</span><span><i class="dot" style="background:var(--watch)"></i>${t("watch_")}</span><span><i class="dot" style="background:var(--low)"></i>${t("low_")}</span></div>` +
-  list.map(({id,p,r})=>{
-    const chem = p.chem.length
-      ? p.chem.map(prodCard).join("") + (p.chemNote?`<p style="font-size:13px;color:var(--muted);margin-top:8px">${esc(p.chemNote)}</p>`:"") + (p.nutrient?"":`<p style="font-size:12px;color:var(--muted);margin-top:4px">📄 ${t("label")}</p>`)
-      : `<p>${p.chemNote==="noChem"?t("noChem"):t("askDesk")}</p>`;
-    return `<div class="pest ${r.lvl} ${S.open===id?'open':''}">
-      <button class="hd" data-p="${id}"><span class="em">${p.em}</span><span class="nm"><b>${esc(p.n)}</b><small>${esc(p.k)}</small></span><span class="badge ${r.lvl}">${t(r.lvl+"_")}</span></button>
-      <div class="body"><div class="why">${esc(r.why)}</div>
+function paneP(){
+  const d=D[S.d], c=crop(S.c), live=wxNow(), order={high:0,watch:1,low:2};
+  const list=c.pests.map(id=>({id,p:PEST[id],r:risk(PEST[id],d,S.m,live)})).sort((a,b)=>order[a.r.lvl]-order[b.r.lvl]);
+  return `<div class="legend"><b style="color:var(--ink)">${t("legend")}</b><span><i class="dot" style="background:var(--high)"></i>${t("high_")}</span><span><i class="dot" style="background:var(--watch)"></i>${t("watch_")}</span><span><i class="dot" style="background:var(--low)"></i>${t("low_")}</span></div>`+
+  list.map(({id,p,r},i)=>{
+    const chem=p.chem.length? p.chem.map(prodCard).join("")+(p.chemNote?`<p class="note">${esc(p.chemNote)}</p>`:"")+(p.nutrient?"":`<p class="note">📄 ${t("label")}</p>`) : `<p>${p.chemNote==="noChem"?t("noChem"):t("askDesk")}</p>`;
+    return `<div class="pest ${r.lvl} ${S.open===id?'open':''}" style="animation-delay:${i*.05}s">
+      <button class="hd" data-p="${id}"><span class="em">${p.em}</span><span class="nm"><b>${esc(p.n)}</b><small>${esc(p.k)}</small></span><span class="badge ${r.lvl}">${t(r.lvl+"_")}</span><svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
+      <div class="body"><div><div class="pad"><div class="why">${esc(r.why)}</div>
         <div class="ipm"><span class="n s">👁️</span><div><b>${t("signs")}</b><p>${esc(p.signs)}</p></div></div>
         <div class="ipm"><span class="n p">🛡️</span><div><b>1 · ${t("prevent")}</b><p>${esc(p.prevent)}</p></div></div>
         <div class="ipm"><span class="n c">🔍</span><div><b>2 · ${t("check")}</b><p>${esc(p.check)}</p></div></div>
         <div class="ipm"><span class="n b">🌿</span><div><b>3 · ${t("natural")}</b><p>${esc(p.natural)}</p></div></div>
         <div class="ipm"><span class="n x">🧴</span><div style="flex:1"><b>4 · ${p.nutrient?"Foso Hardware":t("chem")}</b>${chem}</div></div>
-        <div class="confirm">✅ <span>${t("confirm")}</span></div>
-      </div></div>`;
+        <div class="confirm">✅ <span>${t("confirm")}</span></div></div></div></div></div>`;
   }).join("");
 }
-function viewFert(){
-  const c = crop();
-  return `<p class="sub" style="margin-top:14px">🌾 ${t("seed")}: <b style="color:var(--ink)">${esc(c.seed)}</b></p>` +
-    c.fert.map(s=>`<div class="stage"><span class="em">${s.em}</span><div style="flex:1"><span class="when">${esc(s.w)}</span><b>${esc(s.t)}</b><p>${esc(s.p)}</p>${s.prods.map(prodCard).join("")}</div></div>`).join("") +
-    `<div class="tip"><span class="em">🧪</span><p>A soil test tells the exact amount your field needs. Rates differ by soil — ask at the front desk for the right amount per row or per hectare.</p></div>
-     <div class="confirm">✅ <span>${t("confirm")}</span></div>`;
+function paneF(){
+  const c=crop(S.c), ms=monthsSincePlanting();
+  /* rough stage index from months since planting */
+  let now=-1; if(ms!=null){ const n=c.fert.length; now = ms<0?0 : Math.min(n-1, c.id==="maize"? (ms<1?0:ms<2?1:2) : Math.min(n-1, ms+ (c.fert[0].w==="Seedlings"?2:1))); }
+  return `<p class="sub" style="margin:16px 2px">🌾 ${t("seed")}: <b style="color:var(--ink)">${esc(c.seed)}</b></p>`+
+   c.fert.map((s,i)=>`<div class="stage ${i===now?'now':''}" style="animation-delay:${i*.06}s"><div class="rail"><div class="dotc">${s.em}</div><div class="line"></div></div><div class="card"><span class="when">${esc(s.w)}</span>${i===now?`<span class="here">${t("here")}</span>`:''}<b class="tt">${esc(s.t)}</b><p>${esc(s.p)}</p>${s.prods.map(prodCard).join("")}</div></div>`).join("")+
+   `<div class="tip"><span class="em">🧪</span><p>A soil test tells the exact amount your field needs. Ask at the front desk for the right amount per row or per hectare.</p></div><div class="confirm">✅ <span>${t("confirm")}</span></div>`;
 }
-function viewSpray(){
-  const d = dist(); let h = "";
-  if(S.wx && S.wx.id===d.id && S.wx.days){
-    const dn = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-    h += `<h2>${t("sprayH")}</h2><div class="days">` + S.wx.days.map(x=>{
-      const good = x.rain < 2 && x.wind < 15;
-      return `<div class="day ${good?'good':''}"><b>${dn[new Date(x.date).getDay()]}</b><span class="e">${good?"✅":x.rain>=2?"🌧️":"💨"}</span>${x.max}°</div>`;
-    }).join("") + `</div><p class="sub" style="margin-top:8px">✅ = no rain and low wind. ${esc(t("liveNote"))}</p>`;
+function paneS(){
+  const key=S.d+":"+S.c, list=TASKS[S.c]||[], done=S.tasks[key]||[];
+  const pct=list.length?Math.round(done.length/list.length*100):0, R=26, C=2*Math.PI*R;
+  return `<div class="ring"><svg width="70" height="70" viewBox="0 0 70 70"><circle cx="35" cy="35" r="${R}" stroke="#eee5cc" stroke-width="8" fill="none"/><circle cx="35" cy="35" r="${R}" stroke="#4f9a5b" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct/100)}" transform="rotate(-90 35 35)" style="transition:stroke-dashoffset .8s var(--ease)"/><text x="35" y="40" text-anchor="middle" font-weight="800" font-size="15" fill="#143522">${pct}%</text></svg>
+    <div><b>${t("tasksT")}</b><span class="sub">${done.length} / ${list.length} ${t("done")}</span></div></div>`+
+   list.map((x,i)=>`<button class="task press ${done.includes(i)?'done':''}" data-task="${i}"><span class="ck">${done.includes(i)?'✓':''}</span><span class="tx">${esc(x)}</span></button>`).join("")+
+   (done.length?`<button class="note" style="margin:14px auto 0;display:block;text-decoration:underline" data-act="resettasks">${t("reset")}</button>`:'');
+}
+function paneSpray(){
+  let h="";
+  if(S.wx && S.wx.id===S.d && S.wx.days){
+    const dn=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+    h+=`<h3 class="h">${t("sprayH")}</h3><div class="days">`+S.wx.days.map(x=>{const g=x.rain<2&&x.wind<15;return `<div class="day ${g?'good':''}"><b>${dn[new Date(x.date).getDay()]}</b><span class="e">${g?"✅":x.rain>=2?"🌧️":"💨"}</span>${x.max}°</div>`}).join("")+`</div><p class="note">✅ = no rain, low wind · ${t("liveNote")}</p>`;
   }
-  h += `<h2>${t("sprayTips")}</h2>
-    <div class="tip"><span class="em">🌅</span><p><b>Spray early morning or late afternoon.</b> Midday heat burns leaves and chemicals dry before they work. Bees are also less active.</p></div>
-    <div class="tip"><span class="em">🌧️</span><p><b>No rain for at least 4–6 hours after spraying</b>, or the spray washes off. A wetter like Aquatech helps it stick.</p></div>
-    <div class="tip"><span class="em">💨</span><p><b>Don't spray in wind.</b> Drift wastes money and can harm your family, animals and neighbours' crops.</p></div>
-    <div class="tip"><span class="em">🧤</span><p><b>Wear gloves, mask, long sleeves and boots.</b> Wash hands and clothes after. Keep children and animals away.</p></div>
-    <div class="tip"><span class="em">🔁</span><p><b>Rotate products.</b> Using the same chemical again and again makes pests resistant.</p></div>
-    <div class="tip"><span class="em">📅</span><p><b>Check the days before harvest</b> on the label. Don't harvest too soon after spraying.</p></div>
-    ${prodCard("Aquatech 5 (Wetter)")}${prodCard("Knapsack Sprayer 16L")}
-    <div class="confirm">✅ <span>${t("confirm")}</span></div>`;
+  h+=`<h3 class="h">${t("sprayTips")}</h3>
+   <div class="tip"><span class="em">🌅</span><p><b>Early morning or late afternoon.</b> Midday heat burns leaves and dries the spray before it works.</p></div>
+   <div class="tip"><span class="em">🌧️</span><p><b>No rain for 4–6 hours after.</b> A wetter like Aquatech helps it stick.</p></div>
+   <div class="tip"><span class="em">💨</span><p><b>Not in wind.</b> Drift wastes money and harms people, animals and neighbours' crops.</p></div>
+   <div class="tip"><span class="em">🧤</span><p><b>Gloves, mask, long sleeves, boots.</b> Wash hands and clothes after. Keep children away.</p></div>
+   <div class="tip"><span class="em">🔁</span><p><b>Rotate products.</b> The same chemical again and again makes pests resistant.</p></div>
+   <div class="tip"><span class="em">📅</span><p><b>Days before harvest.</b> Check the label before you pick.</p></div>
+   ${prodCard("Aquatech 5 (Wetter)")}${prodCard("Knapsack Sprayer 16L")}<div class="confirm">✅ <span>${t("confirm")}</span></div>`;
   return h;
 }
-function viewDash(){
-  const c = crop(), d = dist();
-  const months = t("months").map((m,i)=>`<button class="${S.m===i?'on':''}" data-m="${i}">${esc(m)}</button>`).join("");
-  const body = S.tab==="pests" ? viewPests() : S.tab==="fert" ? viewFert() : viewSpray();
-  const msg = encodeURIComponent(`Hello Foso Hardware. Roots & Remedy guide: I have a problem on my ${c.en} in ${d.n}. I am sending a photo.`);
-  return `<h1 style="display:flex;align-items:center;gap:10px"><span style="font-size:36px">${c.em}</span>${esc(cropName(c))} · ${esc(d.n)}</h1>
-    ${weatherCard()}
-    <div class="months" id="months">${months}</div>
-    <div class="tabs"><button class="${S.tab==='pests'?'on':''}" data-t="pests">🐛 ${t("pests")}</button><button class="${S.tab==='fert'?'on':''}" data-t="fert">🌱 ${t("fert")}</button><button class="${S.tab==='spray'?'on':''}" data-t="spray">🧴 ${t("spray")}</button></div>
-    ${body}
-    <a class="cta" href="https://wa.me/${STORE.wa}?text=${msg}" target="_blank" rel="noopener"><span class="em">📷</span><span><b>${t("photoB")}</b><small>${t("photoS")} · ${STORE.waShow}</small></span></a>`;
-}
-function render(){
-  document.documentElement.lang = S.lang==="st" ? "st" : "en";
-  document.querySelectorAll(".lang button").forEach(b=>b.classList.toggle("on", b.dataset.l===S.lang));
-  $("#tagline").textContent = t("tag");
-  $("#foot1").textContent = t("foot");
-  chips();
-  const app = $("#app");
-  if(!S.d) app.innerHTML = viewDistrict();
-  else if(!S.c) app.innerHTML = viewCrop();
-  else app.innerHTML = viewDash();
-  const mo = $("#months"); if(mo){ const on = mo.querySelector(".on"); if(on) mo.scrollLeft = on.offsetLeft - 60; }
+function vDash(){
+  const c=crop(S.c), d=D[S.d], live=wxNow(), w=live||climate(d,S.m);
+  const tabs=[["pests","🐛"],["fert","🌱"],["season","✅"],["spray","🧴"]], ti=tabs.findIndex(x=>x[0]===S.tab);
+  const pane = S.tab==="pests"?paneP(): S.tab==="fert"?paneF(): S.tab==="season"?paneS(): paneSpray();
+  const msg=encodeURIComponent(`Hello Foso Hardware 👋 (Roots & Remedy guide) — I have a problem on my ${c.en} in ${d.n}. I am sending a photo.`);
+  const al=encodeURIComponent(`Hello Foso Hardware 👋 Please add me to Roots & Remedy weekly tips for ${c.en} in ${d.n}.`);
+  return `<div class="screen">${bar(false,true)}<div class="wrap">
+    <div class="dhero">${photo(c)}<span class="step" style="margin:0;color:var(--sun)">📍 ${esc(d.n)}</span><h2>${esc(cropName(c))}</h2>
+      <div class="wx"><span>☀️ ${w.max}°</span><span>🌙 ${w.min}°</span><span>🌧️ ~${w.rain} mm</span>${w.min<=2?`<span>❄️ ${t("frost")}</span>`:''}</div>
+      <div class="src">${live?t("liveNote"):t("climNote")}</div></div>
+    <div class="months" id="months">${t("months").map((m,i)=>`<button class="${S.m===i?'on':''}" data-m="${i}">${esc(m)}</button>`).join("")}</div>
+    <div class="seg"><div class="ind" style="transform:translateX(${ti*100}%)"></div>${tabs.map(([k,e])=>`<button class="${S.tab===k?'on':''}" data-t="${k}"><span>${e}</span>${t(k)}</button>`).join("")}</div>
+    <div class="pane" id="pane">${pane}</div>
+    <a class="wa press" href="https://wa.me/${STORE.wa}?text=${msg}" target="_blank" rel="noopener"><span class="em">📷</span><span><b>${t("photoB")}</b><small>${t("photoS")} · ${STORE.waShow}</small></span></a>
+    <a class="wa green press" href="https://wa.me/${STORE.wa}?text=${al}" target="_blank" rel="noopener"><span class="em">🔔</span><span><b>${t("alertB")}</b><small>${t("alertS")}</small></span></a>
+  </div></div>`;
 }
 
-/* ================= EVENTS ================= */
+/* ================= RENDER / NAV ================= */
+function render(anim=true){
+  document.documentElement.lang = S.lang==="st"?"st":"en";
+  const html = S.view==="home"?vHome(): S.view==="map"?vMap(): S.view==="crop"?vCrop(): vDash();
+  const apply=()=>{
+    $("#app").innerHTML = html + (S.view!=="home"?`<footer><p>${t("foot")}</p><p style="margin-top:8px"><b>Roots & Remedy</b> · Open source · Made in Lesotho 🇱🇸</p></footer>`:'');
+    if(!anim) $("#app").querySelectorAll(".screen,.pane,.pest,.stage,.crop,.fcard").forEach(e=>e.style.animation="none");
+    const mo=$("#months"); if(mo){const on=mo.querySelector(".on"); if(on) mo.scrollLeft=on.offsetLeft-80;}
+    bindMap();
+  };
+  apply();
+}
+function go(view){
+  hideSheet(); S.view=view; S.open=null;
+  const run=()=>{ render(); scrollTo({top:0}); };
+  if(document.startViewTransition) document.startViewTransition(run); else run();
+}
+function bindMap(){
+  const tops=$("#tops"); if(!tops) return;
+  tops.querySelectorAll(".dg").forEach(g=>{
+    g.addEventListener("pointerenter",e=>{ if(e.pointerType!=="mouse") return; g.classList.add("hv"); tops.appendChild(g); });
+    g.addEventListener("pointerleave",()=>{ g.classList.remove("hv"); const on=tops.querySelector(".dg.on"); if(on) tops.appendChild(on); });
+  });
+}
+function selectDistrict(id){
+  const tops=$("#tops"); if(!tops) return;
+  tops.querySelectorAll(".dg").forEach(g=>g.classList.toggle("on", g.dataset.d===id));
+  const g=tops.querySelector(`[data-d="${id}"]`); if(g) tops.appendChild(g);
+  sheetDistrict(id);
+}
+
 document.addEventListener("click", e=>{
-  const b = e.target.closest("button"); if(!b) return;
-  if(b.dataset.l){ S.lang=b.dataset.l; save(); render(); return; }
-  if(b.dataset.go==="d"){ S.d=null; render(); scrollTo(0,0); return; }
-  if(b.dataset.go==="c"){ S.c=null; render(); scrollTo(0,0); return; }
-  if(b.dataset.d){ S.d=b.dataset.d; save(); S.wx=null; loadWx(); render(); scrollTo(0,0); return; }
-  if(b.dataset.c){ S.c=b.dataset.c; S.open=null; save(); render(); scrollTo(0,0); return; }
-  if(b.dataset.m){ S.m=+b.dataset.m; render(); return; }
-  if(b.dataset.t){ S.tab=b.dataset.t; render(); return; }
-  if(b.dataset.p){ S.open = S.open===b.dataset.p ? null : b.dataset.p; render(); return; }
+  const g = e.target.closest(".dg"); if(g){ tick(); selectDistrict(g.dataset.d); return; }
+  const a = e.target.closest("[data-act],[data-l],[data-farm],[data-c],[data-m],[data-t],[data-p],[data-task],[data-pl]");
+  if(!a){ if(!e.target.closest("#sheet")) hideSheet(); return; }
+  tick();
+  const ds=a.dataset;
+  if(ds.l){ S.lang=ds.l; LS.set("rr_lang",S.lang); render(false); return; }
+  if(ds.act==="start"){ go("map"); return; }
+  if(ds.act==="back"){ go(S.view==="dash"?(S.farm.length?"home":"crop"):S.view==="crop"?"map":"home"); return; }
+  if(ds.act==="pickd"){ S.d=ds.id; S.wx=null; loadWx(); go("crop"); return; }
+  if(ds.farm){ const f=S.farm[+ds.farm]; S.d=f.d; S.c=f.c; S.tab="pests"; S.m=new Date().getMonth(); S.wx=null; loadWx(); go("dash"); return; }
+  if(ds.c){ S.plantedSel=null; const ex=S.farm.find(f=>f.d===S.d&&f.c===ds.c); if(ex){ S.c=ds.c; S.tab="pests"; go("dash"); } else sheetPlanted(ds.c); return; }
+  if(ds.pl){ S.plantedSel=ds.pl; a.parentElement.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b===a)); return; }
+  if(ds.act==="savecrop"){
+    const v=S.plantedSel; let planted=null;
+    if(v!=="n"){ const dt=new Date(); dt.setDate(1); dt.setMonth(dt.getMonth()-(+v||0)); planted=dt.toISOString().slice(0,10); }
+    S.farm=S.farm.filter(f=>!(f.d===S.d&&f.c===ds.id)); S.farm.unshift({d:S.d,c:ds.id,planted}); LS.set("rr_farm",S.farm);
+    S.c=ds.id; S.tab="pests"; S.m=new Date().getMonth(); toast("✓ "+t("saved")); go("dash"); return;
+  }
+  if(ds.m){ S.m=+ds.m; render(false); return; }
+  if(ds.t){ S.tab=ds.t; S.open=null; render(false);
+    const p=$("#pane"); if(p){p.style.animation="none"; p.offsetHeight; p.style.animation="";} return; }
+  if(ds.p){ const card=a.closest(".pest"); const was=card.classList.contains("open");
+    document.querySelectorAll(".pest.open").forEach(x=>x.classList.remove("open"));
+    if(!was){ card.classList.add("open"); S.open=ds.p; setTimeout(()=>card.scrollIntoView({behavior:"smooth",block:"nearest"}),250);} else S.open=null; return; }
+  if(ds.task!=null && ds.task!==""){ const key=S.d+":"+S.c, i=+ds.task, arr=S.tasks[key]||[];
+    S.tasks[key]= arr.includes(i)? arr.filter(x=>x!==i) : [...arr,i]; LS.set("rr_tasks",S.tasks); render(false); return; }
+  if(ds.act==="resettasks"){ delete S.tasks[S.d+":"+S.c]; LS.set("rr_tasks",S.tasks); render(false); return; }
 });
-if(S.d) loadWx();
 render();
 </script>
 </body>

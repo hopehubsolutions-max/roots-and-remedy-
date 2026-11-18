@@ -14,6 +14,10 @@ Crops: tomato, green pepper, cabbage, maize, potatoes.
 Products are linked to stock at **Foso Hardware (PTY) LTD**. Every recommendation ends with
 *"Confirm at the Foso Hardware front desk."*
 
+## Credits
+- District boundaries: [geoBoundaries](https://www.geoboundaries.org) (CC BY 4.0)
+- Weather: [Open-Meteo](https://open-meteo.com)
+
 ## Disclaimer
 Educational guide only. Always read and follow the product label (rate, safety gear, days before harvest).
 Recommendations should be reviewed by a qualified agronomist before use.
