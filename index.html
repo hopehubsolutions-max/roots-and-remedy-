@@ -79,12 +79,14 @@ h1.t{font-family:var(--head);font-weight:800;font-size:34px;line-height:1.05;mar
   radial-gradient(90% 70% at 50% 35%,#fffdf6 0%,#efe7d2 70%,#e5dbc0 100%);box-shadow:inset 0 1px 0 #fff,0 18px 40px rgba(20,53,34,.12);overflow:hidden}
 .mapbox svg{width:100%;height:auto;display:block;overflow:visible}
 .side{fill:#2b4d33}
-.dg{cursor:pointer;transition:transform .45s var(--spring),filter .45s var(--ease);transform-box:fill-box;transform-origin:50% 60%}
-.dg .top{stroke:#fbf7ea;stroke-width:1.6;stroke-linejoin:round;transition:fill .35s var(--ease)}
-.dg .lift{fill:#22412b;opacity:0;transition:opacity .3s}
-.dg:hover,.dg.hv,.dg.on{transform:translateY(-12px) scale(1.07);filter:drop-shadow(0 16px 14px rgba(15,42,27,.35))}
-.dg:hover .lift,.dg.hv .lift,.dg.on .lift{opacity:1}
-.dg.on .top{fill:url(#gClay)!important}
+.dg{cursor:pointer}
+.dg .top{stroke:#fbf7ea;stroke-width:1.6;stroke-linejoin:round;transition:filter .3s var(--ease)}
+.dg:hover .top{filter:brightness(1.08)}
+.liftg{pointer-events:none;transform-box:fill-box;transform-origin:50% 60%;animation:liftup .5s var(--spring) forwards}
+.liftg .lift{fill:#22412b}
+.liftg .top{stroke:#fbf7ea;stroke-width:1.8;stroke-linejoin:round}
+.liftg.sel .top{fill:url(#gClay)}
+@keyframes liftup{from{transform:none;filter:none}to{transform:translateY(-12px) scale(1.07);filter:drop-shadow(0 16px 14px rgba(15,42,27,.35))}}
 .lbl{font:700 11px var(--body);fill:#fff;text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:rgba(15,42,27,.55);stroke-width:3px;transition:opacity .3s}
 .legend2{display:flex;gap:14px;justify-content:center;font-size:12px;color:var(--muted);padding:8px 0 6px}
 .legend2 i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
@@ -534,7 +536,7 @@ function vMap(){
   const ids = Object.keys(MAP.paths);
   const sides = ids.map(id=>`<path class="side" d="${MAP.paths[id].d}" transform="translate(0,9)"/>`).join("");
   const tops = ids.map(id=>{const p=MAP.paths[id];
-    return `<g class="dg ${S.d===id?'on':''}" data-d="${id}"><path class="lift" d="${p.d}" transform="translate(0,9)"/><path class="top" d="${p.d}" fill="${ZONEFILL[D[id].z]}"/></g>`;}).join("");
+    return `<g class="dg" data-d="${id}"><path class="top" d="${p.d}" fill="${ZONEFILL[D[id].z]}"/></g>`;}).join("");
   const labels = ids.map(id=>{const p=MAP.paths[id]; return `<text class="lbl" data-l2="${id}" x="${p.cx}" y="${p.cy+4}">${esc(D[id].n)}</text>`;}).join("");
   return `<div class="screen">${bar(false,true)}<div class="wrap">
     <span class="step">● ${t("s1")}</span><h1 class="t">${t("pickD")}</h1><p class="sub">${t("pickDs")}</p>
@@ -547,7 +549,7 @@ function vMap(){
         <filter id="soft" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="14" stdDeviation="12" flood-color="#143522" flood-opacity=".25"/></filter>
       </defs>
       <g filter="url(#soft)">${sides}</g>
-      <g id="tops">${tops}</g><g id="labels">${labels}</g>
+      <g id="tops">${tops}</g><g id="selL"></g><g id="hovL"></g><g id="labels">${labels}</g>
     </svg>
     <div class="legend2"><span><i style="background:#86b86a"></i>${t("low")}</span><span><i style="background:#66a05a"></i>${t("foothl")}</span><span><i style="background:#3f7a4a"></i>${t("high")}</span></div>
     <div class="credit">Boundaries: geoBoundaries (CC BY 4.0)</div></div>
@@ -673,17 +675,18 @@ function go(view){
   const run=()=>{ render(); scrollTo({top:0}); };
   if(document.startViewTransition) document.startViewTransition(run); else run();
 }
+function liftHTML(id, sel){ const p=MAP.paths[id]; return `<g class="liftg ${sel?'sel':''}"><path class="lift" d="${p.d}" transform="translate(0,9)"/><path class="top" d="${p.d}" fill="${ZONEFILL[D[id].z]}"/></g>`; }
 function bindMap(){
   const tops=$("#tops"); if(!tops) return;
-  tops.querySelectorAll(".dg").forEach(g=>{
-    g.addEventListener("pointerenter",e=>{ if(e.pointerType!=="mouse") return; g.classList.add("hv"); tops.appendChild(g); });
-    g.addEventListener("pointerleave",()=>{ g.classList.remove("hv"); const on=tops.querySelector(".dg.on"); if(on) tops.appendChild(on); });
-  });
+  const hov=$("#hovL"), sel=$("#selL");
+  if(S.d && S.view==="map") sel.innerHTML=liftHTML(S.d,true);
+  tops.addEventListener("pointerover",e=>{ if(e.pointerType!=="mouse") return; const g=e.target.closest(".dg"); if(!g) return; const id=g.dataset.d; if(hov.dataset.id===id) return; hov.dataset.id=id; hov.innerHTML = id===selId() ? "" : liftHTML(id,false); });
+  tops.addEventListener("pointerleave",()=>{ hov.innerHTML=""; hov.dataset.id=""; });
 }
+function selId(){ const g=$("#selL"); return g ? g.dataset.id||"" : ""; }
 function selectDistrict(id){
-  const tops=$("#tops"); if(!tops) return;
-  tops.querySelectorAll(".dg").forEach(g=>g.classList.toggle("on", g.dataset.d===id));
-  const g=tops.querySelector(`[data-d="${id}"]`); if(g) tops.appendChild(g);
+  const sel=$("#selL"), hov=$("#hovL"); if(!sel) return;
+  sel.dataset.id=id; sel.innerHTML=liftHTML(id,true); if(hov){hov.innerHTML="";hov.dataset.id="";}
   sheetDistrict(id);
 }
 
